@@ -1,0 +1,32 @@
+entities:
+user
+id
+username
+password
+watchlist
+movie
+movie id
+movie genre?
+watchlist
+page (input)
+
+
+
+use cases:
+user login
+user signup
+user logout
+get recommended movies (without giving filter)
+get the recommended movie return list using keyword (search by name)
+get the recommended movie return list using genre tag
+add to watchlist (user selects the specific movie that the program recommended)
+change page for watchlist
+delete from watchlist
+
+
+questions:
+ok to have no entity in use case? should have entity
+expectation for numbers of entities? numbers of use cases?
+use cases based on API too much? how many should be based on our own implementation > are the ones above enough
+rubric: clean or complex?
+idea of use case: user interaction: share watchlist?
