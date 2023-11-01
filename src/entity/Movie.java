@@ -13,13 +13,8 @@ public class Movie {
 
     // Add other properties like genre, release date, etc.
 
-    public Movie(String name, String genre, List<String> actors, LocalDate releaseDate, double rating, String director) {
+    public Movie(String name) {
         this.name = name;
-        this.genre = genre;
-        this.actors = actors;
-        this.releaseDate = releaseDate;
-        this.rating = rating;
-        this.director = director;
         // Initialize other properties as needed.
     }
 
@@ -46,6 +41,27 @@ public class Movie {
     public String getDirector() {
         return director;
     }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setActors(List<String> actors) {
+        this.actors = actors;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
 
     // Add getters and setters for other properties.
 }
