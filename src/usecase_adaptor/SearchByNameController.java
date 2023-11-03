@@ -1,4 +1,4 @@
-package usecase_adaptor.SearchByName;
+package usecase_adaptor;
 
 import entity.Movie;
 import use_case.RecommendInputData;
