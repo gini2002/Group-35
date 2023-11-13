@@ -1,5 +1,8 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,8 @@ class CommonUser implements User {
     private final LocalDateTime creationTime;
     private SearchHistory searchHistory = new SearchHistory();
 
+    private Watchlist watchlist = new Watchlist();
+
     /**
      * Requires: password is valid.
      *
@@ -35,11 +40,12 @@ class CommonUser implements User {
      * @param password
      * @param searchHistory
      */
-    CommonUser(String name, String password, LocalDateTime creationTime, SearchHistory searchHistory) {
+    CommonUser(String name, String password, LocalDateTime creationTime, SearchHistory searchHistory, Watchlist watchlist) {
         this.name = name;
         this.password = password;
         this.creationTime = creationTime;
-        this.searchHistory = this.searchHistory;
+        this.searchHistory = searchHistory;
+        this.watchlist = watchlist;
     }
 
     @Override
@@ -62,31 +68,26 @@ class CommonUser implements User {
         // Perform an API call to get recommended movies based on the keyword.
         // Simulate the API call here.
         List<Movie> recommendedMovies = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
         String apiKey = "67d2f7ae4091d1a83d7b5c8bc86f7941";
         String baseUrl = "https://api.themoviedb.org/3/search/movie";
         String queryString = "?api_key=" + apiKey + "&query=" + keyword;
 
-        try {
-            // Build the URL
-            URL url = new URL(baseUrl + queryString);
+        // Build the URL
+        HttpUrl url = HttpUrl.parse(baseUrl + queryString).newBuilder().build();
 
-            // Open a connection to the URL
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+        // Create an HTTP request
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
 
-            // Get the response
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
                 // Parse the JSON response
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder jsonResponse = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    jsonResponse.append(line);
-                }
-                reader.close();
-
-                JSONObject jsonObject = new JSONObject(jsonResponse.toString());
+                String jsonResponse = response.body().string();
+                JSONObject jsonObject = new JSONObject(jsonResponse);
 
                 // Extract movie data from the JSON response
                 if (jsonObject.has("results")) {
@@ -101,72 +102,26 @@ class CommonUser implements User {
                     }
                 }
             }
-
-            connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Add the retrieved movies to the search history
-        for (Movie movie : recommendedMovies) {
+        for (Movie movie: recommendedMovies) {
             searchHistory.addToSearchHistory(movie);
         }
 
         return recommendedMovies;
     }
-//    public List<Movie> addMovies(String keyword) {
-//        // Perform an API call to get recommended movies based on the keyword.
-//        // Simulate the API call here.
-//        List<Movie> recommendedMovies = new ArrayList<>();
-//
-//        OkHttpClient client = new OkHttpClient();
-//        String apiKey = "67d2f7ae4091d1a83d7b5c8bc86f7941";
-//        String baseUrl = "https://api.themoviedb.org/3/search/movie";
-//        String queryString = "?api_key=" + apiKey + "&query=" + keyword;
-//
-//        // Build the URL
-//        HttpUrl url = HttpUrl.parse(baseUrl + queryString).newBuilder().build();
-//
-//        // Create an HTTP request
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .get()
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            if (response.isSuccessful()) {
-//                // Parse the JSON response
-//                String jsonResponse = response.body().string();
-//                JSONObject jsonObject = new JSONObject(jsonResponse);
-//
-//                // Extract movie data from the JSON response
-//                if (jsonObject.has("results")) {
-//                    JSONArray results = jsonObject.getJSONArray("results");
-//                    for (int i = 0; i < results.length(); i++) {
-//                        JSONObject movieJson = results.getJSONObject(i);
-//                        String movieName = movieJson.getString("title");
-//
-//                        // Create a Movie object and add it to the list
-//                        Movie movie = new Movie(movieName);
-//                        recommendedMovies.add(movie);
-//                    }
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Add the retrieved movies to the search history
-//        for (Movie movie: recommendedMovies) {
-//            searchHistory.addToSearchHistory(movie);
-//        }
-//
-//        return recommendedMovies;
-//    }
 
     @Override
     public List<Movie> getSearchHistory() {
         return searchHistory.getSearchHistory();
+    }
+
+    @Override
+    public List<Movie> getWatchlist() {
+        return watchlist.getWatchlist();
     }
 }
 
