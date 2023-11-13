@@ -1,5 +1,7 @@
 package use_case;
 
 public interface SearchByNameOutputBoundary {
-    void SearchBykeywordSuccessView(RecommendOutputData recommendOutputData);
+    void prepareSuccessView(RecommendOutputData outputData);
+
+    void prepareFailView(String error);
 }
