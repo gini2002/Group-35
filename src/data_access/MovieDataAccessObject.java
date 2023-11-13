@@ -35,6 +35,27 @@ public class MovieDataAccessObject implements MovieDataAccessInterface {
         }
     }
 
+    public List<Movie> getMoviesByGenre(String genre) {
+        try {
+            // Modify as per the actual endpoint for fetching movies by genre
+            String fullApiUrl = BASE_API_URL + "/discover/movie?with_genres=" + genre;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(fullApiUrl))
+                    .header("accept", "application/json")
+                    .header("Authorization", AUTH_TOKEN)
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+            return parseMoviesFromResponse(response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // Return an empty list on exception
+        }
+    }
+
     @Override
     public void addToSearchHistory(String userId, String keyword) {
         // This implementation depends on how you want to handle search history.
