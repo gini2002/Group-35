@@ -1,7 +1,7 @@
-package usecase_adaptor;
+package interface_adapter.SearchByName;
 
-import use_case.RecommendOutputData;
-import use_case.SearchByNameOutputBoundary;
+import use_case.SearchByKeywork.RecommendOutputData;
+import use_case.SearchByKeywork.SearchByNameOutputBoundary;
 
 public class SearchByNamePresenter implements SearchByNameOutputBoundary {
     private final SearchByNameViewModel searchByNameViewModel;

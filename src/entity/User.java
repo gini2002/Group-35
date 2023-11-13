@@ -16,6 +16,5 @@ public interface User {
     List<Movie> getSearchHistory();
 
 
-
-
+    List<Movie> getWatchlist();
 }

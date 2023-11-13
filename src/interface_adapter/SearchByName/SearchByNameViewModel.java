@@ -1,4 +1,4 @@
-package usecase_adaptor;
+package interface_adapter.SearchByName;
 
 public class SearchByNameViewModel {
     private SearchByNameState state = new SearchByNameState();
