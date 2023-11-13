@@ -1,8 +1,8 @@
-package usecase_adaptor.SearchByName;
+package interface_adapter.SearchByName;
 
 import entity.Movie;
-import use_case.RecommendInputData;
-import use_case.SearchByNameInteractor;
+import use_case.SearchByKeywork.RecommendInputData;
+import use_case.SearchByKeywork.SearchByNameInteractor;
 
 import java.util.List;
 

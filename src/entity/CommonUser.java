@@ -1,15 +1,12 @@
 package entity;
 
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import okhttp3.*;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 class CommonUser implements User {
@@ -18,6 +15,8 @@ class CommonUser implements User {
     private final String password;
     private final LocalDateTime creationTime;
     private SearchHistory searchHistory = new SearchHistory();
+
+    private List<Movie> watchlist;
 
     /**
      * Requires: password is valid.
@@ -101,5 +100,9 @@ class CommonUser implements User {
     public List<Movie> getSearchHistory() {
         return searchHistory.getSearchHistory();
     }
+
+    @Override
+    public List<Movie> getWatchlist() {return watchlist;}
+
 }
 

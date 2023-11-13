@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Movie {
+    private int id;
     private String name;
-    private String genre;
+    private List<String> genre;
     private List<String> actors;
     private LocalDate releaseDate;
     private double rating;
     private String director;
+    private String poster_path;
+    private String overview;
 
     // Add other properties like genre, release date, etc.
 
@@ -18,11 +21,23 @@ public class Movie {
         // Initialize other properties as needed.
     }
 
+    public String getOverview(){return overview;}
+
+    public void setOverview(String overview){this.overview = overview;}
+
+    public String getPoster_path(){return poster_path;}
+
+    public void setPoster_path(String poster_path){this.poster_path = poster_path;}
+
+    public int getId() {return id; }
+
+    public void setId(int id) {this.id = id;}
+
     public String getName() {
         return name;
     }
 
-    public String getGenre() {
+    public List<String> getGenre() {
         return genre;
     }
 
@@ -42,9 +57,10 @@ public class Movie {
         return director;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(List<String> genre) {
         this.genre = genre;
     }
+    public void addGenra(String genre) {this.genre.add(genre);}
 
     public void setActors(List<String> actors) {
         this.actors = actors;
