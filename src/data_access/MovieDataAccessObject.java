@@ -27,6 +27,27 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
 
     }
 
+    public List<Movie> getMoviesByGenre(String genre) {
+        try {
+            // Modify as per the actual endpoint for fetching movies by genre
+            String fullApiUrl = BASE_API_URL + "/discover/movie?with_genres=" + genre;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(fullApiUrl))
+                    .header("accept", "application/json")
+                    .header("Authorization", AUTH_TOKEN)
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+            return parseMoviesFromResponse(response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // Return an empty list on exception
+        }
+    }
+
     @Override
     public List<Movie> getRecommendedMovies(String keyword) {
         return fetchMovies(keyword);
