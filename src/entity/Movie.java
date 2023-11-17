@@ -10,6 +10,8 @@ public class Movie {
     private LocalDate releaseDate;
     private double rating;
     private String director;
+    private String poster_path;
+    private String overview;
 
     // Add other properties like genre, release date, etc.
 
@@ -17,6 +19,15 @@ public class Movie {
         this.name = name;
         // Initialize other properties as needed.
     }
+
+    public String getOverview(){return overview;}
+
+    public void setOverview(String overview){this.overview = overview;}
+
+    public String getPoster_path(){return poster_path;}
+
+    public void setPoster_path(String poster_path){this.poster_path = poster_path;}
+
 
     public String getName() {
         return name;
