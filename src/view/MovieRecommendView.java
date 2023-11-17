@@ -1,9 +1,12 @@
 package view;
-import usecase_adaptor.SearchByNameController;
-import usecase_adaptor.SearchByNameViewModel;
+import entity.Movie;
+import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -17,6 +20,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
     final JTextField keywordInputField = new JTextField(15);
     private final JLabel errorLabel = new JLabel();
 
+//    private final JTextArea recommendedMoviesArea;
+
     final JButton searchButton;
 
     private final SearchByNameController controller;
@@ -25,6 +30,7 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+
 
         JLabel title = new JLabel("Movie Recommendation Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -43,6 +49,10 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                 if (evt.getSource().equals(searchButton)) {
                     String keyword = keywordInputField.getText();
                     controller.execute(keyword);
+                    System.out.println(keyword);
+                    MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
+                    showMovieResultView(movieResultViewModel);
+
                 }
             }
         });
@@ -65,8 +75,39 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("error".equals(evt.getPropertyName())) {
+            System.out.println(evt.getPropertyName());
             String error = (String) evt.getNewValue();
             errorLabel.setText(error);
+        } else if ("recommendedMovies".equals(evt.getPropertyName())) {
+            // Update the recommended movies area when the property changes
+//            List<Movie> recommendedMovies = (List<Movie>) evt.getNewValue();
+//            updateRecommendedMoviesArea(recommendedMovies);
+//            MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
+//            showMovieResultView(movieResultViewModel);
+
+//            System.out.println(evt.getPropertyName());
+//            MovieResultViewModel movieResultViewModel = (MovieResultViewModel) evt.getNewValue();
+//            showMovieResultView(movieResultViewModel);
         }
     }
+
+    private void showMovieResultView(MovieResultViewModel movieResultViewModel) {
+        SwingUtilities.invokeLater(() -> {
+            MovieResultView resultView = new MovieResultView(movieResultViewModel);
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(resultView);
+            frame.revalidate();
+            frame.repaint();
+//            frame.setVisible(true);
+        });
+//        MovieResultView resultView = new MovieResultView(movieResultViewModel);
+//        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//        frame.getContentPane().removeAll();
+//        frame.getContentPane().add(resultView);
+//        frame.revalidate();
+//        frame.repaint();
+    }
+
 }
+

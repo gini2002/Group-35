@@ -1,4 +1,4 @@
-package usecase_adaptor;
+package usecase_adaptor.MovieSearchByKeyword;
 //
 //public class SearchByNameViewModel {
 //    private SearchByNameState state = new SearchByNameState();
@@ -33,6 +33,7 @@ public class SearchByNameViewModel extends ViewModel {
 
     private String keywordInput = "";
     private List<Movie> recommendedMovies;
+
 
     private String error = null;
 
@@ -79,6 +80,10 @@ public class SearchByNameViewModel extends ViewModel {
     // to alert the View
     public void firePropertyChanged() {
         support.firePropertyChange("keywordInput", null, this.keywordInput);
+    }
+
+    public void fireRecommendedMoviesChanged() {
+        support.firePropertyChange("recommendedMovies", null, keywordInput);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

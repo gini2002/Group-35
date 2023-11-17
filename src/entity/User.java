@@ -11,7 +11,7 @@ public interface User {
 
     LocalDateTime getCreationTime();
 
-    List<Movie> addMovies(String keyword);
+//    List<Movie> addMovies(String keyword);
 
     List<Movie> getSearchHistory();
 
