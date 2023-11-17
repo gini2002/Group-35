@@ -1,4 +1,4 @@
-package use_case;
+package use_case.MovieSearchByKeyword;
 import entity.Movie;  // Import the Movie class from the entity package.
 import java.util.List;
 

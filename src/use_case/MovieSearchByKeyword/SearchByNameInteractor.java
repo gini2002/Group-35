@@ -1,6 +1,5 @@
-package use_case;
+package use_case.MovieSearchByKeyword;
 
-import data_access.MovieDataAccessObject;
 import entity.Movie;
 
 import java.util.List;
@@ -32,6 +31,7 @@ public class SearchByNameInteractor implements RecommendInputBoundary {
             // Prepare a success view with the list of recommended movies
             RecommendOutputData outputData = new RecommendOutputData(recommendedMovies);
             searchByNamePresenter.prepareSuccessView(outputData);
+
         }
     }
 //    @Override

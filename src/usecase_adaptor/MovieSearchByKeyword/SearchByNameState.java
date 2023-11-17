@@ -1,4 +1,4 @@
-package usecase_adaptor;
+package usecase_adaptor.MovieSearchByKeyword;
 
 import java.util.List;
 import entity.Movie;

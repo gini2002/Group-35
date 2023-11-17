@@ -63,56 +63,44 @@ class CommonUser implements User {
         return creationTime;
     }
 
-    @Override
-    public List<Movie> addMovies(String keyword) {
-        // Perform an API call to get recommended movies based on the keyword.
-        // Simulate the API call here.
-        List<Movie> recommendedMovies = new ArrayList<>();
-
-        OkHttpClient client = new OkHttpClient();
-        String apiKey = "67d2f7ae4091d1a83d7b5c8bc86f7941";
-        String baseUrl = "https://api.themoviedb.org/3/search/movie";
-        String queryString = "?api_key=" + apiKey + "&query=" + keyword;
-
-        // Build the URL
-        HttpUrl url = HttpUrl.parse(baseUrl + queryString).newBuilder().build();
-
-        // Create an HTTP request
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                // Parse the JSON response
-                String jsonResponse = response.body().string();
-                JSONObject jsonObject = new JSONObject(jsonResponse);
-
-                // Extract movie data from the JSON response
-                if (jsonObject.has("results")) {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    for (int i = 0; i < results.length(); i++) {
-                        JSONObject movieJson = results.getJSONObject(i);
-                        String movieName = movieJson.getString("title");
-
-                        // Create a Movie object and add it to the list
-                        Movie movie = new Movie(movieName);
-                        recommendedMovies.add(movie);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Add the retrieved movies to the search history
-        for (Movie movie: recommendedMovies) {
-            searchHistory.addToSearchHistory(movie);
-        }
-
-        return recommendedMovies;
-    }
+//    @Override
+//    public List<Movie> addMovies(String keyword) {
+//        List<Movie> recommendedMovies = new ArrayList<>();
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        Request request = new Request.Builder()
+//                .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_keywords=" + keyword)
+//                .get()
+//                .addHeader("accept", "application/json")
+//                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2N2QyZjdhZTQwOTFkMWE4M2Q3YjVjOGJjODZmNzk0MSIsInN1YiI6IjY1MTYzMjZjOTNiZDY5MDBlMTJjY2JmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hMXkt0ZzhfZiVnpZGUDO8oA4nTiWkmaWBhRQNbTgpfg")
+//                .build();
+//        try {
+//            Response response = client.newCall(request).execute();
+//            if (response.code() == 200) {
+//                JSONObject responseBody = new JSONObject(response.body().string());
+//                JSONArray movies = responseBody.getJSONArray("results");
+//                for (int i = 0; i < movies.length(); i ++) {
+//                    JSONObject movieJson = movies.getJSONObject(i);
+//                    String movieTitle = movieJson.getString("title");
+//
+//                    // Create a Movie object and add it to the recommendedMovies list
+//                    Movie movie = new Movie(movieTitle);
+//                    recommendedMovies.add(movie);
+//                }
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//        // Add the retrieved movies to the search history
+//        for (Movie movie: recommendedMovies) {
+//            searchHistory.addToSearchHistory(movie);
+//        }
+//
+//        return recommendedMovies;
+//    }
 
     @Override
     public List<Movie> getSearchHistory() {

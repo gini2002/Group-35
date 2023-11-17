@@ -1,13 +1,15 @@
 package app;
 
-import use_case.RecommendInputBoundary;
+import use_case.MovieSearchByKeyword.RecommendInputBoundary;
+import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.ViewManagerModel;
-import usecase_adaptor.SearchByNameController;
-import usecase_adaptor.SearchByNamePresenter;
-import usecase_adaptor.SearchByNameViewModel;
-import use_case.SearchByNameInteractor;
-import use_case.SearchByNameOutputBoundary;
-import use_case.SearchByNameDataAccessInterface;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNamePresenter;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import use_case.MovieSearchByKeyword.SearchByNameInteractor;
+import use_case.MovieSearchByKeyword.SearchByNameOutputBoundary;
+import use_case.MovieSearchByKeyword.SearchByNameDataAccessInterface;
+//import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import view.MovieRecommendView;
 import entity.UserFactory;
 import entity.CommonUserFactory;
@@ -20,9 +22,10 @@ public class MovieSearchUseCaseFactory {
     public static MovieRecommendView create(
             ViewManagerModel viewManagerModel,
             SearchByNameViewModel viewModel,
+            MovieResultViewModel resultViewModel,
             SearchByNameDataAccessInterface userDataAccessObject) {
         try {
-            SearchByNameController controller = createMovieSearchUseCase(viewManagerModel, viewModel, userDataAccessObject);
+            SearchByNameController controller = createMovieSearchUseCase(viewManagerModel, viewModel, resultViewModel, userDataAccessObject);
             return new MovieRecommendView(viewModel, controller);
         } catch (IOException e) {
             // Handle the exception more gracefully (log it, show a user-friendly message, etc.).
@@ -36,8 +39,9 @@ public class MovieSearchUseCaseFactory {
     private static SearchByNameController createMovieSearchUseCase(
             ViewManagerModel viewManagerModel,
             SearchByNameViewModel viewModel,
+            MovieResultViewModel resultViewModel,
             SearchByNameDataAccessInterface userDataAccessObject) throws IOException {
-        SearchByNameOutputBoundary searchByNameOutputBoundary = new SearchByNamePresenter(viewManagerModel, viewModel);
+        SearchByNameOutputBoundary searchByNameOutputBoundary = new SearchByNamePresenter(viewManagerModel, viewModel, resultViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 

@@ -1,4 +1,4 @@
-package use_case;
+package use_case.MovieSearchByKeyword;
 
 import entity.Movie;
 
@@ -20,6 +20,7 @@ public class RecommendOutputData {
 //    }
 
     public List<Movie> getRecommendedMovies() {
+        System.out.println(recommendedMovies);
         return recommendedMovies;
     }
 

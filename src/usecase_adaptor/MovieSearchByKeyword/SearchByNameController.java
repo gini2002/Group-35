@@ -1,11 +1,7 @@
-package usecase_adaptor;
+package usecase_adaptor.MovieSearchByKeyword;
 
-import entity.Movie;
-import use_case.RecommendInputData;
-import use_case.SearchByNameInteractor;
-import use_case.RecommendInputBoundary;
-
-import java.util.List;
+import use_case.MovieSearchByKeyword.RecommendInputData;
+import use_case.MovieSearchByKeyword.RecommendInputBoundary;
 
 public class SearchByNameController {
     final RecommendInputBoundary searchByNameInteractor;
