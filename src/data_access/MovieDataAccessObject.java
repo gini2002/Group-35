@@ -27,26 +27,70 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
 
     }
 
-    public List<Movie> getMoviesByGenre(String genre) {
-        try {
-            // Modify as per the actual endpoint for fetching movies by genre
-            String fullApiUrl = BASE_API_URL + "/discover/movie?with_genres=" + genre;
+//    public List<Movie> getMoviesByGenre(String genre) {
+//        List<Movie> genreSpecificMovies = new ArrayList<>();
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        String fullApiUrl = BASE_API_URL + "/discover/movie?with_genres=" + genre;
+//
+//        Request request = new Request.Builder()
+//                .url(fullApiUrl)
+//                .get()
+//                .addHeader("accept", "application/json")
+//                .addHeader("Authorization", "Bearer " + AUTH_TOKEN) // Ensure AUTH_TOKEN is defined
+//                .build();
+//
+//        try {
+//            Response response = client.newCall(request).execute();
+//            if (response.code() == 200) {
+//                String responseBodyString = response.body().string();
+//                System.out.println("API Call Successful!");
+//                System.out.println("Response Body: " + responseBodyString);
+//
+//                JSONObject responseBody = new JSONObject(responseBodyString);
+//                JSONArray movies = responseBody.getJSONArray("results");
+//
+//                for (int i = 0; i < movies.length(); i++) {
+//                    JSONObject movieJson = movies.getJSONObject(i);
+//                    String movieTitle = movieJson.getString("title");
+//
+//                    // Create a Movie object and add it to the genreSpecificMovies list
+//                    Movie movie = new Movie(movieTitle);
+//                    genreSpecificMovies.add(movie);
+//                }
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Exception during API Call: " + e.getMessage());
+//            e.printStackTrace();
+//            // Returning an empty list in case of an exception
+//            return new ArrayList<>();
+//        }
+//
+//        return genreSpecificMovies;
+//    }
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(fullApiUrl))
-                    .header("accept", "application/json")
-                    .header("Authorization", AUTH_TOKEN)
-                    .method("GET", HttpRequest.BodyPublishers.noBody())
-                    .build();
 
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-            return parseMoviesFromResponse(response.body());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of(); // Return an empty list on exception
-        }
-    }
+//    public List<Movie> getMoviesByGenre(String genre) {
+//        try {
+//            // Modify as per the actual endpoint for fetching movies by genre
+//            String fullApiUrl = BASE_API_URL + "/discover/movie?with_genres=" + genre;
+//
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create(fullApiUrl))
+//                    .header("accept", "application/json")
+//                    .header("Authorization", AUTH_TOKEN)
+//                    .method("GET", HttpRequest.BodyPublishers.noBody())
+//                    .build();
+//
+//            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            return parseMoviesFromResponse(response.body());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return List.of(); // Return an empty list on exception
+//        }
+//    }
 
     @Override
     public List<Movie> getRecommendedMovies(String keyword) {
