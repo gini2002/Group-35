@@ -7,6 +7,8 @@ public class Movie {
     private String name;
     private String genre;
     private List<String> actors;
+
+    private int id;
     private LocalDate releaseDate;
     private double rating;
     private String director;
@@ -15,8 +17,10 @@ public class Movie {
 
     // Add other properties like genre, release date, etc.
 
-    public Movie(String name) {
+    public Movie(String name, int id) {
         this.name = name;
+        this.id = id;
+
         // Initialize other properties as needed.
     }
 
@@ -36,6 +40,8 @@ public class Movie {
     public String getGenre() {
         return genre;
     }
+
+    public int getID() {return id;}
 
     public List<String> getActors() {
         return actors;
