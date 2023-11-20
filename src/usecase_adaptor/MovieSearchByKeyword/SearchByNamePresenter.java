@@ -18,7 +18,6 @@ public class SearchByNamePresenter implements SearchByNameOutputBoundary {
 
     @Override
     public void prepareSuccessView(RecommendOutputData outputData) {
-        System.out.println(outputData);
         searchByNameViewModel.setRecommendedMovies(outputData.getRecommendedMovies());
         searchByNameViewModel.firePropertyChanged();
         movieResultViewModel.setRecommendedMovies(outputData.getRecommendedMovies());

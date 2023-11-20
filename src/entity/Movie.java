@@ -15,8 +15,10 @@ public class Movie {
 
     // Add other properties like genre, release date, etc.
 
-    public Movie(String name) {
+    public Movie(String name, int id) {
         this.name = name;
+        this.id = id;
+
         // Initialize other properties as needed.
     }
 
@@ -37,6 +39,7 @@ public class Movie {
         return genre;
     }
 
+    public int getID() {return id;}
 
     public LocalDate getReleaseDate() {
         return releaseDate;
