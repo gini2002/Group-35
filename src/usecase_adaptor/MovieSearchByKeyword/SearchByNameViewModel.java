@@ -22,6 +22,7 @@ import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchByNameViewModel extends ViewModel {
@@ -51,8 +52,15 @@ public class SearchByNameViewModel extends ViewModel {
         return keywordInput;
     }
 
-    public List<Movie> getRecommendedMovies() {
-        return recommendedMovies;
+    public String[] getRecommendedMovies() {
+        List<String> movies = new ArrayList<>();
+        if (this.recommendedMovies != null) {
+            for (Movie movie : this.recommendedMovies) {
+                movies.add(movie.getName());
+            }
+        }
+        System.out.println("Called in result view model: " + movies);
+        return movies.toArray(new String[0]);
     }
 
     public void setRecommendedMovies(List<Movie> recommendedMovies) {
