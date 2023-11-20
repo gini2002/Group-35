@@ -2,21 +2,23 @@ package usecase_adaptor.GetDetailOfMovie;
 
 import java.util.List;
 
-public class GetDetailMovieStatus {
+public class GetDetailMovieState {
     private String title;
     private String overview;
     private List<String> genre;
     private List<String> actors;
     private String poster_path;
+    private String error;
 
-    public GetDetailMovieStatus(GetDetailMovieStatus copy){
+    public GetDetailMovieState(GetDetailMovieState copy){
+        error = copy.error;
         actors = copy.actors;
         genre = copy.genre;
         title = copy.title;
         overview = copy.overview;
         poster_path = copy.poster_path;
     }
-    public GetDetailMovieStatus(){}
+    public GetDetailMovieState(){}
 
     public void setTitle(String title){
         this.title = title;
@@ -51,4 +53,11 @@ public class GetDetailMovieStatus {
     }
 
     public String getPoster_path() {return poster_path;}
+
+    public String getError() {
+        return error;
+    }
+    public void setError(String error){
+        this.error = error;
+    }
 }

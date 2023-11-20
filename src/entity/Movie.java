@@ -1,15 +1,15 @@
 package entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private int id;
     private String name;
-    private String genre;
-    private List<String> actors;
+    private ArrayList<String> genre;
     private LocalDate releaseDate;
     private double rating;
-    private String director;
     private String poster_path;
     private String overview;
 
@@ -33,13 +33,10 @@ public class Movie {
         return name;
     }
 
-    public String getGenre() {
+    public ArrayList<String> getGenre() {
         return genre;
     }
 
-    public List<String> getActors() {
-        return actors;
-    }
 
     public LocalDate getReleaseDate() {
         return releaseDate;
@@ -49,17 +46,11 @@ public class Movie {
         return rating;
     }
 
-    public String getDirector() {
-        return director;
-    }
 
-    public void setGenre(String genre) {
+    public void setGenre(ArrayList<String> genre) {
         this.genre = genre;
     }
 
-    public void setActors(List<String> actors) {
-        this.actors = actors;
-    }
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
@@ -67,10 +58,6 @@ public class Movie {
 
     public void setRating(double rating) {
         this.rating = rating;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
     }
 
 
