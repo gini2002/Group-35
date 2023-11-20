@@ -2,11 +2,15 @@ package app;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 import data_access.MovieDataAccessObject;
+import data_access.ShareWatchlistDataAccessObject;
 import entity.CommonUserFactory;
+import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
 import view.MovieRecommendView;
 //import view.MovieResultView;
@@ -30,11 +34,24 @@ public class Main {
         SearchByNameViewModel searchByNameViewModel = new SearchByNameViewModel();
         MovieResultViewModel resultViewModel = new MovieResultViewModel();
 
+
+        ShareWatchlistViewModel shareWatchlistViewModel = new ShareWatchlistViewModel();
+
         MovieDataAccessObject movieDataAccessObject;
+        ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject;
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
-        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, movieDataAccessObject);
+
+        try {
+            shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject("", new CommonUserFactory());
+            //TODO csv path
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel,
+                resultViewModel, movieDataAccessObject, shareWatchlistViewModel, shareWatchlistDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
         MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel);

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import okhttp3.*;
 //import org.apache.http.client.HttpClient;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 import okhttp3.*;
 import org.apache.http.client.HttpClient;
@@ -44,6 +46,8 @@ class CommonUser implements User {
     private SearchHistory searchHistory = new SearchHistory();
 
     private Watchlist watchlist = new Watchlist();
+
+    private Map<String, Watchlist> sharedWatchlist = new HashMap<>();
 
     /**
      * Requires: password is valid.
@@ -122,6 +126,11 @@ class CommonUser implements User {
     @Override
     public List<Movie> getWatchlist() {
         return watchlist.getWatchlist();
+    }
+
+    @Override
+    public void setSharedWatchlist(String userName, Watchlist watchlist) {
+        sharedWatchlist.put(userName, watchlist);
     }
 }
 
