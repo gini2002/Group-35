@@ -1,12 +1,10 @@
 package view;
-import entity.Movie;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -20,7 +18,6 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
     final JTextField keywordInputField = new JTextField(15);
     private final JLabel errorLabel = new JLabel();
 
-//    private final JTextArea recommendedMoviesArea;
 
     final JButton searchButton;
 
@@ -51,7 +48,7 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                     controller.execute(keyword);
                     System.out.println(keyword);
                     MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
-                    showMovieResultView(movieResultViewModel);
+                    showMovieResultView(movieResultViewModel, viewModel);
 
                 }
             }
@@ -91,23 +88,17 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         }
     }
 
-    private void showMovieResultView(MovieResultViewModel movieResultViewModel) {
+    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel) {
         SwingUtilities.invokeLater(() -> {
-            MovieResultView resultView = new MovieResultView(movieResultViewModel);
+            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel);
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.getContentPane().removeAll();
             frame.getContentPane().add(resultView);
             frame.revalidate();
             frame.repaint();
+//            resultView.updateView();
 //            frame.setVisible(true);
         });
-//        MovieResultView resultView = new MovieResultView(movieResultViewModel);
-//        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        frame.getContentPane().removeAll();
-//        frame.getContentPane().add(resultView);
-//        frame.revalidate();
-//        frame.repaint();
     }
 
 }
-

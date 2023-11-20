@@ -37,7 +37,7 @@ public class Main {
         MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, movieDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
-        MovieResultView movieResultView = new MovieResultView(resultViewModel);
+        MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel);
         views.add(movieResultView, movieResultView.viewName);
 
         viewManagerModel.setActiveView(movieRecommendView.viewName);
