@@ -1,6 +1,7 @@
 package use_case.GetDetailMovie;
 import entity.Movie;
 import entity.MovieFactory;
+import java.util.ArrayList;
 
 public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
     final GetDetailMovieOutputBoundary getDetailMoviePresenter;
@@ -23,7 +24,12 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
             getDetailMoviePresenter.getDetailMovieFailView("No Such Movie");
         }
         Movie movie = getDetailMovieDataAccessObject.getByName(name);
-        GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(movie);
+        String title = movie.getName();
+        String overview = movie.getOverview();
+        ArrayList<String> genre = movie.getGenre();
+        String poster_path = movie.getPoster_path();
+        GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(title,
+                overview, genre, poster_path);
         getDetailMoviePresenter.getDetailMovieSuccessView(getDetailMovieOutputData);
     }
 }
