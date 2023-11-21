@@ -2,16 +2,20 @@ package app;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 import data_access.MovieDataAccessObject;
-import data_access.ShareWatchlistDataAccessObject;
+import data_access.MovieSavingObject;
 import entity.CommonUserFactory;
-import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import entity.Movie;
+import entity.MovieFactory;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
+import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
-import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
+import view.GetDetailMovieView;
 import view.MovieRecommendView;
 //import view.MovieResultView;
 //import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
@@ -33,25 +37,15 @@ public class Main {
 
         SearchByNameViewModel searchByNameViewModel = new SearchByNameViewModel();
         MovieResultViewModel resultViewModel = new MovieResultViewModel();
-
-
-        ShareWatchlistViewModel shareWatchlistViewModel = new ShareWatchlistViewModel();
+        GetDetailMovieViewModel getDetailMovieViewModel = new GetDetailMovieViewModel();
+        GetWatchListViewmodel getWatchListViewmodel = new GetWatchListViewmodel();
 
         MovieDataAccessObject movieDataAccessObject;
-        ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject;
+        MovieSavingObject movieSavingObject;
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
-
-        try {
-            shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject("", new CommonUserFactory());
-            //TODO csv path
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel,
-                resultViewModel, movieDataAccessObject, shareWatchlistViewModel, shareWatchlistDataAccessObject);
+        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, movieDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
         MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel);
@@ -63,7 +57,6 @@ public class Main {
         application.setSize(400, 300);
         application.pack();
         application.setVisible(true);
-
 
     }
 }

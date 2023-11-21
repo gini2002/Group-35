@@ -5,11 +5,15 @@ import entity.UserFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import use_case.MovieSearchByKeyword.SearchByNameDataAccessInterface;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +59,10 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
                 for (int i = 0; i < movies.length(); i ++) {
                     JSONObject movieJson = movies.getJSONObject(i);
                     String movieTitle = movieJson.getString("title");
+                    int movieId = movieJson.getInt("id");
 
                     // Create a Movie object and add it to the recommendedMovies list
-                    Movie movie = new Movie(movieTitle);
+                    Movie movie = new Movie(movieTitle, movieId);
                     recommendedMovies.add(movie);
                 }
             }
