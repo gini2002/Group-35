@@ -10,6 +10,8 @@ public class GetDetailMovieState {
     private String poster_path;
     private String error;
 
+    private int id;
+
     public GetDetailMovieState(GetDetailMovieState copy){
         error = copy.error;
         actors = copy.actors;
@@ -17,6 +19,7 @@ public class GetDetailMovieState {
         title = copy.title;
         overview = copy.overview;
         poster_path = copy.poster_path;
+        id = copy.id;
     }
     public GetDetailMovieState(){}
 
@@ -38,6 +41,8 @@ public class GetDetailMovieState {
 
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
 
+    public void setId(int id) {this.id = id;}
+
     public String getTitle(){
         return title;
     }
@@ -53,6 +58,8 @@ public class GetDetailMovieState {
     }
 
     public String getPoster_path() {return poster_path;}
+
+    public int getId() {return id;}
 
     public String getError() {
         return error;
