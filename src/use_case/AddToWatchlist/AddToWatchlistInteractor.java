@@ -24,12 +24,9 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary{
         //      1. if not exist
         //      2. add watchlist to user + save data
         //      3. presenter prepare successview
-        //TODO assume we have a csv have username, password, and watchlist
 
         User user = dataAccessInterface.getUser(inputData.getUserName());
         Movie movie = inputData.getMovie();
-        //TODO Assume we have a watchlist entity/attribute that is Array
-        //TODO make search method in watchlist class;
         List<Movie> watchList = user.getWatchlist();
         int count = 0;
         for (Movie movies : watchList) {

@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.json.JSONObject;
 import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
 
 import java.io.*;
@@ -90,7 +91,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         String[] movie_list = col.split(splitter);
         List<Movie> movies = new ArrayList<>();
         for (String num : movie_list) {
-            Integer movie_id = Integer.valueOf(num);
+            int movie_id = Integer.parseInt(num);
             Movie history_movie = get_movie_from_api(movie_id);
             movies.add(history_movie);
         }
@@ -102,7 +103,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/collection/18")
+                .url("https://api.themoviedb.org/3/collection/" + String.valueOf(movieID))
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTM1NDRjZTMxNTEyYjhlZGMzOWFlYWQyMTdiZWFlZCIsInN1YiI6IjY1MTZlZjJmYzUwYWQyMDBjOTFhNjYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5F2KzF4gOHTdMcv3AZzazTgKTGv--FzILbQvLVG9EI")
@@ -110,11 +111,15 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
         try {
             Response response = client.newCall(request).execute();
+            if (response.code() == 200) {
+                JSONObject responseBody = new JSONObject(response.body().string());
+                String name = String.valueOf(responseBody.getJSONObject("name");
+                return new Movie(name, movieID);
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -123,8 +128,8 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     }
 
     @Override
-    public List<Movie> getWatchlist(String userName) {
-        User user = accounts.get(userName);
+    public List<Movie> getWatchlistByUsername(String userName) {
+        User user = this.accounts.get(userName);
         return user.getWatchlist();
     }
 
@@ -133,6 +138,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         User user = accounts.get(userName);
         Watchlist watchlists = new Watchlist(watchlist);
         user.setSharedWatchlist(userName, watchlists);
+        save();
     }
 
     private void save() {

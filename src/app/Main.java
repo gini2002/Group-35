@@ -54,8 +54,7 @@ public class Main {
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
         try {
-            shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject("", new CommonUserFactory());
-            //TODO csv path
+            shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject("./userInformation.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
