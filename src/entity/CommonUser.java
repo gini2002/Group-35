@@ -128,5 +128,10 @@ class CommonUser implements User {
     public void setSharedWatchlist(String userName, Watchlist watchlist) {
         sharedWatchlist.put(userName, watchlist);
     }
+
+    @Override
+    public void addMovieToWatchlist(Movie movie) {
+        watchlist.addMovie(movie);
+    }
 }
 

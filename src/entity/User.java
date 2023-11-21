@@ -19,6 +19,8 @@ public interface User {
 
     void setSharedWatchlist(String userName, Watchlist watchlist);
 
+    void addMovieToWatchlist(Movie movie);
+
 
 
 

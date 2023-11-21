@@ -1,23 +1,17 @@
 package data_access;
 
-import entity.Movie;
-import entity.User;
-import entity.UserFactory;
-import entity.Watchlist;
-import entity.MovieFactory;
-import entity.SearchHistory;
+import entity.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import org.json.JSONObject;
-import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessInterface {
+public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessInterface {
 
     private final File csvFile;
 
@@ -28,8 +22,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     private UserFactory userFactory;
 
 
-
-    public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
+    public AddToWatchlistDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
@@ -69,15 +62,15 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
                     SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
                     //TODO use #?
 
-                            //create SearchHistory object
-                            //create movie objects
+                    //create SearchHistory object
+                    //create movie objects
 
                     List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                     Watchlist watchList = new Watchlist(watchlistMovies);
                     //TODO use #?
 
-                            //create Warchlist object
-                            //create movie objects
+                    //create Warchlist object
+                    //create movie objects
                     User user = userFactory.create(username, password, ldt, searchHistory, watchList);
                     accounts.put(username, user);
                 }
@@ -124,22 +117,15 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     }
 
     @Override
-    public boolean userExist(String userName) {
-        return accounts.containsKey(userName);
-    }
-
-    @Override
-    public List<Movie> getWatchlistByUsername(String userName) {
-        User user = this.accounts.get(userName);
-        return user.getWatchlist();
-    }
-
-    @Override
-    public void setWatchlist(String userName, List<Movie> watchlist) {
-        User user = accounts.get(userName);
-        Watchlist watchlists = new Watchlist(watchlist);
-        user.setSharedWatchlist(userName, watchlists);
+    public void saveMovie(String userName, Movie movie) {
+        User user = getUser(userName);
+        user.addMovieToWatchlist(movie);
         save();
+    }
+
+    @Override
+    public User getUser(String userName) {
+        return accounts.get(userName);
     }
 
     private void save() {
