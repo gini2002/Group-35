@@ -2,6 +2,9 @@ package view;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistController;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,10 +26,24 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 
     private final SearchByNameController controller;
 
-    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller) {
+    private final ShareWatchlistViewModel shareWatchlistViewModel;
+    private final JTextField sharedUsernameInputField = new JTextField(15);
+
+    final JButton searchUsernameButton;
+
+    final JLabel searchUsernameLabel = new JLabel(ShareWatchlistViewModel.USER_NAME_LABEL);
+
+    private final ShareWatchlistController shareWatchlistController;
+
+    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller,
+                              ShareWatchlistController shareWatchlistController,
+                              ShareWatchlistViewModel shareWatchlistViewModel) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+        this.shareWatchlistController = shareWatchlistController;
+        this.shareWatchlistViewModel = shareWatchlistViewModel;
+        this.shareWatchlistViewModel.addPropertyChangeListener(this);
 
 
         JLabel title = new JLabel("Movie Recommendation Screen");
@@ -39,6 +56,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         JPanel buttons = new JPanel();
         searchButton = new JButton(viewModel.SEARCH_BUTTON_LABEL);
         buttons.add(searchButton);
+        searchUsernameButton = new JButton(ShareWatchlistViewModel.SEARCH_USERNAME_LABEL);
+        buttons.add(searchUsernameButton);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -53,6 +72,18 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                 }
             }
         });
+
+        searchUsernameButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(searchUsernameButton)) {
+                            String currentUser = ""; //TODO
+                            String sharedUser = sharedUsernameInputField.getText();
+                            shareWatchlistController.execute(currentUser, sharedUser);
+                        }
+                    }
+                });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -85,6 +116,13 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 //            System.out.println(evt.getPropertyName());
 //            MovieResultViewModel movieResultViewModel = (MovieResultViewModel) evt.getNewValue();
 //            showMovieResultView(movieResultViewModel);
+        } else if ("shareWatchlistState".equals((evt.getPropertyName()))) {
+            ShareWatchlistState state = (ShareWatchlistState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            } else {
+                JOptionPane.showMessageDialog(this, "shared with " + state.getReseiverName());
+            }
         }
     }
 

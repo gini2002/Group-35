@@ -25,7 +25,7 @@ public class ShareWatchlistInteractor implements ShareWatchlistInputBoundary{
         if (! dataAccessInterface.userExist(ReceiverName)) {
             shareWatchlistOutputBoundary.prepareFailView("the user does not exist");
         } else {
-            List<Movie> watchlist = dataAccessInterface.getWatchlist(SenderName);
+            List<Movie> watchlist = dataAccessInterface.getWatchlistByUsername(SenderName);
             if (watchlist.isEmpty()) {
                 shareWatchlistOutputBoundary.prepareFailView("the watchlist is empty");
             } else {

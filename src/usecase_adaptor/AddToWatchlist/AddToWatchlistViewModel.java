@@ -9,6 +9,8 @@ public class AddToWatchlistViewModel extends ViewModel {
 
     private AddToWatchlistState state = new AddToWatchlistState();
 
+    public static String ADD_WATCH_LIST_BUTTON_LABEL = "add to watchlist";
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public AddToWatchlistViewModel() {super("AddToWatchlist");}

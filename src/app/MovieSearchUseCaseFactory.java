@@ -1,7 +1,14 @@
 package app;
 
 import use_case.MovieSearchByKeyword.RecommendInputBoundary;
+import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import use_case.ShareWatchlist.ShareWatchlistInputBoundary;
+import use_case.ShareWatchlist.ShareWatchlistInteractor;
+import use_case.ShareWatchlist.ShareWatchlistOutputBoundary;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistController;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistPresenter;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNamePresenter;
@@ -23,10 +30,13 @@ public class MovieSearchUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchByNameViewModel viewModel,
             MovieResultViewModel resultViewModel,
-            SearchByNameDataAccessInterface userDataAccessObject) {
+            SearchByNameDataAccessInterface userDataAccessObject,
+            ShareWatchlistViewModel shareWatchlistViewModel,
+            ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject) {
         try {
             SearchByNameController controller = createMovieSearchUseCase(viewManagerModel, viewModel, resultViewModel, userDataAccessObject);
-            return new MovieRecommendView(viewModel, controller);
+            ShareWatchlistController shareWatchlistController = createShareWatchlistController(shareWatchlistViewModel, shareWatchlistDataAccessObject);
+            return new MovieRecommendView(viewModel, controller, shareWatchlistController, shareWatchlistViewModel);
         } catch (IOException e) {
             // Handle the exception more gracefully (log it, show a user-friendly message, etc.).
             e.printStackTrace();
@@ -49,6 +59,13 @@ public class MovieSearchUseCaseFactory {
 
         return new SearchByNameController(searchByNameInteractor);
 
+    }
+
+    private static ShareWatchlistController createShareWatchlistController(ShareWatchlistViewModel viewModel,
+                                                                           ShareWatchlistDataAccessInterface dataAccessInterface) {
+        ShareWatchlistOutputBoundary outputBoundary = new ShareWatchlistPresenter(viewModel); // need view model
+        ShareWatchlistInputBoundary interactor = new ShareWatchlistInteractor(outputBoundary, dataAccessInterface);
+        return new ShareWatchlistController(interactor);
     }
 
 
