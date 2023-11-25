@@ -23,17 +23,14 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         String title = response.getTitle();
         String overview = response.getOverview();
         List<String> genre = response.getGenre();
-        List<String> actors = response.getActors();
         String poster_path = response.getPoster_path();
         GetDetailMovieState getDetailMovieState = getDetailMovieViewModel.getGetDetailMovieState();
         getDetailMovieState.setOverview(overview);
-        getDetailMovieState.setActors(actors);
         getDetailMovieState.setGenre(genre);
         getDetailMovieState.setTitle(title);
         getDetailMovieState.setPoster_path(poster_path);
         getDetailMovieViewModel.setTitle(title);
         getDetailMovieViewModel.setOverview(overview);
-        getDetailMovieViewModel.setActors(actors);
         getDetailMovieViewModel.setGenre(genre);
         getDetailMovieViewModel.setTitle(title);
         getDetailMovieViewModel.firePropertyChanged();
