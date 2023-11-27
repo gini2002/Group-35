@@ -13,23 +13,25 @@ import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 
-public class MovieResultView extends JPanel implements PropertyChangeListener {
+public class MovieResultView extends JPanel implements PropertyChangeListener{
     public final String viewName = "movie_result";
     private final MovieResultViewModel viewModel;
     private final SearchByNameViewModel searchByNameViewModel;
 
-    final JButton mainMenuBtn;
+
     public DefaultListModel<String> listModel;
     public JList<String> movieList;
 
     //    private JTextArea movieTextArea = new JTextArea();
     private JLabel errorLabel;
+
+    final JButton mainMenuBtn;
     private final ViewManagerModel viewManagerModel;
 
     public MovieResultView(MovieResultViewModel viewModel, SearchByNameViewModel searchByNameViewModel, ViewManagerModel viewManagerModel) {
         this.searchByNameViewModel = searchByNameViewModel;
-        this.viewManagerModel = viewManagerModel;
         setVisible(false);
+        this.viewManagerModel = viewManagerModel;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
 
@@ -51,12 +53,15 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
         JPanel titlePanel = new JPanel();
         JLabel title = new JLabel("Your Movie Recommendations");
         titlePanel.add(title);
+//        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+//        JPanel moviesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JPanel movieListPanel = new JPanel(new BorderLayout());
         listModel = new DefaultListModel<>();
         movieList = new JList<>(listModel);
         listModel.clear();
-        String[] recommendedMovies = searchByNameViewModel.getRecommendedMovies();
+        String [] recommendedMovies = searchByNameViewModel.getRecommendedMovies();
 
 
         // Update movie list
@@ -125,6 +130,8 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
 //        if ("recommendedMovies".equals(evt.getPropertyName())) {
 //            updateView();
 //        }
+
+
         switch (evt.getPropertyName()) {
             case "recommendedMovies":
                 updateView();
@@ -135,6 +142,33 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
             // Add more cases if there are other properties to handle
         }
     }
+
+//    private void showMovieDialog(String movieName) {
+//        JFrame parent = new JFrame();
+//        JButton button = new JButton();
+//
+//        button.setText("Click me to show movie info!");
+//        parent.add(button);
+//        parent.pack();
+//        parent.setVisible(true);
+//
+//        button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent evt) {
+//                JOptionPane.showMessageDialog(parent, "Movie Info");
+//            }
+//        });
+//    }
+
+//    private class ButtonRenderer extends DefaultListCellRenderer {
+//        @Override
+//        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+//            JButton button = new JButton(value.toString());
+//            button.setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
+//            button.setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
+//            return button;
+//        }
+//    }
 
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
@@ -171,37 +205,9 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
             System.out.println("Update complete.");
         });
     }
+
+
 }
-
-//    private void showMovieDialog(String movieName) {
-//        JFrame parent = new JFrame();
-//        JButton button = new JButton();
-//
-//        button.setText("Click me to show movie info!");
-//        parent.add(button);
-//        parent.pack();
-//        parent.setVisible(true);
-//
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//                JOptionPane.showMessageDialog(parent, "Movie Info");
-//            }
-//        });
-//    }
-//
-//    private class ButtonRenderer extends DefaultListCellRenderer {
-//        @Override
-//        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//            JButton button = new JButton(value.toString());
-//            button.setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
-//            button.setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
-//            return button;
-//        }
-//    }
-//}
-
-
 
 
 

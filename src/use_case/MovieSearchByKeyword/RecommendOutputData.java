@@ -16,11 +16,11 @@ public class RecommendOutputData {
     }
 
     public List<Movie> getSearchHistory() {
+        System.out.println("Search History: " + searchHistory);
         return searchHistory;
     }
 
     public List<Movie> getRecommendedMovies() {
-        System.out.println(recommendedMovies);
         return recommendedMovies;
     }
 

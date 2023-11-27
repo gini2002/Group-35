@@ -9,7 +9,6 @@ public class SearchByNamePresenter implements SearchByNameOutputBoundary {
     private final SearchByNameViewModel searchByNameViewModel;
 
     private final MovieResultViewModel movieResultViewModel;
-
     private final SearchListViewModel searchListViewModel;
     private ViewManagerModel viewManagerModel;
 

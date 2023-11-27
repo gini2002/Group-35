@@ -24,7 +24,6 @@ public class SearchByNameInteractor implements RecommendInputBoundary {
 
         // Retrieve recommended movies based on the keyword from the data access
         List<Movie> recommendedMovies = searchByNameDataAccessObject.getRecommendedMovies(keyword);
-        List<Movie> searchList = recommendedMovies;
 
         if (recommendedMovies.isEmpty()) {
             searchByNamePresenter.prepareFailView("No movies found for the keyword: " + keyword);
