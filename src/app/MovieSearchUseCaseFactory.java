@@ -2,6 +2,7 @@ package app;
 
 import use_case.MovieSearchByKeyword.RecommendInputBoundary;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
+import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.ViewManagerModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNamePresenter;
@@ -23,10 +24,11 @@ public class MovieSearchUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchByNameViewModel viewModel,
             MovieResultViewModel resultViewModel,
+            SearchListViewModel searchListViewModel,
             SearchByNameDataAccessInterface userDataAccessObject) {
         try {
-            SearchByNameController controller = createMovieSearchUseCase(viewManagerModel, viewModel, resultViewModel, userDataAccessObject);
-            return new MovieRecommendView(viewModel, controller);
+            SearchByNameController controller = createMovieSearchUseCase(viewManagerModel, viewModel, resultViewModel, searchListViewModel, userDataAccessObject);
+            return new MovieRecommendView(viewModel, controller, viewManagerModel);
         } catch (IOException e) {
             // Handle the exception more gracefully (log it, show a user-friendly message, etc.).
             e.printStackTrace();
@@ -40,8 +42,9 @@ public class MovieSearchUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchByNameViewModel viewModel,
             MovieResultViewModel resultViewModel,
+            SearchListViewModel searchListViewModel,
             SearchByNameDataAccessInterface userDataAccessObject) throws IOException {
-        SearchByNameOutputBoundary searchByNameOutputBoundary = new SearchByNamePresenter(viewManagerModel, viewModel, resultViewModel);
+        SearchByNameOutputBoundary searchByNameOutputBoundary = new SearchByNamePresenter(viewManagerModel, viewModel, resultViewModel, searchListViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 

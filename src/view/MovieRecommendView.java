@@ -2,6 +2,7 @@ package view;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,16 +18,19 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 
     final JTextField keywordInputField = new JTextField(15);
     private final JLabel errorLabel = new JLabel();
+    private final ViewManagerModel viewManagerModel;
 
 
     final JButton searchButton;
+    final JButton searchListButton;
 
     private final SearchByNameController controller;
 
-    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller) {
+    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller, ViewManagerModel viewManagerModel) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
 
         JLabel title = new JLabel("Movie Recommendation Screen");
@@ -39,6 +43,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         JPanel buttons = new JPanel();
         searchButton = new JButton(viewModel.SEARCH_BUTTON_LABEL);
         buttons.add(searchButton);
+        searchListButton = new JButton(viewModel.SEARCH_LIST_BUTTON_LABEL);
+        buttons.add(searchListButton);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -47,9 +53,19 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                     String keyword = keywordInputField.getText();
                     controller.execute(keyword);
                     System.out.println(keyword);
-                    MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
-                    showMovieResultView(movieResultViewModel, viewModel);
+                    viewManagerModel.setActiveView("movie_result");
+                    viewManagerModel.firePropertyChanged();
 
+                }
+            }
+        });
+
+        searchListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(searchListButton)) {
+                    viewManagerModel.setActiveView("search_list");
+                    viewManagerModel.firePropertyChanged();
                 }
             }
         });
@@ -88,17 +104,17 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         }
     }
 
-    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel) {
-        SwingUtilities.invokeLater(() -> {
-            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel);
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(resultView);
-            frame.revalidate();
-            frame.repaint();
-//            resultView.updateView();
-//            frame.setVisible(true);
-        });
-    }
+//    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel) {
+//        SwingUtilities.invokeLater(() -> {
+//            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel);
+//            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//            frame.getContentPane().removeAll();
+//            frame.getContentPane().add(resultView);
+//            frame.revalidate();
+//            frame.repaint();
+////            resultView.updateView();
+////            frame.setVisible(true);
+//        });
+//    }
 
 }

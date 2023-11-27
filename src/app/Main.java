@@ -7,11 +7,13 @@ import data_access.MovieDataAccessObject;
 import entity.CommonUserFactory;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.ViewManagerModel;
 import view.MovieRecommendView;
 //import view.MovieResultView;
 //import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import view.MovieResultView;
+import view.SearchListView;
 import view.ViewManager;
 
 public class Main {
@@ -29,16 +31,20 @@ public class Main {
 
         SearchByNameViewModel searchByNameViewModel = new SearchByNameViewModel();
         MovieResultViewModel resultViewModel = new MovieResultViewModel();
+        SearchListViewModel searchListViewModel = new SearchListViewModel();
 
         MovieDataAccessObject movieDataAccessObject;
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
-        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, movieDataAccessObject);
+        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, searchListViewModel, movieDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
-        MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel);
+        MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel, viewManagerModel);
         views.add(movieResultView, movieResultView.viewName);
+
+        SearchListView searchListView = new SearchListView(searchListViewModel, viewManagerModel);
+        views.add(searchListView, searchListView.viewName);
 
         viewManagerModel.setActiveView(movieRecommendView.viewName);
         viewManagerModel.firePropertyChanged();
