@@ -6,4 +6,8 @@ public class CommonUserFactory implements UserFactory{
     public User create(String name, String password, LocalDateTime ltd, SearchHistory searchHistory, Watchlist watchlist) {
         return new CommonUser(name, password, ltd, searchHistory, watchlist);
     }
+    @Override
+    public User create(String name, String password, LocalDateTime ltd) {
+        return new CommonUser(name, password, ltd, new SearchHistory(), new Watchlist());
+    }
 }
