@@ -29,59 +29,62 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
 
 
-    public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
-        this.userFactory = userFactory;
-
-        csvFile = new File(csvPath);
-
-        headers.put("id", 0);
-        headers.put("username", 1);
-        headers.put("password", 2);
-        headers.put("creation_time", 3);
-        headers.put("search_history", 4);
-        headers.put("watchlist", 5);
-
-        if (csvFile.length() == 0) {
-            save();
-        } else {
-
-            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-                String header = reader.readLine();
-
-                // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("id,username,password,creation_time,search_history,watchlist");
-
-                String row;
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    String id = String.valueOf(col[headers.get("id")]);
-                    String username = String.valueOf(col[headers.get("username")]);
-                    String password = String.valueOf(col[headers.get("password")]);
-                    String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
-                    String search_history = String.valueOf(col[headers.get("search_history")]);
-                    String watchlist = String.valueOf(col[headers.get("watchlist")]);
-
-                    LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
+    public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
+        try {
+            this.userFactory = userFactory;
 
 
+            csvFile = new File(csvPath);
 
-                    List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
-                    SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
-                    //TODO use #?
+            headers.put("id", 0);
+            headers.put("username", 1);
+            headers.put("password", 2);
+            headers.put("creation_time", 3);
+            headers.put("search_history", 4);
+            headers.put("watchlist", 5);
 
-                            //create SearchHistory object
-                            //create movie objects
+            if (csvFile.length() == 0) {
+                save();
+            } else {
 
-                    List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
-                    Watchlist watchList = new Watchlist(watchlistMovies);
-                    //TODO use #?
+                try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                    String header = reader.readLine();
 
-                            //create Warchlist object
-                            //create movie objects
-                    User user = userFactory.create(username, password, ldt, searchHistory, watchList);
-                    accounts.put(username, user);
-                }
+                    // For later: clean this up by creating a new Exception subclass and handling it in the UI.
+                    assert header.equals("id,username,password,creation_time,search_history,watchlist");
+
+                    String row;
+                    while ((row = reader.readLine()) != null) {
+                        String[] col = row.split(",");
+                        String id = String.valueOf(col[headers.get("id")]);
+                        String username = String.valueOf(col[headers.get("username")]);
+                        String password = String.valueOf(col[headers.get("password")]);
+                        String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
+                        String search_history = String.valueOf(col[headers.get("search_history")]);
+                        String watchlist = String.valueOf(col[headers.get("watchlist")]);
+
+                        LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
+
+
+                        List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
+                        SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
+                        //TODO use #?
+
+                        //create SearchHistory object
+                        //create movie objects
+
+                        List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
+                        Watchlist watchList = new Watchlist(watchlistMovies);
+                        //TODO use #?
+
+                        //create Warchlist object
+                        //create movie objects
+                        User user = userFactory.create(username, password, ldt, searchHistory, watchList);
+                        accounts.put(username, user);
+                    }   }
             }
+        } catch(IOException e) {
+            throw new RuntimeException();
         }
 
     }
@@ -140,6 +143,11 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         Watchlist watchlists = new Watchlist(watchlist);
         user.setSharedWatchlist(userName, watchlists);
         save();
+    }
+
+    @Override
+    public User getUser(String userName) {
+        return accounts.get(userName);
     }
 
     private void save() {

@@ -117,8 +117,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             } else {
                 JOptionPane.showMessageDialog(this, state.getMessage());
             }
-        }
-        elif (evt.getNewValue() instanceof GetDetailMovieState){
+        } else if (evt.getNewValue() instanceof GetDetailMovieState) {
             GetDetailMovieState state = (GetDetailMovieState) evt.getNewValue();
             movie_title.setText(state.getTitle());}
     }

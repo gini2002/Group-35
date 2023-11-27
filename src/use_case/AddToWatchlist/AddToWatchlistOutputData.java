@@ -12,4 +12,6 @@ public class AddToWatchlistOutputData {
     public String getMessage() {
         return "add " + movieName + " successfully";
     }
+
+    public String getMovieName() { return this.movieName; }
 }

@@ -17,6 +17,8 @@ public interface User {
 
     List<Movie> getWatchlist();
 
+    List<Movie> getSharedWatchlist(String userName);
+
     void setSharedWatchlist(String userName, Watchlist watchlist);
 
     void addMovieToWatchlist(Movie movie);
