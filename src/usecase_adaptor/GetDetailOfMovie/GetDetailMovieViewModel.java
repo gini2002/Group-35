@@ -64,10 +64,6 @@ public class GetDetailMovieViewModel extends ViewModel {
         return getDetailMovieState;
     }
 
-    public List<String> getActors() {
-        return actors;
-    }
-
     public List<String> getGenre() {
         return genre;
     }

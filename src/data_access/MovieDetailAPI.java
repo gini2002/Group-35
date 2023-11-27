@@ -1,10 +1,12 @@
 package data_access;
 
+import entity.Movie;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public interface MovieDetailAPI {
     boolean existbyname();
 
-    List<List> getdetailMovie(int id);
+    Movie getdetailMovie(int id);
 }
