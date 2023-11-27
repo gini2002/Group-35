@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,21 +12,42 @@ import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 
-public class MovieResultView extends JPanel implements PropertyChangeListener{
+/**
+ * The MovieResultView class represents the graphical user interface for displaying movie recommendations.
+ * It includes a list of recommended movies, a main menu button, and an error label.
+ */
+public class MovieResultView extends JPanel implements PropertyChangeListener {
+    /** The name of the view. */
     public final String viewName = "movie_result";
+
+    /** The view model associated with the movie result screen. */
     private final MovieResultViewModel viewModel;
+
+    /** The view model associated with the movie recommendation screen. */
     private final SearchByNameViewModel searchByNameViewModel;
 
-
-    public DefaultListModel<String> listModel;
-    public JList<String> movieList;
-
-    //    private JTextArea movieTextArea = new JTextArea();
-    private JLabel errorLabel;
-
-    final JButton mainMenuBtn;
+    /** The model for managing the active view in the application. */
     private final ViewManagerModel viewManagerModel;
 
+    /** The button for navigating back to the main menu. */
+    final JButton mainMenuBtn;
+
+    /** The list model for displaying recommended movies. */
+    public DefaultListModel<String> listModel;
+
+    /** The JList component for displaying recommended movies. */
+    public JList<String> movieList;
+
+    /** The label for displaying error messages. */
+    private JLabel errorLabel;
+
+    /**
+     * Constructs a MovieResultView with the specified view models and view manager model.
+     *
+     * @param viewModel The view model associated with the movie result screen.
+     * @param searchByNameViewModel The view model associated with the movie recommendation screen.
+     * @param viewManagerModel The model for managing the active view in the application.
+     */
     public MovieResultView(MovieResultViewModel viewModel, SearchByNameViewModel searchByNameViewModel, ViewManagerModel viewManagerModel) {
         this.searchByNameViewModel = searchByNameViewModel;
         setVisible(false);
@@ -53,16 +73,12 @@ public class MovieResultView extends JPanel implements PropertyChangeListener{
         JPanel titlePanel = new JPanel();
         JLabel title = new JLabel("Your Movie Recommendations");
         titlePanel.add(title);
-//        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-//        JPanel moviesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JPanel movieListPanel = new JPanel(new BorderLayout());
         listModel = new DefaultListModel<>();
         movieList = new JList<>(listModel);
         listModel.clear();
-        String [] recommendedMovies = searchByNameViewModel.getRecommendedMovies();
-
+        String[] recommendedMovies = searchByNameViewModel.getRecommendedMovies();
 
         // Update movie list
         if (recommendedMovies != null) {
@@ -72,20 +88,6 @@ public class MovieResultView extends JPanel implements PropertyChangeListener{
         // Update error label
         movieList.setModel(listModel);
 
-        // Add ActionListener to each button
-//        movieList.addListSelectionListener(e -> {
-//            int selectedIndex = movieList.getSelectedIndex();
-//            if (selectedIndex != -1) {
-//                String selectedMovie = listModel.getElementAt(selectedIndex);
-//                showMovieDialog(selectedMovie);
-//            }
-//        });
-
-
-        // Create a custom cell renderer with a button
-//        movieList.setCellRenderer(new ButtonRenderer());
-
-
         JScrollPane scrollPane = new JScrollPane(movieList);
         movieListPanel.add(scrollPane, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.NORTH);
@@ -93,45 +95,20 @@ public class MovieResultView extends JPanel implements PropertyChangeListener{
         this.add(buttons, BorderLayout.SOUTH);
         String error = viewModel.getError();
 
-
         // Error label
         errorLabel = new JLabel(error);
-//        this.add(errorLabel, BorderLayout.SOUTH);
+        // this.add(errorLabel, BorderLayout.SOUTH);
 
         setVisible(true);
-
-
     }
 
+    /**
+     * Handles property change events.
+     *
+     * @param evt The PropertyChangeEvent that occurred.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        List<String> recommendedMovies = viewModel.getRecommendedMovies();
-//        String error = viewModel.getError();
-//        StringBuilder movieText = new StringBuilder();
-//
-//        // Update movie text area
-//        if (recommendedMovies != null) {
-//            for (String name : recommendedMovies) {
-//                movieText.append(name).append("\n");
-//                System.out.println(name);
-//            }
-//            movieTextArea.setText(movieText.toString());
-//        }
-//
-//        // Update error label
-//        errorLabel.setText(error);
-//
-//        // Repaint the UI
-//        revalidate();
-//        repaint();
-//        setVisible(true);
-//
-//        updateView();
-//        if ("recommendedMovies".equals(evt.getPropertyName())) {
-//            updateView();
-//        }
-
-
         switch (evt.getPropertyName()) {
             case "recommendedMovies":
                 updateView();
@@ -143,33 +120,9 @@ public class MovieResultView extends JPanel implements PropertyChangeListener{
         }
     }
 
-//    private void showMovieDialog(String movieName) {
-//        JFrame parent = new JFrame();
-//        JButton button = new JButton();
-//
-//        button.setText("Click me to show movie info!");
-//        parent.add(button);
-//        parent.pack();
-//        parent.setVisible(true);
-//
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//                JOptionPane.showMessageDialog(parent, "Movie Info");
-//            }
-//        });
-//    }
-
-//    private class ButtonRenderer extends DefaultListCellRenderer {
-//        @Override
-//        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//            JButton button = new JButton(value.toString());
-//            button.setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
-//            button.setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
-//            return button;
-//        }
-//    }
-
+    /**
+     * Updates the view with new recommended movies and error messages.
+     */
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
             System.out.println("Updating view...");
@@ -205,12 +158,4 @@ public class MovieResultView extends JPanel implements PropertyChangeListener{
             System.out.println("Update complete.");
         });
     }
-
-
 }
-
-
-
-
-
-

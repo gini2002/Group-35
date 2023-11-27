@@ -1,8 +1,7 @@
 package view;
-import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
+
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
-import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
@@ -12,28 +11,47 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * The MovieRecommendView class represents the graphical user interface for the movie recommendation screen.
+ * It provides a form for entering a keyword, buttons for initiating a search and viewing the search list, and displays error messages.
+ */
 public class MovieRecommendView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    /** The name of the view. */
     public final String viewName = "movie_recommendation";
+
+    /** The view model associated with the movie recommendation screen. */
     private final SearchByNameViewModel viewModel;
 
+    /** The input field for entering the search keyword. */
     final JTextField keywordInputField = new JTextField(15);
+
+    /** The label for displaying error messages. */
     private final JLabel errorLabel = new JLabel();
 
+    /** The model for managing the active view in the application. */
     private final ViewManagerModel viewManagerModel;
 
-
+    /** The button for initiating a search. */
     final JButton searchButton;
+
+    /** The button for viewing the search list. */
     final JButton searchListButton;
 
+    /** The controller for handling user interactions on the movie recommendation screen. */
     private final SearchByNameController controller;
 
+    /**
+     * Constructs a MovieRecommendView with the specified view model, controller, and view manager model.
+     *
+     * @param viewModel The view model associated with the movie recommendation screen.
+     * @param controller The controller for handling user interactions on the movie recommendation screen.
+     * @param viewManagerModel The model for managing the active view in the application.
+     */
     public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller, ViewManagerModel viewManagerModel) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
-
 
         JLabel title = new JLabel("Movie Recommendation Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -55,13 +73,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                     String keyword = keywordInputField.getText();
                     controller.execute(keyword);
                     System.out.println(keyword);
-//                    MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
-//                    MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel, viewManagerModel);
-//                    showMovieResultView(movieResultViewModel, viewModel, viewManagerModel);
                     viewManagerModel.setActiveView("movie_result");
                     viewManagerModel.firePropertyChanged();
-//                    revalidate();
-//                    repaint();
                 }
             }
         });
@@ -82,15 +95,23 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         this.add(keywordPanel);
         this.add(errorLabel);
         this.add(buttons);
-
-
     }
 
+    /**
+     * Handles the actionPerformed event.
+     *
+     * @param e The ActionEvent that occurred.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click " + e.getActionCommand());
     }
 
+    /**
+     * Handles property change events.
+     *
+     * @param evt The PropertyChangeEvent that occurred.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("error".equals(evt.getPropertyName())) {
@@ -99,41 +120,7 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
             errorLabel.setText(error);
         } else if ("recommendedMovies".equals(evt.getPropertyName())) {
             // Update the recommended movies area when the property changes
-//            List<Movie> recommendedMovies = (List<Movie>) evt.getNewValue();
-//            updateRecommendedMoviesArea(recommendedMovies);
-//            MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
-//            showMovieResultView(movieResultViewModel);
-
-//            System.out.println(evt.getPropertyName());
-//            MovieResultViewModel movieResultViewModel = (MovieResultViewModel) evt.getNewValue();
-//            showMovieResultView(movieResultViewModel);
+            // TODO: Add logic for updating recommended movies area
         }
     }
-
-//    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel, ViewManagerModel viewManagerModel) {
-//        SwingUtilities.invokeLater(() -> {
-//            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel, viewManagerModel);
-//            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//            frame.getContentPane().removeAll();
-//            frame.getContentPane().add(resultView);
-//            frame.revalidate();
-//            frame.repaint();
-////            resultView.updateView();
-////            frame.setVisible(true);
-//        });
-//    }
-//
-//    private void showSearchListView(SearchListViewModel searchListViewModel, SearchByNameViewModel viewModel) {
-//        SwingUtilities.invokeLater(() -> {
-//            SearchListView searchListView = new SearchListView(searchListViewModel);
-//            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//            frame.getContentPane().removeAll();
-//            frame.getContentPane().add(searchListView);
-//            frame.revalidate();
-//            frame.repaint();
-////            resultView.updateView();
-////            frame.setVisible(true);
-//        });
-//    }
-
 }
