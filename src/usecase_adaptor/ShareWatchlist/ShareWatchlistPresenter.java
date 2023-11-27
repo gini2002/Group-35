@@ -17,7 +17,6 @@ public class ShareWatchlistPresenter implements ShareWatchlistOutputBoundary {
         ShareWatchlistState state = viewModel.getState();
         state.setReceiverName(outputData.getUserName());
         viewModel.firePropertyChanged();
-        //TODO change view or add pop up window.
     }
 
     @Override

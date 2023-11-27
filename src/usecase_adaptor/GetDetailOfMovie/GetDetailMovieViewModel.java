@@ -11,6 +11,8 @@ public class GetDetailMovieViewModel extends ViewModel {
     private String overview;
     private List<String> genre;
     private String poster_path;
+
+    private int id = 0;
     public static final String DELETE_WATCHLIST_MOVIE_LABEL = "Remove From Watchlist";
     public static final String ADD_WATCH_LIST_BUTTON_LABEL = "Add to watchlist";
 
@@ -36,6 +38,8 @@ public class GetDetailMovieViewModel extends ViewModel {
 
 
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
+
+    public void setId(int id) {this.id = id;}
 
 
     @Override
@@ -71,4 +75,6 @@ public class GetDetailMovieViewModel extends ViewModel {
     public String getPoster_path() {
         return poster_path;
     }
+
+    public int getId() {return id;}
 }
