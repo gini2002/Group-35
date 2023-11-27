@@ -19,11 +19,11 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
 
     @Override
     public void execute(GetDetailMovieInputData getDetailMovieInputData) {
-        String name = getDetailMovieInputData.getName();
-        if (!getDetailMovieDataAccessObject.existsByName(name)) {
+        int id = getDetailMovieInputData.getId();
+        if (!getDetailMovieDataAccessObject.existsById(id)) {
             getDetailMoviePresenter.getDetailMovieFailView("No Such Movie");
         }
-        Movie movie = getDetailMovieDataAccessObject.getByName(name);
+        Movie movie = getDetailMovieDataAccessObject.getdetailMovie(id);
         String title = movie.getName();
         String overview = movie.getOverview();
         ArrayList<String> genre = movie.getGenre();
