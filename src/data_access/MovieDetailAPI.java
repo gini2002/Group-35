@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface MovieDetailAPI {
-    boolean existbyname();
-
     Movie getdetailMovie(int id);
+
+    boolean existsById(int id);
 }

@@ -50,7 +50,6 @@ public class Main {
         AddToWatchlistViewModel addToWatchlistViewModel = new AddToWatchlistViewModel();
 
         MovieDataAccessObject movieDataAccessObject;
-        MovieSavingObject movieSavingObject;
         ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject;
         AddToWatchlistDataAccessInterface addToWatchlistDataAccessObject;
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());

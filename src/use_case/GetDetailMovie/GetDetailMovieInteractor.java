@@ -28,7 +28,6 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
         String overview = movie.getOverview();
         ArrayList<String> genre = movie.getGenre();
         String poster_path = movie.getPoster_path();
-        int id = movie.getID();
         GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(title,
                 overview, genre, poster_path, id);
         getDetailMoviePresenter.getDetailMovieSuccessView(getDetailMovieOutputData);

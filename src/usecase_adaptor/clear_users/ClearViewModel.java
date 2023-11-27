@@ -1,6 +1,6 @@
 package usecase_adaptor.clear_users;
 
-import interface_adapter.ViewModel;
+import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

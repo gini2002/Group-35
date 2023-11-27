@@ -77,6 +77,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             movies.add(history_movie);
         }
         return movies;}
+
     private Movie get_movie_from_api(int movieID) {
 
             //call api get request
@@ -147,8 +148,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     public ArrayList<String> getAllUsers() {
         ArrayList<String> names = new ArrayList<>(accounts.keySet());
-        return names;
-    }
+        return names;}
+
 
     public void clearAllUsers(){
         if (csvFile.exists()) {

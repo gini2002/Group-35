@@ -1,6 +1,6 @@
-package use_case;
+//package use_case;
 
-public class View {
+//public class View {
 
-    <button @click="watchlistViewModel.getRecommendedMovies(userId)">Get Recommended Movies</button>
-}
+//    <button @click="watchlistViewModel.getRecommendedMovies(userId)">Get Recommended Movies</button>
+//}

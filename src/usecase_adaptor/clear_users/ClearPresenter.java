@@ -1,9 +1,9 @@
 package usecase_adaptor.clear_users;
 
 
-import interface_adapter.ViewManagerModel;
-import usecase_adaptor.clear_users.ClearOutputBoundary;
-import usecase_adaptor.clear_users.ClearOutputData;
+import usecase_adaptor.ViewManagerModel;
+import use_case.clear_users.ClearOutputBoundary;
+import use_case.clear_users.ClearOutputData;
 
 
 public class ClearPresenter implements ClearOutputBoundary {

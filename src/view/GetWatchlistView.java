@@ -51,7 +51,7 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource().equals(button)) {
-                        String name = getClientProperty('name');
+                        String name = "name";
                         //TODO: Need to get the name of the user currently logged in
                         getDetailMovieController.execute(name);
                         JOptionPane.showMessageDialog(new JFrame(), getDetailMovieViewModel.getOverview());
