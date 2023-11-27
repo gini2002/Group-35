@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="joyent.http.signature.apache.client" type="repository">
+    <properties maven-id="com.joyent.http-signature:apache-http-client-signature:2.2.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/joyent/http-signature/apache-http-client-signature/2.2.0/apache-http-client-signature-2.2.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/joyent/http-signature/http-signature-common/2.2.0/http-signature-common-2.2.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/bouncycastle/bcpkix-jdk15on/1.54/bcpkix-jdk15on-1.54.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/jnagmp/bouncycastle-rsa/1.1.0/bouncycastle-rsa-1.1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/jnagmp/jnagmp/1.1.0/jnagmp-1.1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna/4.0.0/jna-4.0.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.1/httpclient-4.5.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.3/httpcore-4.4.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.9/commons-codec-1.9.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.7.13/jcl-over-slf4j-1.7.13.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.13/slf4j-api-1.7.13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

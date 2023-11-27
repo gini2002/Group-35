@@ -6,7 +6,7 @@ import entity.Movie;
 public interface ShareWatchlistDataAccessInterface {
     boolean userExist(String userName);
 
-    public List<Movie> getWatchlist(String userName);
+    public List<Movie> getWatchlistByUsername(String userName);
 
     public void setWatchlist(String userName, List<Movie> watchlist);
 }

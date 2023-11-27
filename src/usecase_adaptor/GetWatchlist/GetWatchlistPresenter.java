@@ -17,12 +17,21 @@ public class GetWatchlistPresenter implements GetWatchListOutputBoundary {
 
     @Override
     public void getWatchlistSuccessView(GetWatchListOutputData getWatchListOutputData) {
-        this.viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        GetWatchListState getWatchListState = getWatchListViewmodel.getState();
+        getWatchListState.setWatchlistNames(getWatchListOutputData.getNames());
+        getWatchListState.setWatchlistPosters(getWatchListOutputData.getPoster_urls());
+        getWatchListViewmodel.setWatchlist(getWatchListOutputData.getNames(), getWatchListOutputData.getPoster_urls());
+        getWatchListViewmodel.setState(getWatchListState);
+        getWatchListViewmodel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void getWatchlistFailView(String error) {
-
+        GetWatchListState getWatchListState = getWatchListViewmodel.getState();
+        getWatchListState.setGetWatchListError(error);
+        getWatchListViewmodel.firePropertyChanged();
     }
 }

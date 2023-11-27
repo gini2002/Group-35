@@ -25,7 +25,6 @@ public class AddToWatchlistPresenter implements AddToWatchlistOutputBoundary {
         AddToWatchlistState state = viewModel.getState();
         state.setMessage(outputData.getMessage());
         viewModel.firePropertyChanged();
-        //TODO change view or have a pop up window
 
     }
 }

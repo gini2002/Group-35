@@ -3,7 +3,7 @@ package use_case.GetDetailMovie;
 import entity.Movie;
 
 public interface GetDetailMovieDataAccessInterface {
-    Movie getByName(String name);
+    Movie getdetailMovie(int id);
 
-    boolean existsByName(String name);
+    boolean existsById(int id);
 }

@@ -2,7 +2,9 @@ package view;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
-import usecase_adaptor.ViewManagerModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistController;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,19 +20,30 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 
     final JTextField keywordInputField = new JTextField(15);
     private final JLabel errorLabel = new JLabel();
-    private final ViewManagerModel viewManagerModel;
 
 
     final JButton searchButton;
-    final JButton searchListButton;
 
     private final SearchByNameController controller;
 
-    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller, ViewManagerModel viewManagerModel) {
+    private final ShareWatchlistViewModel shareWatchlistViewModel;
+    private final JTextField sharedUsernameInputField = new JTextField(15);
+
+    final JButton searchUsernameButton;
+
+    final JLabel searchUsernameLabel = new JLabel(ShareWatchlistViewModel.USER_NAME_LABEL);
+
+    private final ShareWatchlistController shareWatchlistController;
+
+    public MovieRecommendView(SearchByNameViewModel viewModel, SearchByNameController controller,
+                              ShareWatchlistController shareWatchlistController,
+                              ShareWatchlistViewModel shareWatchlistViewModel) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
-        this.viewManagerModel = viewManagerModel;
+        this.shareWatchlistController = shareWatchlistController;
+        this.shareWatchlistViewModel = shareWatchlistViewModel;
+        this.shareWatchlistViewModel.addPropertyChangeListener(this);
 
 
         JLabel title = new JLabel("Movie Recommendation Screen");
@@ -43,8 +56,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         JPanel buttons = new JPanel();
         searchButton = new JButton(viewModel.SEARCH_BUTTON_LABEL);
         buttons.add(searchButton);
-        searchListButton = new JButton(viewModel.SEARCH_LIST_BUTTON_LABEL);
-        buttons.add(searchListButton);
+        searchUsernameButton = new JButton(ShareWatchlistViewModel.SEARCH_USERNAME_LABEL);
+        buttons.add(searchUsernameButton);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -53,22 +66,24 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
                     String keyword = keywordInputField.getText();
                     controller.execute(keyword);
                     System.out.println(keyword);
-                    viewManagerModel.setActiveView("movie_result");
-                    viewManagerModel.firePropertyChanged();
+                    MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
+                    showMovieResultView(movieResultViewModel, viewModel);
 
                 }
             }
         });
 
-        searchListButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                if (evt.getSource().equals(searchListButton)) {
-                    viewManagerModel.setActiveView("search_list");
-                    viewManagerModel.firePropertyChanged();
-                }
-            }
-        });
+        searchUsernameButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(searchUsernameButton)) {
+                            String currentUser = ""; //TODO
+                            String sharedUser = sharedUsernameInputField.getText();
+                            shareWatchlistController.execute(currentUser, sharedUser);
+                        }
+                    }
+                });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -101,20 +116,27 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 //            System.out.println(evt.getPropertyName());
 //            MovieResultViewModel movieResultViewModel = (MovieResultViewModel) evt.getNewValue();
 //            showMovieResultView(movieResultViewModel);
+        } else if ("shareWatchlistState".equals((evt.getPropertyName()))) {
+            ShareWatchlistState state = (ShareWatchlistState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            } else {
+                JOptionPane.showMessageDialog(this, "shared with " + state.getReseiverName());
+            }
         }
     }
 
-//    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel) {
-//        SwingUtilities.invokeLater(() -> {
-//            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel);
-//            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//            frame.getContentPane().removeAll();
-//            frame.getContentPane().add(resultView);
-//            frame.revalidate();
-//            frame.repaint();
-////            resultView.updateView();
-////            frame.setVisible(true);
-//        });
-//    }
+    private void showMovieResultView(MovieResultViewModel movieResultViewModel, SearchByNameViewModel viewModel) {
+        SwingUtilities.invokeLater(() -> {
+            MovieResultView resultView = new MovieResultView(movieResultViewModel, viewModel);
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(resultView);
+            frame.revalidate();
+            frame.repaint();
+//            resultView.updateView();
+//            frame.setVisible(true);
+        });
+    }
 
 }

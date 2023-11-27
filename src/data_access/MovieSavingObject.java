@@ -47,16 +47,14 @@ public class MovieSavingObject implements MovieSavingDataAccessInterface, GetDet
                     int id = Integer.parseInt(col[headers.get("MovieId")]);
                     String title = String.valueOf(col[headers.get("MovieTitle")]);
                     List<String> genre = Collections.singletonList(String.valueOf(col[headers.get("MovieGenre")]));
-                    //How to get a collection of movies from csv file
-                    List<String> actors = Collections.singletonList(String.valueOf(col[headers.get("MovieActors")]));
+                    //TODO:How to get a collection of movies from csv file
                     String releasedDate = String.valueOf(col[headers.get("MovieReleasedDate")]);
                     double rating = Integer.parseInt(col[headers.get("MovieRating")]);
-                    String director = String.valueOf(col[headers.get("MovieDirector")]);
                     String overview = String.valueOf(col[headers.get("MovieOverView")]);
                     LocalDate ldt = LocalDate.parse(releasedDate);
                     String poster_path = String.valueOf(col[headers.get("MoviePoster")]);
-                    Movie movie = movieFactory.create(id, title, genre, actors, ldt, rating,
-                            overview, director, poster_path);
+                    Movie movie = movieFactory.create(id, title, genre, ldt, rating,
+                            overview, poster_path);
                     movienameMap.put(title, movie);
                 }
             }
@@ -78,10 +76,10 @@ public class MovieSavingObject implements MovieSavingDataAccessInterface, GetDet
             writer.newLine();
 
             for (Movie movie : movienameMap.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s",
-                        movie.getGenre(), movie.getActors(),
+                String line = String.format("%s,%s,%s,%s,%s",
+                        movie.getGenre(),
                         movie.getReleaseDate(), movie.getRating(),
-                        movie.getDirector(), movie.getOverview(), movie.getPoster_path());
+                        movie.getOverview(), movie.getPoster_path());
                 writer.write(line);
                 writer.newLine();
             }
@@ -95,9 +93,9 @@ public class MovieSavingObject implements MovieSavingDataAccessInterface, GetDet
 
 
     /**
-     * Return whether a user exists with username identifier.
-     * @param identifier the username to check.
-     * @return whether a user exists with username identifier
+     * Return whether a movie exists with movie name identifier.
+     * @param identifier the movie name to check.
+     * @return whether a movie exists with username identifier
      */
     @Override
     public boolean existsByName(String identifier) {
