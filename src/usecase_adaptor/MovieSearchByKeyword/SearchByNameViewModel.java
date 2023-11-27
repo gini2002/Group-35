@@ -31,6 +31,7 @@ public class SearchByNameViewModel extends ViewModel {
     public final String KEYWORD_LABEL = "Enter your keyword here";
 
     public static final String SEARCH_BUTTON_LABEL = "Search";
+    public static final String SEARCH_LIST_BUTTON_LABEL = "View Searchlist";
 
     private String keywordInput = "";
     private List<Movie> recommendedMovies;

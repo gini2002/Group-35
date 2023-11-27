@@ -14,6 +14,9 @@ public class Movie {
     private String overview;
 
     // Add other properties like genre, release date, etc.
+    public Movie(String name) {
+        this.name = name;
+    }
     public Movie(String name, int id){
         this.name = name;
         this.id = id;
@@ -30,6 +33,8 @@ public class Movie {
         this.releaseDate = releaseDate;
         // Initialize other properties as needed.
     }
+
+
 
     public String getOverview(){return overview;}
 

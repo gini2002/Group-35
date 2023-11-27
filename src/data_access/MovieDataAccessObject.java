@@ -2,18 +2,16 @@ package data_access;
 
 import entity.Movie;
 import entity.UserFactory;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONString;
 import use_case.MovieSearchByKeyword.SearchByNameDataAccessInterface;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +20,7 @@ import java.util.Map;
 public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
     //    private Map<String, List<Movie>> movieRecommendations;
     private List<Movie> movieRecommendations;
+    private List<Movie> searchList;
 
     private UserFactory userFactory;
 
@@ -33,17 +32,52 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
 
     @Override
     public List<Movie> getRecommendedMovies(String keyword) {
-        return fetchMovies(keyword);
+        String id = getKeywordID(keyword);
+        return fetchMovies(id);
+    }
+
+    public String getKeywordID(String keyword) {
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.themoviedb.org/3/search/keyword")
+                .newBuilder()
+                .addQueryParameter("query", keyword)
+                .addQueryParameter("page", "1");
+
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("accept", "application/json")
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2N2QyZjdhZTQwOTFkMWE4M2Q3YjVjOGJjODZmNzk0MSIsInN1YiI6IjY1MTYzMjZjOTNiZDY5MDBlMTJjY2JmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hMXkt0ZzhfZiVnpZGUDO8oA4nTiWkmaWBhRQNbTgpfg")
+                .build();
+        String id = null;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.code() == 200) {
+                String responseBodyString = response.body().string();
+                JSONObject responseBody = new JSONObject(responseBodyString);
+                JSONArray results = responseBody.getJSONArray("results");
+                JSONObject idJSON = results.getJSONObject(0);
+                id = String.valueOf(idJSON.getInt("id"));
+
+            }
+        } catch (IOException e) {
+            System.out.println("Exception during API Call: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return id;
     }
 
     //    @Override
-    public List<Movie> fetchMovies(String keyword) {
+    public List<Movie> fetchMovies(String id) {
         List<Movie> recommendedMovies = new ArrayList<>();
 
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_keywords=" + keyword)
+                .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_keywords=" + id)
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2N2QyZjdhZTQwOTFkMWE4M2Q3YjVjOGJjODZmNzk0MSIsInN1YiI6IjY1MTYzMjZjOTNiZDY5MDBlMTJjY2JmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hMXkt0ZzhfZiVnpZGUDO8oA4nTiWkmaWBhRQNbTgpfg")
@@ -56,13 +90,11 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
                 System.out.println("Response Body: " + responseBodyString);
                 JSONObject responseBody = new JSONObject(responseBodyString);
                 JSONArray movies = responseBody.getJSONArray("results");
-                for (int i = 0; i < movies.length(); i ++) {
+                for (int i = 0; i < movies.length(); i++) {
                     JSONObject movieJson = movies.getJSONObject(i);
                     String movieTitle = movieJson.getString("title");
-                    int movieId = movieJson.getInt("id");
-
                     // Create a Movie object and add it to the recommendedMovies list
-                    Movie movie = new Movie(movieTitle, movieId);
+                    Movie movie = new Movie(movieTitle);
                     recommendedMovies.add(movie);
                 }
             }
@@ -75,3 +107,43 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
 
 
 }
+
+
+//public class MovieDataAccessObject implements MovieDataAccessInterface {
+//
+//    private static final String BASE_API_URL = "https://api.themoviedb.org/3";
+//    private static final String AUTH_TOKEN = "Bearer 67d2f7ae4091d1a83d7b5c8bc86f7941";
+//
+//    @Override
+//    public List<Movie> searchMoviesByKeyword(String keyword) {
+//        try {
+//            // Construct the full API URL. Modify as per the actual endpoint for keyword search
+//            String fullApiUrl = BASE_API_URL + "/search/movie?query=" + keyword;
+//
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create(fullApiUrl))
+//                    .header("accept", "application/json")
+//                    .header("Authorization", AUTH_TOKEN)
+//                    .method("GET", HttpRequest.BodyPublishers.noBody())
+//                    .build();
+//
+//            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            return parseMoviesFromResponse(response.body());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return List.of(); // Return an empty list on exception
+//        }
+//    }
+//
+//    @Override
+//    public void addToSearchHistory(String userId, String keyword) {
+//        // This implementation depends on how you want to handle search history.
+//        // If you're saving it to a local database, implement that here.
+//        // If the API provides an endpoint for saving search history, make an appropriate API call here.
+//    }
+//
+//    private List<Movie> parseMoviesFromResponse(String response) {
+//        // ... (same as before)
+//    }
+//}

@@ -10,6 +10,8 @@ import entity.Movie;
 public class MovieResultViewModel {
     public final String TITLE_LABEL = "Movie Results View";
 
+    public static final String MAIN_MENU_LABEL = "Back to Main Menu";
+
     private List<Movie> recommendedMovies;
 
 
