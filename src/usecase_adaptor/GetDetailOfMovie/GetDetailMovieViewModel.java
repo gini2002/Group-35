@@ -10,7 +10,6 @@ public class GetDetailMovieViewModel extends ViewModel {
     private String title;
     private String overview;
     private List<String> genre;
-    private List<String> actors;
     private String poster_path;
     public static final String DELETE_WATCHLIST_MOVIE_LABEL = "Remove From Watchlist";
     public static final String ADD_WATCH_LIST_BUTTON_LABEL = "Add to watchlist";
@@ -35,9 +34,6 @@ public class GetDetailMovieViewModel extends ViewModel {
         this.genre = genre;
     }
 
-    public void setActors(List<String> actors){
-        this.actors = actors;
-    }
 
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
 
