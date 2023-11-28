@@ -2,19 +2,27 @@ package app;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
+import data_access.AddToWatchlistDataAccessObject;
+import data_access.FileUserDataAccessObject;
 import data_access.MovieDataAccessObject;
+import data_access.ShareWatchlistDataAccessObject;
 import entity.CommonUserFactory;
+import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
+import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.SearchList.SearchListViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
-import view.MovieRecommendView;
+import usecase_adaptor.login.LoginViewModel;
+import usecase_adaptor.signup.SignupViewModel;
+import view.*;
 //import view.MovieResultView;
 //import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
-import view.MovieResultView;
-import view.SearchListView;
-import view.ViewManager;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -29,15 +37,66 @@ public class Main {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
+
+
+
+
+        // Create view models and save all information of view in them.
+        LoginViewModel loginViewModel = new LoginViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
+        MainMenuViewModel mainMenuViewModel = new MainMenuViewModel();
+        ShareWatchlistViewModel shareWatchlistViewModel = new ShareWatchlistViewModel();
         SearchByNameViewModel searchByNameViewModel = new SearchByNameViewModel();
         MovieResultViewModel resultViewModel = new MovieResultViewModel();
         SearchListViewModel searchListViewModel = new SearchListViewModel();
 
+
+
+
+
+
+        // Create data access interface(object).
         MovieDataAccessObject movieDataAccessObject;
+
+        ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject;
+        shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject(
+                "./userInformation.csv",
+                new CommonUserFactory());
+        AddToWatchlistDataAccessInterface addToWatchlistDataAccessObject;
+        addToWatchlistDataAccessObject = new AddToWatchlistDataAccessObject(
+                "./userInformation.csv",
+                new CommonUserFactory());
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
-        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, searchListViewModel, movieDataAccessObject);
+        FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("./userInformation.csv", new CommonUserFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
+        // Create view and add them in views.
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
+        views.add(signupView, signupView.viewName);
+
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, mainMenuViewModel, userDataAccessObject);
+        views.add(loginView, loginView.viewName);
+
+        MainMenuView mainMenuView = new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel);
+        views.add(mainMenuView, mainMenuView.viewName);
+
+        ShareWatchlistView shareWatchlistView = ShareWatchlistUseCaseFactory.create(
+                viewManagerModel, shareWatchlistViewModel, shareWatchlistDataAccessObject, mainMenuViewModel);
+        views.add(shareWatchlistView, shareWatchlistView.viewName);
+
+        MovieRecommendView movieRecommendView = MovieSearchUseCaseFactory.create(
+                viewManagerModel, searchByNameViewModel, resultViewModel, searchListViewModel, movieDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
         MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel, viewManagerModel);
@@ -46,7 +105,10 @@ public class Main {
         SearchListView searchListView = new SearchListView(searchListViewModel, viewManagerModel);
         views.add(searchListView, searchListView.viewName);
 
-        viewManagerModel.setActiveView(movieRecommendView.viewName);
+
+
+
+        viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.setSize(600, 400);

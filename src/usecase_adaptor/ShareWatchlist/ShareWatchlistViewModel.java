@@ -11,6 +11,8 @@ public class ShareWatchlistViewModel extends ViewModel {
 
     public static final String USER_NAME_LABEL = "enter receiver's username";
 
+    public static final String BACK_LABEL = "back to main menu";
+
     public static final String SEARCH_USERNAME_LABEL = "search";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
@@ -19,9 +21,12 @@ public class ShareWatchlistViewModel extends ViewModel {
 
     public ShareWatchlistState getState() {return state;}
 
+    public void setState(ShareWatchlistState state) {this.state = state;}
+
+
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("state", null, this.state);
+        support.firePropertyChange("ShareWatchlistState", null, this.state);
     }
 
     @Override
