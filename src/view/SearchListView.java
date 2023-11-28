@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,22 +13,39 @@ import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 
-
+/**
+ * The SearchListView class represents the graphical user interface for displaying a list of searched movies.
+ * It includes a list of searched movies, a main menu button, and an error label.
+ */
 public class SearchListView extends JPanel implements PropertyChangeListener {
 
+    /** The name of the view. */
     public final String viewName = "search_list";
-    //    private final SearchByNameViewModel searchByNameViewModel;
+
+    /** The view model associated with the search list screen. */
     private final SearchListViewModel searchListViewModel;
 
-    public DefaultListModel<String> listModel;
-    public JList<String> searchList;
-
+    /** The button for navigating back to the main menu. */
     final JButton mainMenuBtn;
+
+    /** The model for managing the active view in the application. */
     private final ViewManagerModel viewManagerModel;
 
+    /** The list model for displaying searched movies. */
+    public DefaultListModel<String> listModel;
+
+    /** The JList component for displaying searched movies. */
+    public JList<String> searchList;
+
+    /** The label for displaying error messages. */
     private JLabel errorLabel;
 
-
+    /**
+     * Constructs a SearchListView with the specified view model and view manager model.
+     *
+     * @param searchListViewModel The view model associated with the search list screen.
+     * @param viewManagerModel The model for managing the active view in the application.
+     */
     public SearchListView(SearchListViewModel searchListViewModel, ViewManagerModel viewManagerModel) {
         this.viewManagerModel = viewManagerModel;
         this.searchListViewModel = searchListViewModel;
@@ -68,12 +84,6 @@ public class SearchListView extends JPanel implements PropertyChangeListener {
         assert searchList != null;
         searchList.setModel(listModel);
 
-        // Print the contents of listModel for debugging
-        System.out.println("Contents of listModel in SEARCH LIST:");
-        for (int i = 0; i < listModel.size(); i++) {
-            System.out.println(listModel.getElementAt(i));
-        }
-
         JScrollPane scrollPane = new JScrollPane(searchList);
 
         searchListPanel.add(scrollPane, BorderLayout.CENTER);
@@ -83,14 +93,18 @@ public class SearchListView extends JPanel implements PropertyChangeListener {
 
         String error = searchListViewModel.getError();
 
-
         // Error label
         errorLabel = new JLabel(error);
-//        this.add(errorLabel, BorderLayout.SOUTH);
+        //        this.add(errorLabel, BorderLayout.SOUTH);
 
         setVisible(true);
     }
 
+    /**
+     * Handles property change events.
+     *
+     * @param evt The PropertyChangeEvent that occurred.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -104,6 +118,9 @@ public class SearchListView extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Updates the view with new searched movies and error messages.
+     */
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
 
@@ -135,5 +152,3 @@ public class SearchListView extends JPanel implements PropertyChangeListener {
         });
     }
 }
-
-

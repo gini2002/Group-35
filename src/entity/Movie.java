@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Movie class represents a movie entity with various properties such as name, genre, release date, rating, etc.
+ */
 public class Movie {
     private int id;
     private String name;
@@ -13,15 +16,37 @@ public class Movie {
     private String poster_path;
     private String overview;
 
-    // Add other properties like genre, release date, etc.
+    /**
+     * Constructs a Movie object with the given name.
+     *
+     * @param name The name of the movie.
+     */
     public Movie(String name) {
         this.name = name;
     }
-    public Movie(String name, int id){
+
+    /**
+     * Constructs a Movie object with the given name and ID.
+     *
+     * @param name The name of the movie.
+     * @param id   The ID of the movie.
+     */
+    public Movie(String name, int id) {
         this.name = name;
         this.id = id;
     }
 
+    /**
+     * Constructs a Movie object with the specified properties.
+     *
+     * @param name        The name of the movie.
+     * @param id          The ID of the movie.
+     * @param genre       The genre(s) of the movie.
+     * @param releaseDate The release date of the movie.
+     * @param rating      The rating of the movie.
+     * @param poster_path The path to the movie's poster.
+     * @param overview    A brief overview or description of the movie.
+     */
     public Movie(String name, int id, ArrayList<String> genre,
                  LocalDate releaseDate, double rating, String poster_path, String overview) {
         this.name = name;
@@ -31,38 +56,83 @@ public class Movie {
         this.overview = overview;
         this.rating = rating;
         this.releaseDate = releaseDate;
-        // Initialize other properties as needed.
     }
 
+    /**
+     * Retrieves the overview of the movie.
+     *
+     * @return The overview of the movie.
+     */
+    public String getOverview() {
+        return overview;
+    }
 
+    /**
+     * Retrieves the poster path of the movie.
+     *
+     * @return The poster path of the movie.
+     */
+    public String getPoster_path() {
+        return poster_path;
+    }
 
-    public String getOverview(){return overview;}
-
-    public String getPoster_path(){return poster_path;}
-
+    /**
+     * Retrieves the name of the movie.
+     *
+     * @return The name of the movie.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Retrieves the genre(s) of the movie.
+     *
+     * @return The genre(s) of the movie.
+     */
     public ArrayList<String> getGenre() {
         return genre;
     }
 
-    public int getID() {return id;}
+    /**
+     * Retrieves the ID of the movie.
+     *
+     * @return The ID of the movie.
+     */
+    public int getID() {
+        return id;
+    }
 
+    /**
+     * Retrieves the release date of the movie.
+     *
+     * @return The release date of the movie.
+     */
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
+    /**
+     * Retrieves the rating of the movie.
+     *
+     * @return The rating of the movie.
+     */
     public double getRating() {
         return rating;
     }
 
-    public  static MovieBuilder builder() {
+    /**
+     * Returns a MovieBuilder for creating a Movie instance with a builder pattern.
+     *
+     * @return A MovieBuilder instance.
+     */
+    public static MovieBuilder builder() {
         return new MovieBuilder();
     }
 
-    // Add getters and setters for other properties.
+    /**
+     * The MovieBuilder class facilitates the construction of Movie instances using the builder pattern.
+     */
     public static class MovieBuilder {
         private int id;
         private String name;
@@ -72,38 +142,93 @@ public class Movie {
         private String poster_path;
         private String overview;
 
-        MovieBuilder(){}
-        public MovieBuilder id(int id){
+        MovieBuilder() {
+        }
+
+        /**
+         * Sets the ID of the movie.
+         *
+         * @param id The ID of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder id(int id) {
             this.id = id;
             return this;
         }
-        public MovieBuilder name(String name){
+
+        /**
+         * Sets the name of the movie.
+         *
+         * @param name The name of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public MovieBuilder genre(ArrayList<String> genre){
+        /**
+         * Sets the genre(s) of the movie.
+         *
+         * @param genre The genre(s) of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder genre(ArrayList<String> genre) {
             this.genre = genre;
             return this;
         }
-        public MovieBuilder releaseDate(LocalDate releaseDate){
+
+        /**
+         * Sets the release date of the movie.
+         *
+         * @param releaseDate The release date of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder releaseDate(LocalDate releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }
-        public MovieBuilder rating(double rating){
+
+        /**
+         * Sets the rating of the movie.
+         *
+         * @param rating The rating of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder rating(double rating) {
             this.rating = rating;
             return this;
-        }public MovieBuilder poster_path(String poster_path){
+        }
+
+        /**
+         * Sets the poster path of the movie.
+         *
+         * @param poster_path The poster path of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder poster_path(String poster_path) {
             this.poster_path = poster_path;
             return this;
         }
-        public MovieBuilder overview(String overview){
+
+        /**
+         * Sets the overview of the movie.
+         *
+         * @param overview The overview of the movie.
+         * @return The MovieBuilder instance.
+         */
+        public MovieBuilder overview(String overview) {
             this.overview = overview;
             return this;
         }
 
-        public  Movie build() {return new Movie(name, id,
-                genre, releaseDate, rating,
-                poster_path, overview);}
+        /**
+         * Builds and returns a Movie instance with the specified properties.
+         *
+         * @return The built Movie instance.
+         */
+        public Movie build() {
+            return new Movie(name, id, genre, releaseDate, rating, poster_path, overview);
+        }
     }
 }

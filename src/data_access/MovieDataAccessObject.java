@@ -17,25 +17,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class provides data access methods for searching movies by keyword using
+ * The Movie Database (TMDb) API.
+ */
 public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
-    //    private Map<String, List<Movie>> movieRecommendations;
     private List<Movie> movieRecommendations;
     private List<Movie> searchList;
 
     private UserFactory userFactory;
 
+    /**
+     * Constructs a MovieDataAccessObject with the specified keyword and UserFactory.
+     *
+     * @param keyword      The keyword for movie search.
+     * @param userFactory  The UserFactory to be used for movie recommendations.
+     */
     public MovieDataAccessObject(String keyword, UserFactory userFactory) {
         this.userFactory = userFactory;
 //        this.movieRecommendations = getRecommendedMovies(keyword);
 
     }
-
+    /**
+     * Retrieves recommended movies based on the provided keyword.
+     *
+     * @param keyword The keyword for movie search.
+     * @return A list of recommended movies.
+     */
     @Override
     public List<Movie> getRecommendedMovies(String keyword) {
         String id = getKeywordID(keyword);
         return fetchMovies(id);
     }
 
+    /**
+     * Retrieves the ID associated with the provided keyword from The Movie Database (TMDb) API.
+     *
+     * @param keyword The keyword for movie search.
+     * @return The ID associated with the keyword.
+     */
     public String getKeywordID(String keyword) {
         OkHttpClient client = new OkHttpClient();
 
@@ -70,7 +90,12 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
         return id;
     }
 
-    //    @Override
+    /**
+     * Fetches movies based on the provided ID from The Movie Database (TMDb) API.
+     *
+     * @param id The ID associated with the keyword.
+     * @return A list of movies fetched from the API.
+     */
     public List<Movie> fetchMovies(String id) {
         List<Movie> recommendedMovies = new ArrayList<>();
 
@@ -107,43 +132,3 @@ public class MovieDataAccessObject implements SearchByNameDataAccessInterface {
 
 
 }
-
-
-//public class MovieDataAccessObject implements MovieDataAccessInterface {
-//
-//    private static final String BASE_API_URL = "https://api.themoviedb.org/3";
-//    private static final String AUTH_TOKEN = "Bearer 67d2f7ae4091d1a83d7b5c8bc86f7941";
-//
-//    @Override
-//    public List<Movie> searchMoviesByKeyword(String keyword) {
-//        try {
-//            // Construct the full API URL. Modify as per the actual endpoint for keyword search
-//            String fullApiUrl = BASE_API_URL + "/search/movie?query=" + keyword;
-//
-//            HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(URI.create(fullApiUrl))
-//                    .header("accept", "application/json")
-//                    .header("Authorization", AUTH_TOKEN)
-//                    .method("GET", HttpRequest.BodyPublishers.noBody())
-//                    .build();
-//
-//            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-//
-//            return parseMoviesFromResponse(response.body());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return List.of(); // Return an empty list on exception
-//        }
-//    }
-//
-//    @Override
-//    public void addToSearchHistory(String userId, String keyword) {
-//        // This implementation depends on how you want to handle search history.
-//        // If you're saving it to a local database, implement that here.
-//        // If the API provides an endpoint for saving search history, make an appropriate API call here.
-//    }
-//
-//    private List<Movie> parseMoviesFromResponse(String response) {
-//        // ... (same as before)
-//    }
-//}
