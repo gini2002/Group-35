@@ -38,7 +38,7 @@ public class SearchListView extends JPanel implements PropertyChangeListener {
     public JList<String> searchList;
 
     /** The label for displaying error messages. */
-    private JLabel errorLabel;
+    JLabel errorLabel;
 
     /**
      * Constructs a SearchListView with the specified view model and view manager model.
