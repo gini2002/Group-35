@@ -2,9 +2,9 @@ package view;
 
 import entity.Movie;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
-import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistState;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 
 import javax.swing.*;
@@ -13,9 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.net.MalformedURLException;
 
 public class GetDetailMovieView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewname = "";
@@ -30,12 +28,12 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     private final AddToWatchlistViewModel addToWatchlistViewModel;
 
 
-    public GetDetailMovieView(GetDetailMovieViewModel getDetailMovieViewModel,
-                              AddToWatchlistController addToWatchlistController,
-                              AddToWatchlistViewModel addToWatchlistViewModel){
-        this.getDetailMovieViewModel = getDetailMovieViewModel;
-        this.addToWatchlistController = addToWatchlistController;
-        this.addToWatchlistViewModel = addToWatchlistViewModel;
+    public GetDetailMovieView(GetDetailMovieViewModel getDetailMovieViewmodel,
+                              AddToWatchlistController addToWatchlistcontroller,
+                              AddToWatchlistViewModel addToWatchlistViewmodel){
+        this.getDetailMovieViewModel = getDetailMovieViewmodel;
+        this.addToWatchlistController = addToWatchlistcontroller;
+        this.addToWatchlistViewModel = addToWatchlistViewmodel;
         this.addToWatchlistViewModel.addPropertyChangeListener(this);
 
 
@@ -55,8 +53,9 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                 if (e.getSource().equals(addToWatchlist)) {
                     int id = getDetailMovieViewModel.getId();
                     String name = getDetailMovieViewModel.getTitle();
-                    addToWatchlistController.execute(new Movie(name, id), "");
-                    //TODO username
+                    String loggedinusername = getDetailMovieViewModel.getLoggedinusername();
+                    addToWatchlistController.execute(new Movie(name, id), loggedinusername);
+                    //TODO username/ finished add loggedinuser name to viewmodel need to check if this work
                 }
             }
         });
@@ -71,7 +70,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
 
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Image Display Example");
+            JFrame frame = new JFrame(getDetailMovieViewModel.getTitle());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             ImageIcon imageIcon = new ImageIcon(getDetailMovieViewModel.getPoster_path());
             JLabel label = new JLabel(imageIcon);

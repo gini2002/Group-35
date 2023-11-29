@@ -9,8 +9,8 @@ public class GetWatchlistController {
         this.getWatchListInteractor = getWatchListInteractor;
     }
 
-    public void execute(String name, int id){
-        GetWatchListInputData getWatchListInputData = new GetWatchListInputData(name, id);
+    public void execute(String name){
+        GetWatchListInputData getWatchListInputData = new GetWatchListInputData(name);
         getWatchListInteractor.execute(getWatchListInputData);
     }
 }
