@@ -1,6 +1,7 @@
 package view;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
+import usecase_adaptor.GetWatchlist.GetWatchListState;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
 
@@ -51,11 +52,13 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource().equals(button)) {
-                        String name = getClientProperty('name');
-                        //TODO: Need to get the name of the user currently logged in
-                        getDetailMovieController.execute(name);
-                        JOptionPane.showMessageDialog(new JFrame(), getDetailMovieViewModel.getOverview());
-                        //TODO:add other infos
+                        String name = button.getName();
+                        int id = getWatchListViewModel.getIds().get();
+                        String loggedinusername = getWatchListViewModel.getLogged_in_username();
+                        // TODO: movie ID needed
+                        getDetailMovieController.execute(name, id, loggedinusername);
+                        // JOptionPane.showMessageDialog(new JFrame(), getDetailMovieViewModel.getOverview());
+                        // TODO:add other infos (maybe needed
                     }
                 }
             });
@@ -66,12 +69,13 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) {System.out.println("Click " + e.getActionCommand());}
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
+        if (getWatchListState.getGetWatchListError() != null){
+            JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
+        }
     }
 }

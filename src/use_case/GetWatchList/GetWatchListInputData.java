@@ -2,9 +2,9 @@ package use_case.GetWatchList;
 
 public class GetWatchListInputData {
     private final String name;
-    private final int id;
-    public GetWatchListInputData(String name, int id){
-        this.id = id;
+    //private final int id;
+    public GetWatchListInputData(String name){
+        //this.id = id;
         this.name = name;
     }
 
@@ -12,7 +12,5 @@ public class GetWatchListInputData {
         return name;
     }
 
-    public int getId(){
-        return id;
-    }
+    //public int getId(){return id;}
 }

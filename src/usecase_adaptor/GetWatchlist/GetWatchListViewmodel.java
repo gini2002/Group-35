@@ -1,12 +1,9 @@
 package usecase_adaptor.GetWatchlist;
 
-import entity.Movie;
 import usecase_adaptor.ViewModel;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetWatchListViewmodel extends ViewModel {
@@ -14,6 +11,10 @@ public class GetWatchListViewmodel extends ViewModel {
     private List<String> names;
 
     private List<String> posters;
+
+    private List<Integer> ids;
+
+    private String logged_in_username;
 
     private String error;
 
@@ -47,9 +48,10 @@ public class GetWatchListViewmodel extends ViewModel {
     }
 
 
-    public void setWatchlist(List<String> names, List<String> posters){
+    public void setWatchlist(List<String> names, List<String> posters, List<Integer> ids){
         this.names = names;
         this.posters = posters;
+        this.ids = ids;
         firePropertyChanged();
     }
 
@@ -59,5 +61,17 @@ public class GetWatchListViewmodel extends ViewModel {
 
     public List<String> getPosters() {
         return posters;
+    }
+
+    public void setLogged_in_username(String logged_in_username) {
+        this.logged_in_username = logged_in_username;
+    }
+
+    public String getLogged_in_username() {
+        return logged_in_username;
+    }
+
+    public List<Integer> getIds() {
+        return ids;
     }
 }

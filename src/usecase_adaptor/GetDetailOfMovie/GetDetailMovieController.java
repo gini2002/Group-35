@@ -11,8 +11,8 @@ public class GetDetailMovieController {
         this.getDetailMovieInteractor = getDetailMovieInteractor;
     }
 
-    public void execute(String name){
-        GetDetailMovieInputData getDetailMovieInputData = new GetDetailMovieInputData(name);
+    public void execute(String name, int id, String logged_in_username){
+        GetDetailMovieInputData getDetailMovieInputData = new GetDetailMovieInputData(name, id, logged_in_username);
         getDetailMovieInteractor.execute(getDetailMovieInputData);
     }
 }

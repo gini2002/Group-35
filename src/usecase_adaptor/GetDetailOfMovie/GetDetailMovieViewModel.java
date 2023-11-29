@@ -11,8 +11,11 @@ public class GetDetailMovieViewModel extends ViewModel {
     private String overview;
     private List<String> genre;
     private String poster_path;
+    private String loggedinusername;
 
-    private int id = 0;
+    // TODO: logggedin user name
+
+    private int id;
     public static final String DELETE_WATCHLIST_MOVIE_LABEL = "Remove From Watchlist";
     public static final String ADD_WATCH_LIST_BUTTON_LABEL = "Add to watchlist";
 
@@ -36,6 +39,9 @@ public class GetDetailMovieViewModel extends ViewModel {
         this.genre = genre;
     }
 
+    public void setLoggedinusername(String loggedinusername) {
+        this.loggedinusername = loggedinusername;
+    }
 
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
 
@@ -77,4 +83,6 @@ public class GetDetailMovieViewModel extends ViewModel {
     }
 
     public int getId() {return id;}
+
+    public String getLoggedinusername() {return loggedinusername;}
 }
