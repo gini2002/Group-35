@@ -1,6 +1,8 @@
 package use_case.GetDetailMovie;
+
 import entity.Movie;
 import entity.MovieFactory;
+
 import java.util.ArrayList;
 
 public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
@@ -23,14 +25,16 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
         if (!getDetailMovieDataAccessObject.existsById(id)) {
             getDetailMoviePresenter.getDetailMovieFailView("No Such Movie");
         }
-        Movie movie = getDetailMovieDataAccessObject.getdetailMovie(id);
-        String title = movie.getName();
-        String overview = movie.getOverview();
-        ArrayList<String> genre = movie.getGenre();
-        String poster_path = movie.getPoster_path();
-        int id = movie.getID();
-        GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(title,
-                overview, genre, poster_path, id);
-        getDetailMoviePresenter.getDetailMovieSuccessView(getDetailMovieOutputData);
+        else {
+            Movie movie = getDetailMovieDataAccessObject.getdetailMovie(id);
+            String title = movie.getName();
+            String overview = movie.getOverview();
+            ArrayList<String> genre = movie.getGenre();
+            String poster_path = movie.getPoster_path();
+            String loggedinusername = getDetailMovieInputData.getLoggedinusername();
+            GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(title,
+                    overview, genre, poster_path, id, loggedinusername);
+            getDetailMoviePresenter.getDetailMovieSuccessView(getDetailMovieOutputData);
+        }
     }
 }

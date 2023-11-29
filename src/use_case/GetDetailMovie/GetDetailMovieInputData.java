@@ -1,15 +1,20 @@
 package use_case.GetDetailMovie;
 
 public class GetDetailMovieInputData {
-    public String title;
-    public int id;
+    private String title;
+    private int id;
+    private  String loggedinusername;
 
-    public GetDetailMovieInputData(String title) {
+
+    public GetDetailMovieInputData(String title, int id, String loggedinusername) {
         this.title = title;
         this.id = id;
+        this.loggedinusername = loggedinusername;
     }
 
-    String getName(){return title;}
+    public String getName(){return title;}
 
-    int getId(){return id;}
+    public int getId(){return id;}
+
+    public String getLoggedinusername() {return loggedinusername;}
 }

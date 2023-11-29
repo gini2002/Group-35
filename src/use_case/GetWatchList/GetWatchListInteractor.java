@@ -1,9 +1,7 @@
 package use_case.GetWatchList;
 
 import entity.Movie;
-import entity.Watchlist;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +18,18 @@ public class GetWatchListInteractor implements GetWatchListInputBoundary {
     @Override
     public void execute(GetWatchListInputData getWatchListIntputData) {
         String name = getWatchListIntputData.getName();
-        int id = getWatchListIntputData.getId();
-        List<Movie> watchlist = watchListDataObject.getWatchlistMovies();
+        // int id = getWatchListIntputData.getId();
+        List<Movie> watchlist = watchListDataObject.getWatchlistMovies(name);
         List<String> names = new ArrayList<>();
-        for (Movie movie : watchlist) {
-            names.add(movie.getName());
-        }
+        List<Integer> ids = new ArrayList<>();
         List<String> poster_url = new ArrayList<>();
         for (Movie movie : watchlist) {
+            names.add(movie.getName());
             poster_url.add(movie.getPoster_path());
+            ids.add(movie.getID());
         }
-        //TODO:need to decide get based on id or name
-        GetWatchListOutputData getWatchListOutputData = new GetWatchListOutputData(names, poster_url);
+        // TODO:need to decide get based on id or name
+        GetWatchListOutputData getWatchListOutputData = new GetWatchListOutputData(names, poster_url, ids, name);
         getWatchListPresenter.getWatchlistSuccessView(getWatchListOutputData);
     }
 }

@@ -1,6 +1,5 @@
 package usecase_adaptor.GetDetailOfMovie;
 
-import entity.Movie;
 import use_case.GetDetailMovie.GetDetailMovieOutputBoundary;
 import use_case.GetDetailMovie.GetDetailMovieOutputData;
 import usecase_adaptor.ViewManagerModel;
@@ -31,6 +30,8 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         getDetailMovieState.setTitle(title);
         getDetailMovieState.setPoster_path(poster_path);
         getDetailMovieState.setId(id);
+        getDetailMovieState.setLoggedinusername(response.getLoggedinusername());
+        getDetailMovieViewModel.setLoggedinusername(response.getLoggedinusername());
         getDetailMovieViewModel.setTitle(title);
         getDetailMovieViewModel.setOverview(overview);
         getDetailMovieViewModel.setGenre(genre);

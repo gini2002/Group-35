@@ -1,7 +1,6 @@
 package usecase_adaptor.MainMenu;
 
 import usecase_adaptor.ViewModel;
-import usecase_adaptor.logged_in.LoggedInState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -11,6 +10,8 @@ public class MainMenuViewModel extends ViewModel {
     public final String TITLE_LABEL = "Main Menu";
 
     public final String SHARE_WATCHLIST_BUTTON_LABEL = "Share Watchlist to other users";
+
+    public final String Get_WATCHLIST_BUTTON_LABEL = "get Watchlist";
 
     private MainMenuState state = new MainMenuState();
 

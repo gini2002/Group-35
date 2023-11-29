@@ -20,7 +20,11 @@ public class GetWatchlistPresenter implements GetWatchListOutputBoundary {
         GetWatchListState getWatchListState = getWatchListViewmodel.getState();
         getWatchListState.setWatchlistNames(getWatchListOutputData.getNames());
         getWatchListState.setWatchlistPosters(getWatchListOutputData.getPoster_urls());
-        getWatchListViewmodel.setWatchlist(getWatchListOutputData.getNames(), getWatchListOutputData.getPoster_urls());
+        getWatchListState.setLoggedinusername(getWatchListOutputData.getLogged_in_username());
+        getWatchListState.setIds(getWatchListOutputData.getIds());
+        getWatchListViewmodel.setWatchlist(getWatchListOutputData.getNames(),
+                getWatchListOutputData.getPoster_urls(), getWatchListOutputData.getIds());
+        getWatchListViewmodel.setLogged_in_username(getWatchListOutputData.getLogged_in_username());
         getWatchListViewmodel.setState(getWatchListState);
         getWatchListViewmodel.firePropertyChanged();
 
