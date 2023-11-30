@@ -33,7 +33,8 @@ public class MainMenuView extends JPanel{
     public MainMenuView(ViewManagerModel viewManagerModel, MainMenuViewModel mainMenuViewModel,
                         ShareWatchlistViewModel shareWatchlistViewModel,
                         GetWatchListViewmodel getWatchListViewmodel,
-                        GetWatchlistController getWatchlistController) {
+                        GetWatchlistController getWatchlistController
+                        ) {
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.shareWatchlistViewModel = shareWatchlistViewModel;

@@ -3,8 +3,6 @@ package usecase_adaptor.login;
 import usecase_adaptor.MainMenu.MainMenuState;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.ViewManagerModel;
-import usecase_adaptor.logged_in.LoggedInState;
-import usecase_adaptor.logged_in.LoggedInViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 

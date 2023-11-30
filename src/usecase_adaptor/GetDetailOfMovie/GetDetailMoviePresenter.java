@@ -11,8 +11,9 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
 
     private ViewManagerModel viewManagerModel;
 
-    public GetDetailMoviePresenter(GetDetailMovieViewModel getDetailMovieViewModel,
-                                   ViewManagerModel viewManagerModel) {
+    public GetDetailMoviePresenter(GetDetailMovieViewModel getDetailMovieViewModel
+            //, ViewManagerModel viewManagerModel
+    ) {
         this.getDetailMovieViewModel = getDetailMovieViewModel;
         this.viewManagerModel = viewManagerModel;
     }
