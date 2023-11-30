@@ -7,9 +7,19 @@ public class ShareWatchlistController {
 
     private final ShareWatchlistInputBoundary shareWatchlistInputBoundary;
 
+    /**
+     * initiate the controller.
+     * @param shareWatchlistInputBoundary the input boundary.
+     */
     public ShareWatchlistController(ShareWatchlistInputBoundary shareWatchlistInputBoundary) {
         this.shareWatchlistInputBoundary = shareWatchlistInputBoundary;
     }
+
+    /**
+     * share sender's watchlist to receiver's shared watchlist.
+     * @param userName1 sender's userName.
+     * @param userName2 receiver's userName.
+     */
     public void execute(String userName1, String userName2) {
         ShareWatchlistInputData inputData = new ShareWatchlistInputData(userName1, userName2);
         shareWatchlistInputBoundary.execute(inputData);

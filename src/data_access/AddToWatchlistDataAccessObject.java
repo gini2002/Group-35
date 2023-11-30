@@ -22,6 +22,11 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
     private UserFactory userFactory;
 
 
+    /**
+     * initiate the DAO.
+     * @param csvPath path of csv file stored information.
+     * @param userFactory factory that produced user.
+     */
     public AddToWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
         this.userFactory = userFactory;
         try {csvFile = new File(csvPath);
@@ -120,6 +125,11 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         return null;
     }
 
+    /**
+     * save movie to the user.
+     * @param userName of user who want to add movie.
+     * @param movie that is being added.
+     */
     @Override
     public void saveMovie(String userName, Movie movie) {
         User user = getUser(userName);
@@ -127,6 +137,11 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         save();
     }
 
+    /**
+     *
+     * @param userName of user who want to add movie.
+     * @return the user who has username.
+     */
     @Override
     public User getUser(String userName) {
         return accounts.get(userName);

@@ -28,7 +28,11 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     private UserFactory userFactory;
 
 
-
+    /**
+     * initiate the DAO.
+     * @param csvPath the path of file that saves information.
+     * @param userFactory factory to produce user.
+     */
     public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
         headers = new LinkedHashMap<>();
         try {
@@ -156,17 +160,32 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         return null;
     }
 
+    /**
+     *
+     * @param userName of the user.
+     * @return whether the user exists.
+     */
     @Override
     public boolean userExist(String userName) {
         return accounts.containsKey(userName);
     }
 
+    /**
+     *
+     * @param userName the name of user.
+     * @return the watchlist of the user.
+     */
     @Override
     public List<Movie> getWatchlistByUsername(String userName) {
         User user = this.accounts.get(userName);
         return user.getWatchlist();
     }
 
+    /**
+     *
+     * @param userName the name of user.
+     * @param watchlist a watchlist.
+     */
     @Override
     public void setWatchlist(String userName, List<Movie> watchlist) {
         User user = accounts.get(userName);
@@ -175,12 +194,20 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         save();
     }
 
+    /**
+     *
+     * @param userName of user.
+     * @return the user object of user.
+     */
     @Override
     public User getUser(String userName) {
         return accounts.get(userName);
     }
 
 
+    /**
+     * save changes in file.
+     */
     private void save() {
         BufferedWriter writer;
         try {
@@ -192,7 +219,6 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s",
                         user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
                         user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
-                //TODO format id and sharedWatchlist
                 writer.write(line);
                 writer.newLine();
             }
