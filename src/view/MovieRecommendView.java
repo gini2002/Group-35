@@ -26,7 +26,7 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
     final JTextField keywordInputField = new JTextField(15);
 
     /** The label for displaying error messages. */
-    private final JLabel errorLabel = new JLabel();
+    final JLabel errorLabel = new JLabel();
 
     /** The model for managing the active view in the application. */
     private final ViewManagerModel viewManagerModel;
@@ -120,7 +120,6 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
             errorLabel.setText(error);
         } else if ("recommendedMovies".equals(evt.getPropertyName())) {
             // Update the recommended movies area when the property changes
-            // TODO: Add logic for updating recommended movies area
         }
     }
 }

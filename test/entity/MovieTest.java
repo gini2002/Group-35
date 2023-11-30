@@ -5,72 +5,77 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MovieTest {
 
-    //@BeforeEach
-    //void init() {
-    public String name = "name";
-    public int id = 1;
-    public ArrayList<String> genre = new ArrayList<>(java.util.Arrays.asList("a"));
+    private Movie movie;
 
-    public LocalDate date = LocalDate.of(2023, 11, 27);
-    public double rating = 1.11;
-    public String poster = "path";
-    public String overview = "overview";
-
-    public Movie movie = new Movie(name, id, genre, date, rating, poster, overview);
-
-
-
-    @Test
-    void getOverview() {
-        assertEquals("overview", movie.getOverview());
-    }
-
-    @Test
-    void getPoster_path() {
-        assertEquals("path", movie.getPoster_path());
+    @BeforeEach
+    void init() {
+        movie = Movie.builder()
+                .id(1)
+                .name("Inception")
+                .genre(new ArrayList<>(Arrays.asList("Sci-Fi", "Action")))
+                .releaseDate(LocalDate.of(2010, 7, 16))
+                .rating(8.8)
+                .poster_path("/inception_poster.jpg")
+                .overview("A mind-bending thriller")
+                .build();
     }
 
     @Test
     void getName() {
-        assertEquals("name", movie.getName());
+        assertEquals("Inception", movie.getName());
     }
 
     @Test
-    void getGenre() {
-        assertEquals(new ArrayList<>(java.util.Arrays.asList("a")), movie.getGenre());
-    }
-
-    @Test
-    void getID() {
+    void getId() {
         assertEquals(1, movie.getID());
     }
 
     @Test
+    void getGenre() {
+        assertEquals(Arrays.asList("Sci-Fi", "Action"), movie.getGenre());
+    }
+
+    @Test
     void getReleaseDate() {
-        assertEquals(LocalDate.of(2023, 11, 27), movie.getReleaseDate());
+        assertEquals(LocalDate.of(2010, 7, 16), movie.getReleaseDate());
     }
 
     @Test
     void getRating() {
-        assertEquals(1.11, movie.getRating());
+        assertEquals(8.8, movie.getRating());
     }
 
     @Test
-    void builder() {
-        Movie.MovieBuilder builder = Movie.builder()
-                .id(1)
-                .name("name")
-                .genre(new ArrayList<>(java.util.Arrays.asList("a")))
-                .overview("overview")
-                .poster_path("path")
-                .rating(1.11);
-        Movie movie2 = builder.build();
-        assertEquals(movie, movie2);
+    void getPosterPath() {
+        assertEquals("/inception_poster.jpg", movie.getPoster_path());
+    }
+
+    @Test
+    void getOverview() {
+        assertEquals("A mind-bending thriller", movie.getOverview());
+    }
+
+    @Test
+    void builderPattern() {
+        Movie anotherMovie = Movie.builder()
+                .name("Interstellar")
+                .id(2)
+                .releaseDate(LocalDate.of(2014, 11, 7))
+                .rating(8.6)
+                .overview("Space exploration epic")
+                .build();
+
+        assertEquals("Interstellar", anotherMovie.getName());
+        assertEquals(2, anotherMovie.getID());
+        assertEquals(LocalDate.of(2014, 11, 7), anotherMovie.getReleaseDate());
+        assertEquals(8.6, anotherMovie.getRating());
+        assertEquals(null, anotherMovie.getPoster_path()); // Assuming poster_path is not set
+        assertEquals("Space exploration epic", anotherMovie.getOverview());
     }
 }
