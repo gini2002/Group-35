@@ -51,7 +51,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
                     String header = reader.readLine();
 
                     // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                    assert header.equals("id,username,password,creation_time,search_history,watchlist");
+                    assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
 
                     String row;
                     while ((row = reader.readLine()) != null) {
@@ -62,24 +62,28 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
                         String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
                         String search_history = String.valueOf(col[headers.get("search_history")]);
                         String watchlist = String.valueOf(col[headers.get("watchlist")]);
+                        String shared_watchlist = String.valueOf(col[headers.get("shared_watchlist")]);
+                        // format of shared_watchlist: name1:1%2%3#name2:4%5%6
 
                         LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
 
 
                         List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
                         SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
-                        //TODO use #?
 
                         //create SearchHistory object
                         //create movie objects
 
                         List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                         Watchlist watchList = new Watchlist(watchlistMovies);
-                        //TODO use #?
+
+                        Map<String, Watchlist> sharedWatchlist = trans_to_shared_watchlist(
+                                shared_watchlist, "#", ":", "%");
 
                         //create Warchlist object
                         //create movie objects
                         User user = userFactory.create(username, password, ldt, searchHistory, watchList);
+                        user.setCompleteSharedWatchlist(sharedWatchlist);
                         accounts.put(username, user);
                     }   }
             }
@@ -87,6 +91,26 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
             throw new RuntimeException();
         }
 
+    }
+
+    private Map<String, Watchlist> trans_to_shared_watchlist(String col, String UserSplitter,
+                                                             String EachUserSplitter, String MovieSplitter) {
+        String[] info = col.split(UserSplitter);
+        Map<String, Watchlist> user_watchlist_map = new HashMap<>();
+        for (String each_info: info) {
+            Map<String, List<Movie>> map = trans_to_each_user(each_info, EachUserSplitter, MovieSplitter);
+            String userName = map.keySet().toString();
+            Watchlist watchlist = new Watchlist(map.get(userName));
+            user_watchlist_map.put(userName, watchlist);
+        }
+        return user_watchlist_map;
+    }
+
+    private Map<String, List<Movie>> trans_to_each_user(String col, String EachUserSplitter, String MovieSplitter) {
+        String[] user_list = col.split(EachUserSplitter);
+        Map<String, List<Movie>> map = new HashMap<>();
+        map.put(user_list[0], trans_to_movie(user_list[1], MovieSplitter));
+        return map;
     }
 
     private List<Movie> trans_to_movie(String col, String splitter) {
@@ -150,6 +174,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         return accounts.get(userName);
     }
 
+
     private void save() {
         BufferedWriter writer;
         try {
@@ -158,10 +183,10 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s",
                         user.getName(), user.getPassword(), user.getCreationTime(),
-                        user.getSearchHistory(), user.getWatchlist());
-                //TODO format id
+                        user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
+                //TODO format id and sharedWatchlist
                 writer.write(line);
                 writer.newLine();
             }
