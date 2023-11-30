@@ -40,4 +40,18 @@ public class SearchHistory {
     public List<Movie> getSearchHistory() {
         return searchHistory;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Movie movie:searchHistory) {
+            int id = movie.getID();
+            result = result + id + "#";
+        }
+        if (result.isEmpty()) {
+            return result;
+        } else {
+            return result.substring(0, result.length()-2);
+        }
+    }
 }
