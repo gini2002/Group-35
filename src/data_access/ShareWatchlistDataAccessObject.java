@@ -21,7 +21,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
     private final File csvFile;
 
-    private final Map<String, Integer> headers = new LinkedHashMap<>();
+    private Map<String, Integer> headers = new LinkedHashMap<>();
 
     private final Map<String, User> accounts = new HashMap<>();
 
@@ -30,6 +30,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
 
     public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
+        headers = new LinkedHashMap<>();
         try {
             this.userFactory = userFactory;
 
@@ -42,6 +43,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
             headers.put("creation_time", 3);
             headers.put("search_history", 4);
             headers.put("watchlist", 5);
+            headers.put("shared_watchlist", 6);
 
             if (csvFile.length() == 0) {
                 save();
@@ -109,23 +111,27 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     private Map<String, List<Movie>> trans_to_each_user(String col, String EachUserSplitter, String MovieSplitter) {
         String[] user_list = col.split(EachUserSplitter);
         Map<String, List<Movie>> map = new HashMap<>();
-        map.put(user_list[0], trans_to_movie(user_list[1], MovieSplitter));
+        if (user_list.length == 2) {
+            map.put(user_list[0], trans_to_movie(user_list[1], MovieSplitter));}
         return map;
     }
 
     private List<Movie> trans_to_movie(String col, String splitter) {
-        //TODO precondition
         String[] movie_list = col.split(splitter);
         List<Movie> movies = new ArrayList<>();
         for (String num : movie_list) {
-            int movie_id = Integer.parseInt(num);
-            Movie history_movie = get_movie_from_api(movie_id);
-            movies.add(history_movie);
+            try {
+                int movie_id = Integer.parseInt(num);
+                Movie history_movie = get_movie_from_api(movie_id);
+                movies.add(history_movie);
+            } catch (NumberFormatException e) {
+                System.out.println("file error");
+            }
         }
         return movies;
     }
 
-    private Movie get_movie_from_api(int movieID) {
+    private Movie get_movie_from_api(Integer movieID) {
 
         //call api get request
         OkHttpClient client = new OkHttpClient();
@@ -184,7 +190,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime(),
+                        user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
                         user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
                 //TODO format id and sharedWatchlist
                 writer.write(line);

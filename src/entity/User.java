@@ -6,6 +6,8 @@ import java.util.Map;
 
 public interface User {
 
+    int getId();
+
     String getName();
 
     String getPassword();
@@ -21,6 +23,8 @@ public interface User {
     List<Movie> getSharedWatchlist(String userName);
 
     Map<String, Watchlist> getSharedWatchlist();
+
+    void setId(int id);
 
     void setSharedWatchlist(String userName, Watchlist watchlist);
 

@@ -21,7 +21,7 @@ public class MainMenuViewModel extends ViewModel {
      * initiate a main menu view model.
      */
     public MainMenuViewModel() {
-        super("Main Menu");
+        super("Main_menu");
     }
 
     /**

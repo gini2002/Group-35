@@ -27,11 +27,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
-        headers.put("username", 0);
-        headers.put("password", 1);
-        headers.put("creation_time", 2);
-        headers.put("search_history", 3);
-        headers.put("watchlist", 4);
+        headers.put("id", 0);
+        headers.put("username", 1);
+        headers.put("password", 2);
+        headers.put("creation_time", 3);
+        headers.put("search_history", 4);
+        headers.put("watchlist", 5);
+        headers.put("shared_watchlist", 6);
 
         if (csvFile.length() == 0) {
             save();
@@ -41,20 +43,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 String header = reader.readLine();
 
                 // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("username,password,creation_time");
+                assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
+                    String id = String.valueOf(col[headers.get("id")]);
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
                     String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
                     String search_history = String.valueOf(col[headers.get("search_history")]);
                     String watchlist = String.valueOf(col[headers.get("watchlist")]);
+                    String shared_watchlist = String.valueOf(col[headers.get("shared_watchlist")]);
+
                     LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
+                    List<Movie> searchHistoryMovies = new ArrayList<>();
                     SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
-                    //TODO use #?
 
                     //create SearchHistory object
                     //create movie objects
@@ -62,24 +66,28 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                     Watchlist watchList = new Watchlist(watchlistMovies);
                     User user = userFactory.create(username, password, ldt, searchHistory, watchList);
+                    user.setId(getId());
                     accounts.put(username, user);
                 }
             }
         }
     }
     private List<Movie> trans_to_movie(String col, String splitter) {
-        //TODO precondition
         String[] movie_list = col.split(splitter);
         List<Movie> movies = new ArrayList<>();
         for (String num : movie_list) {
-            int movie_id = Integer.parseInt(num);
-            Movie history_movie = get_movie_from_api(movie_id);
-            movies.add(history_movie);
+            try {
+                int movie_id = Integer.parseInt(num);
+                Movie history_movie = get_movie_from_api(movie_id);
+                movies.add(history_movie);
+            } catch (NumberFormatException e) {
+                System.out.println("file error");
+            }
         }
         return movies;}
     private Movie get_movie_from_api(int movieID) {
 
-            //call api get request
+        //call api get request
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -121,8 +129,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime());
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s",
+                        user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
+                        new SearchHistory(), new Watchlist(), new HashMap<String, Watchlist>());
                 writer.write(line);
                 writer.newLine();
             }
@@ -150,26 +159,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return names;
     }
 
-    public void clearAllUsers(){
-        if (csvFile.exists()) {
-            try {
-                // Delete the existing file
-                if (csvFile.delete()) {
-                    // Recreate an empty file
-                    if (csvFile.createNewFile()) {
-                        System.out.println("Data in the CSV file has been cleared.");
-                    } else {
-                        System.err.println("Failed to create an empty file.");
-                    }
-                } else {
-                    System.err.println("Failed to delete the existing file.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("The CSV file does not exist.");
-        }
+    @Override
+    public void clearAllUsers() {
+
+    }
+
+    private int getId() {
+        return accounts.size();
     }
 
 }

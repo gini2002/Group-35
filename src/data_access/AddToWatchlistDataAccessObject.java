@@ -32,6 +32,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
             headers.put("creation_time", 3);
             headers.put("search_history", 4);
             headers.put("watchlist", 5);
+            headers.put("shared_watchlist", 6);
 
             if (csvFile.length() == 0) {
                 save();
@@ -41,7 +42,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
                     String header = reader.readLine();
 
                     // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                    assert header.equals("id,username,password,creation_time,search_history,watchlist");
+                    assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
 
                     String row;
                     while ((row = reader.readLine()) != null) {
@@ -52,20 +53,19 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
                         String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
                         String search_history = String.valueOf(col[headers.get("search_history")]);
                         String watchlist = String.valueOf(col[headers.get("watchlist")]);
+                        String shared_watchlist = String.valueOf(col[headers.get("shared_watchlist")]);
 
                         LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
 
 
                         List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
                         SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
-                        //TODO use #?
 
                         //create SearchHistory object
                         //create movie objects
 
                         List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                         Watchlist watchList = new Watchlist(watchlistMovies);
-                        //TODO use #?
 
                         //create Warchlist object
                         //create movie objects
@@ -81,13 +81,16 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
     }
 
     private List<Movie> trans_to_movie(String col, String splitter) {
-        //TODO precondition
         String[] movie_list = col.split(splitter);
         List<Movie> movies = new ArrayList<>();
         for (String num : movie_list) {
-            int movie_id = Integer.parseInt(num);
-            Movie history_movie = get_movie_from_api(movie_id);
-            movies.add(history_movie);
+            try {
+                int movie_id = Integer.parseInt(num);
+                Movie history_movie = get_movie_from_api(movie_id);
+                movies.add(history_movie);
+            } catch (NumberFormatException e) {
+                System.out.println("file error");
+            }
         }
         return movies;
     }
@@ -137,10 +140,9 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime(),
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s",
+                        user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
                         user.getSearchHistory(), user.getWatchlist());
-                //TODO format id
                 writer.write(line);
                 writer.newLine();
             }

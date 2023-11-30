@@ -11,6 +11,7 @@ import java.util.Map;
  */
 class CommonUser implements User {
 
+    private int id;
     private final String name;
     private final String password;
     private final LocalDateTime creationTime;
@@ -35,6 +36,15 @@ class CommonUser implements User {
         this.creationTime = creationTime;
         this.searchHistory = searchHistory;
         this.watchlist = watchlist;
+    }
+
+    /**
+     *
+     * @return int id of the user.
+     */
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -101,6 +111,15 @@ class CommonUser implements User {
     @Override
     public Map<String, Watchlist> getSharedWatchlist() {
         return this.sharedWatchlist;
+    }
+
+    /**
+     * save an id in user.
+     * @param id int id of user.
+     */
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
 
