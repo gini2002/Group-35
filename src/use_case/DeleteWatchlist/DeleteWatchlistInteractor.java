@@ -2,10 +2,6 @@ package use_case.DeleteWatchlist;
 
 //import data_access.WatchlistDAO;
 //import entity.Movie;
-import entity.User;
-import use_case.AddToWatchlist.*;
-
-import java.util.List;
 
 //public class DeleteWatchlistInteractor implements DeleteWatchlistInputBoundary {
 //    private final DeleteWatchlistOutputBoundary deleteWatchlistPresenter;
@@ -99,11 +95,6 @@ import java.util.List;
 
 import data_access.WatchlistDAO;
 import entity.Movie;
-import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
-import use_case.DeleteWatchlist.DeleteWatchlistInputBoundary;
-import use_case.DeleteWatchlist.DeleteWatchlistInputData;
-import use_case.DeleteWatchlist.DeleteWatchlistOutputBoundary;
-import use_case.DeleteWatchlist.DeleteWatchlistOutputData;
 
 public class DeleteWatchlistInteractor implements DeleteWatchlistInputBoundary {
     private final DeleteWatchlistOutputBoundary deleteWatchlistPresenter;
