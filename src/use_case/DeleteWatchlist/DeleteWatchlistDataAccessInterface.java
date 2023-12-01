@@ -1,10 +1,12 @@
-package use_case.AddToWatchlist;
+package use_case.DeleteWatchlist;
 
-import entity.User;
+import data_access.WatchlistDAO;
 import entity.Movie;
+import entity.User;
 
-public interface AddToWatchlistDataAccessInterface {
-    void saveMovie(String userName, Movie movie);
+public interface DeleteWatchlistDataAccessInterface {
 
-    User getUser(String userName);
+    WatchlistDAO getWatchlistDAO();
+//    Movie getMovie(Movie movie);
+
 }
