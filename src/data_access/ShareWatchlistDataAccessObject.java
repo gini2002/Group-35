@@ -89,6 +89,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
                         //create Warchlist object
                         //create movie objects
                         User user = userFactory.create(username, password, ldt, searchHistory, watchList);
+                        user.setId(Integer.parseInt(id));
                         user.setCompleteSharedWatchlist(sharedWatchlist);
                         accounts.put(username, user);
                     }   }
@@ -182,7 +183,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     }
 
     /**
-     *
+     * set watchlist to receiver user's shared watchlist.
      * @param userName the name of user.
      * @param watchlist a watchlist.
      */

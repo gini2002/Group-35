@@ -57,21 +57,73 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String shared_watchlist = String.valueOf(col[headers.get("shared_watchlist")]);
 
                     LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    List<Movie> searchHistoryMovies = new ArrayList<>();
+
+                    //create search history from string
+                    List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
                     SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
 
-                    //create SearchHistory object
-                    //create movie objects
-
+                    //create watchlist from string
                     List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                     Watchlist watchList = new Watchlist(watchlistMovies);
+
+                    //crate shared watchlist from string
+                    Map<String, Watchlist> sharedWatchlist= trans_to_shared_watchlist(
+                            shared_watchlist, "#", ":", "%");
+
+                    //crate a new user object
                     User user = userFactory.create(username, password, ldt, searchHistory, watchList);
-                    user.setId(getId());
+                    user.setId(Integer.parseInt(id));
+                    user.setCompleteSharedWatchlist(sharedWatchlist);
                     accounts.put(username, user);
                 }
             }
         }
     }
+
+    /**
+     *
+     * @param col string of form "u1:1%2%3#u2:4%5%6..."
+     * @param UserSplitter "#"
+     * @param EachUserSplitter ":"
+     * @param MovieSplitter "%"
+     * @return the complete shared watchlist.
+     */
+    private Map<String, Watchlist> trans_to_shared_watchlist(String col, String UserSplitter,
+                                                             String EachUserSplitter, String MovieSplitter) {
+        String[] info = col.split(UserSplitter);
+        Map<String, Watchlist> user_watchlist_map = new HashMap<>();
+        for (String each_info: info) {
+            Map<String, List<Movie>> map = trans_to_each_user(each_info, EachUserSplitter, MovieSplitter);
+            String userName = map.keySet().toString();
+            Watchlist watchlist = new Watchlist(map.get(userName));
+            user_watchlist_map.put(userName, watchlist);
+        }
+        return user_watchlist_map;
+    }
+
+    /**
+     *
+     * @param col string of form "user:1%2%3"
+     * @param EachUserSplitter ":"
+     * @param MovieSplitter "#"
+     * @return a map only have one user key and one list of movie.
+     */
+    private Map<String, List<Movie>> trans_to_each_user(String col, String EachUserSplitter, String MovieSplitter) {
+        String[] user_list = col.split(EachUserSplitter);
+        Map<String, List<Movie>> map = new HashMap<>();
+        // check precondition
+        if (user_list.length == 2) {
+            map.put(user_list[0], trans_to_movie(user_list[1], MovieSplitter));}
+        return map;
+    }
+
+
+    /**
+     *
+     * @param col a string of form "1#2#3" where 123 are movie id.
+     * @param splitter splitter
+     * @return a list of movie with correct id.
+     */
     private List<Movie> trans_to_movie(String col, String splitter) {
         String[] movie_list = col.split(splitter);
         List<Movie> movies = new ArrayList<>();
@@ -85,6 +137,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             }
         }
         return movies;}
+
+
     private Movie get_movie_from_api(int movieID) {
 
         //call api get request
@@ -112,6 +166,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     @Override
     public void save(User user) {
+        if (user.getId() == 0) {
+            user.setId(getId());
+        }
         accounts.put(user.getName(), user);
         this.save();
     }
@@ -131,7 +188,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s",
                         user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
-                        new SearchHistory(), new Watchlist(), new HashMap<String, Watchlist>());
+                        user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
                 writer.write(line);
                 writer.newLine();
             }
