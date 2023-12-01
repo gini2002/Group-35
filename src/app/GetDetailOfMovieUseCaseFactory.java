@@ -4,7 +4,6 @@ import use_case.AddToWatchlist.*;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistPresenter;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
-import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import view.GetDetailMovieView;
 
