@@ -1,7 +1,5 @@
-package usecase_adaptor.RecommendMovieWithoutFilter;
+package error_cases.RecommendMovieWithoutFilter;
 
-import use_case.RecommendMovieWithoutFilter.WithoutFilterOutputBoundary;
-import use_case.RecommendMovieWithoutFilter.WithoutFilterOutputData;
 import usecase_adaptor.ViewManagerModel;
 
 public class WithoutFilterPresenter implements WithoutFilterOutputBoundary {

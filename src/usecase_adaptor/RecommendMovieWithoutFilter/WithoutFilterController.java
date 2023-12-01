@@ -1,10 +1,4 @@
-package usecase_adaptor.RecommendMovieWithoutFilter;
-
-import use_case.RecommendMovieWithoutFilter.WithoutFilterInputBoundary;
-import use_case.RecommendMovieWithoutFilter.WithoutFilterInputData;
-
-import java.util.*;
-
+package error_cases.RecommendMovieWithoutFilter;
 
 public class WithoutFilterController {
     final WithoutFilterInputBoundary withoutFilterInteractor;
