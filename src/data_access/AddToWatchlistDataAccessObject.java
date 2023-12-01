@@ -62,19 +62,22 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
 
                         LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
 
-
+                        //create search history from string
                         List<Movie> searchHistoryMovies = trans_to_movie(search_history, "#");
                         SearchHistory searchHistory = new SearchHistory(searchHistoryMovies);
 
-                        //create SearchHistory object
-                        //create movie objects
-
+                        //create watchlist from string
                         List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                         Watchlist watchList = new Watchlist(watchlistMovies);
 
-                        //create Warchlist object
-                        //create movie objects
+                        //crate shared watchlist from string
+                        Map<String, Watchlist> sharedWatchlist= trans_to_shared_watchlist(
+                                shared_watchlist, "#", ":", "%");
+
+                        //crate a new user object
                         User user = userFactory.create(username, password, ldt, searchHistory, watchList);
+                        user.setId(Integer.parseInt(id));
+                        user.setCompleteSharedWatchlist(sharedWatchlist);
                         accounts.put(username, user);
                     }
                 }
@@ -83,6 +86,28 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
             throw new RuntimeException();
         }
 
+    }
+
+    private Map<String, Watchlist> trans_to_shared_watchlist(String col, String UserSplitter,
+                                                             String EachUserSplitter, String MovieSplitter) {
+        String[] info = col.split(UserSplitter);
+        Map<String, Watchlist> user_watchlist_map = new HashMap<>();
+        for (String each_info: info) {
+            Map<String, List<Movie>> map = trans_to_each_user(each_info, EachUserSplitter, MovieSplitter);
+            String userName = map.keySet().toString();
+            Watchlist watchlist = new Watchlist(map.get(userName));
+            user_watchlist_map.put(userName, watchlist);
+        }
+        return user_watchlist_map;
+    }
+
+    private Map<String, List<Movie>> trans_to_each_user(String col, String EachUserSplitter, String MovieSplitter) {
+        String[] user_list = col.split(EachUserSplitter);
+        Map<String, List<Movie>> map = new HashMap<>();
+        if (user_list.length == 2) {
+            map.put(user_list[0], trans_to_movie(user_list[1], MovieSplitter));
+        }
+        return map;
     }
 
     private List<Movie> trans_to_movie(String col, String splitter) {
@@ -157,7 +182,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s",
                         user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
-                        user.getSearchHistory(), user.getWatchlist());
+                        user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
                 writer.write(line);
                 writer.newLine();
             }
