@@ -1,21 +1,20 @@
-package use_case.AddToWatchlist;
+package use_case.DeleteWatchlist;
 
 import entity.Movie;
-import entity.User;
 
-public class AddToWatchlistInputData {
+public class DeleteWatchlistInputData {
     private final Movie movie;
-    private final String userName;
+    private final String username;
 
-    public  AddToWatchlistInputData(Movie movie, String userName) {
+    public DeleteWatchlistInputData(Movie movie, String username) {
 
         this.movie = movie;
-        this.userName = userName;
+        this.username = username;
     }
 
     public Movie getMovie() {
         return movie;
     }
 
-    public String getUserName() {return userName;}
+    public String getUserName() {return username;}
 }
