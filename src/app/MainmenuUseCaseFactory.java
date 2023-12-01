@@ -9,6 +9,7 @@ import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.GetWatchlist.GetWatchlistPresenter;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 import view.MainMenuView;
 
@@ -17,11 +18,11 @@ public class MainmenuUseCaseFactory {
     public static MainMenuView create(ViewManagerModel viewManagerModel,
                                       MainMenuViewModel mainMenuViewModel,
                                       ShareWatchlistViewModel shareWatchlistViewModel,
-                                      GetWatchListViewmodel getWatchListViewmodel,
+                                      GetWatchListViewmodel getWatchListViewmodel, SearchByNameViewModel searchByNameViewModel,
                                       GetWatchListDataAccessInterface getWatchListDataAccessInterface){
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListDataAccessInterface,
                 getWatchListViewmodel);
-        return new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel,
+        return new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel,searchByNameViewModel,
                 getWatchListViewmodel, getWatchlistController);
     }
 

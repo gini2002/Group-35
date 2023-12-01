@@ -104,7 +104,7 @@ public class Main {
         // MainMenuView mainMenuView = new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel, getWatchListViewmodel);
         // views.add(mainMenuView, mainMenuView.viewName);
         MainMenuView mainMenuView = MainmenuUseCaseFactory.create(viewManagerModel, mainMenuViewModel,
-                shareWatchlistViewModel, getWatchListViewmodel, getWatchListDataAccessInterface);
+                shareWatchlistViewModel, getWatchListViewmodel, searchByNameViewModel, getWatchListDataAccessInterface);
         views.add(mainMenuView, mainMenuView.viewName);
 
         ShareWatchlistView shareWatchlistView = ShareWatchlistUseCaseFactory.create(
