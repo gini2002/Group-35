@@ -50,15 +50,16 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
         List<String> names = getWatchListViewModel.getNames();
         backToMainMenu = new JButton(GetWatchListViewmodel.MAIN_MENU_BUTTON_LABEL);
         buttons.add(backToMainMenu);
-        for (String name: names) {
-            JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + name);
+        for (int i = 0; i < names.size(); i++) {
+            JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + names.get(i));
             buttons.add(button);
+            int finalI = i;
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource().equals(button)) {
                         String name = button.getName();
-                        int id = getWatchListViewModel.getIds().get();
+                        int id = getWatchListViewModel.getIds().get(finalI);
                         String loggedinusername = getWatchListViewModel.getLogged_in_username();
                         // TODO: movie ID needed
                         getDetailMovieController.execute(name, id, loggedinusername);

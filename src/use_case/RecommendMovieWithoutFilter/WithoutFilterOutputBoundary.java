@@ -1,4 +1,4 @@
-package error_cases.RecommendMovieWithoutFilter;
+package use_case.RecommendMovieWithoutFilter;
 
 public interface WithoutFilterOutputBoundary {
     void WithoutFilterSuccessView(WithoutFilterOutputData outputData);
