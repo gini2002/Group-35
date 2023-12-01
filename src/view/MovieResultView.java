@@ -39,7 +39,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
     public JList<String> movieList;
 
     /** The label for displaying error messages. */
-    private JLabel errorLabel;
+    JLabel errorLabel;
 
     /**
      * Constructs a MovieResultView with the specified view models and view manager model.

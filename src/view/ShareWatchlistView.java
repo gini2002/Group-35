@@ -9,6 +9,7 @@ import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -17,7 +18,9 @@ import java.beans.PropertyChangeListener;
 public class ShareWatchlistView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "ShareWatchlist";
+
     private final ShareWatchlistViewModel shareWatchlistViewModel;
+
     private final JTextField sharedUsernameInputField = new JTextField(15);
 
     final JButton sharedUsernameButton;
@@ -41,6 +44,9 @@ public class ShareWatchlistView extends JPanel implements ActionListener, Proper
         this.shareWatchlistViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
+
+        JLabel title = new JLabel("Share Watchlist screen");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
         sharedUsernameButton = new JButton(ShareWatchlistViewModel.USER_NAME_LABEL);
@@ -73,6 +79,9 @@ public class ShareWatchlistView extends JPanel implements ActionListener, Proper
             }
         });
 
+        this.add(title);
+        this.add(keywordPanel);
+        this.add(buttons);
     }
     @Override
     public void actionPerformed(ActionEvent e) {

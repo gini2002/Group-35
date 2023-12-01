@@ -26,22 +26,18 @@ public class MainMenuView extends JPanel{
 
     private final ShareWatchlistViewModel shareWatchlistViewModel;
 
-    private final GetWatchListViewmodel getWatchListViewmodel;
-
-    private final GetWatchlistController getWatchlistController;
 
     public MainMenuView(ViewManagerModel viewManagerModel, MainMenuViewModel mainMenuViewModel,
                         ShareWatchlistViewModel shareWatchlistViewModel,
                         GetWatchListViewmodel getWatchListViewmodel,
                         GetWatchlistController getWatchlistController
                         ) {
+                        // ShareWatchlistViewModel shareWatchlistViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.shareWatchlistViewModel = shareWatchlistViewModel;
-        this.getWatchListViewmodel = getWatchListViewmodel;
-        this.getWatchlistController = getWatchlistController;
 
-        JLabel title = new JLabel("Main_menu");
+        JLabel title = new JLabel("main menu screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
@@ -68,20 +64,12 @@ public class MainMenuView extends JPanel{
         // add a new button for get watchlist
         getWatchlistButton = new JButton(mainMenuViewModel.Get_WATCHLIST_BUTTON_LABEL);
         buttons.add(shareWatchlistButton);
-        getWatchlistButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GetWatchListState getWatchlistState = getWatchListViewmodel.getState();
-                String loggedUserName = mainMenuViewModel.getLoggedInUser();
-                getWatchlistState.setLoggedinusername(loggedUserName);
-                getWatchListViewmodel.setState(getWatchlistState);
-                getWatchlistController.execute(loggedUserName);
 
-                viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
-                viewManagerModel.firePropertyChanged();
-            }
-        });
+
         buttons.add(getWatchlistButton);
+
+        this.add(title);
+        this.add(buttons);
     }
 
 
