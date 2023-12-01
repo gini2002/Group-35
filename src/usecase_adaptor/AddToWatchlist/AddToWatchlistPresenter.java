@@ -36,6 +36,7 @@ public class AddToWatchlistPresenter implements AddToWatchlistOutputBoundary {
     public void PrepareSuccessView(AddToWatchlistOutputData outputData) {
         AddToWatchlistState state = viewModel.getState();
         state.setMessage(outputData.getMessage());
+        state.setMovieExistError(null);
         viewModel.firePropertyChanged();
 
     }

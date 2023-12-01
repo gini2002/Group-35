@@ -22,7 +22,7 @@ public class ShareWatchlistInteractorTest {
     @Test
     public void successTest() {
 
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("ShareTestFile", new CommonUserFactory());
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile1.csv", new CommonUserFactory());
 
         User sender = new CommonUserFactory().
                 create("sender", "password",
@@ -36,7 +36,7 @@ public class ShareWatchlistInteractorTest {
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./testFile.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./ShareTestFile1.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +67,7 @@ public class ShareWatchlistInteractorTest {
 
     @Test
     public void UserNotExistFailTest() {
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("ShareTestFile", new CommonUserFactory());
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile2.csv", new CommonUserFactory());
 
         User sender = new CommonUserFactory().
                 create("sender", "password",
@@ -77,7 +77,7 @@ public class ShareWatchlistInteractorTest {
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./testFile.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./ShareTestFile2.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +105,7 @@ public class ShareWatchlistInteractorTest {
 
     @Test
     public void EmptyWatchlistFailTest() {
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("ShareTestFile", new CommonUserFactory());
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile3.csv", new CommonUserFactory());
 
         User sender = new CommonUserFactory().
                 create("sender", "password",
@@ -116,7 +116,7 @@ public class ShareWatchlistInteractorTest {
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./testFile.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./ShareTestFile3.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

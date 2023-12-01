@@ -44,14 +44,17 @@ public class SearchHistory {
     @Override
     public String toString() {
         String result = "";
-        for (Movie movie:searchHistory) {
-            int id = movie.getID();
-            result = result + id + "#";
-        }
-        if (result.isEmpty()) {
-            return result;
+
+        if (searchHistory == null) {
+            return "";
+        } else if (searchHistory.isEmpty()) {
+            return "";
         } else {
-            return result.substring(0, result.length()-2);
+            for (Movie movie:searchHistory) {
+                int id = movie.getID();
+                result = result + id + "#";
+            }
+        return result.substring(0, result.length()-1);
         }
     }
 }

@@ -25,6 +25,7 @@ public class ShareWatchlistPresenter implements ShareWatchlistOutputBoundary {
     public void prepareSuccessView(ShareWatchlistOutputData outputData) {
         ShareWatchlistState state = viewModel.getState();
         state.setReceiverName(outputData.getUserName());
+        state.setError(null);
         viewModel.firePropertyChanged();
     }
 

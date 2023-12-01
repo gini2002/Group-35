@@ -139,10 +139,10 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     private Movie get_movie_from_api(Integer movieID) {
 
         //call api get request
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();;
 
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/collection/" + String.valueOf(movieID))
+                .url("https://api.themoviedb.org/3/movie/"+String.valueOf(movieID)+"?language=en-US")
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTM1NDRjZTMxNTEyYjhlZGMzOWFlYWQyMTdiZWFlZCIsInN1YiI6IjY1MTZlZjJmYzUwYWQyMDBjOTFhNjYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5F2KzF4gOHTdMcv3AZzazTgKTGv--FzILbQvLVG9EI")
@@ -150,9 +150,11 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
         try {
             Response response = client.newCall(request).execute();
+            System.out.println(response.code());
             if (response.code() == 200) {
+                System.out.println("success");
                 JSONObject responseBody = new JSONObject(response.body().string());
-                String name = String.valueOf(responseBody.getJSONObject("name"));
+                String name = String.valueOf(responseBody.getString("original_title"));
                 return new Movie(name, movieID);
             }
         }catch (IOException e) {
@@ -219,7 +221,9 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s",
                         user.getId(), user.getName(), user.getPassword(), user.getCreationTime(),
-                        user.getSearchHistory(), user.getWatchlist(), user.getSharedWatchlist());
+                        list_to_movie_string(user.getSearchHistory()),
+                        list_to_movie_string(user.getWatchlist()),
+                        user.getSharedWatchlist());
                 writer.write(line);
                 writer.newLine();
             }
@@ -229,5 +233,18 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String list_to_movie_string(List<Movie> movies) {
+        if (movies.isEmpty()) {
+            return "";
+        }
+        String result = "";
+        for (Movie movie:movies) {
+            int id = movie.getID();
+            result = result + id + "#";
+        }
+        return result.substring(0, result.length() - 1);
+
     }
 }
