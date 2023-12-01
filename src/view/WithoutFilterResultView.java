@@ -1,4 +1,4 @@
-package error_cases;
+package view;
 
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
