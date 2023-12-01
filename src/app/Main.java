@@ -122,7 +122,7 @@ public class Main {
         views.add(searchListView, searchListView.viewName);
 
         GetWatchlistView getWatchlistView = GetWatchlistUseCaseFactory.create(viewManagerModel, getWatchListDataAccessInterface,
-                getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface);
+                getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface, mainMenuViewModel);
         views.add(getWatchlistView, getWatchlistView.viewName);
 
 
