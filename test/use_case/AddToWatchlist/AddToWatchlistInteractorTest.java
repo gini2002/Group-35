@@ -18,11 +18,11 @@ public class AddToWatchlistInteractorTest {
 
     @Test
     public void successTest() {
-        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./testFile.csv", new CommonUserFactory());
+        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile1.csv", new CommonUserFactory());
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./testFile.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./AddTestFile1.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,11 +54,11 @@ public class AddToWatchlistInteractorTest {
 
     @Test
     public void failTest() {
-        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./testFile.csv", new CommonUserFactory());
+        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile2.csv", new CommonUserFactory());
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./testFile.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./AddTestFile2.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

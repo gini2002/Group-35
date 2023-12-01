@@ -24,14 +24,17 @@ import java.util.List;
         @Override
         public String toString() {
             String result = "";
-            for (Movie movie:list) {
-                int id = movie.getID();
-                result = result + id + "#";
-            }
-            if (result.isEmpty()) {
-                return result;
+            if (list == null) {
+                return "";
+            } else if (list.isEmpty()) {
+                return "";
             } else {
-                return result.substring(0, result.length()-2);
+                for (Movie movie : list) {
+                    int id = movie.getID();
+                    result = result + id + "#";
+                }
             }
+            return result.substring(0, result.length()-1);
         }
     }
+
