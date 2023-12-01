@@ -123,6 +123,7 @@ public class Main {
 
         GetWatchlistView getWatchlistView = GetWatchlistUseCaseFactory.create(viewManagerModel, getWatchListDataAccessInterface,
                 getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface);
+        views.add(getWatchlistView, getWatchlistView.viewName);
 
 
 

@@ -88,6 +88,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             genre_text = genre_text + genre_list.get(i);
         }
         genre.setText(genre_text);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);
         this.add(movie_title);
