@@ -5,6 +5,8 @@ import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistPresenter;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
+import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.ViewManagerModel;
 import view.GetDetailMovieView;
 
 public class GetDetailOfMovieUseCaseFactory {
@@ -12,9 +14,11 @@ public class GetDetailOfMovieUseCaseFactory {
 
     public static GetDetailMovieView create(GetDetailMovieViewModel getDetailMovieViewModel,
                                             AddToWatchlistDataAccessInterface addToWatchlistDAO,
-                                            AddToWatchlistViewModel addToWatchlistViewModel) {
+                                            AddToWatchlistViewModel addToWatchlistViewModel,
+                                            ViewManagerModel viewManagerModel,
+                                            MainMenuViewModel mainMenuViewModel) {
         AddToWatchlistController addToWatchlistController = createAddToWatchlistController(addToWatchlistViewModel, addToWatchlistDAO);
-        return new GetDetailMovieView(getDetailMovieViewModel, addToWatchlistController, addToWatchlistViewModel);
+        return new GetDetailMovieView(getDetailMovieViewModel, addToWatchlistController, addToWatchlistViewModel, viewManagerModel, mainMenuViewModel);
     }
 
 
