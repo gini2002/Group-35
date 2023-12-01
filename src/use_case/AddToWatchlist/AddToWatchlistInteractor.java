@@ -10,11 +10,20 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary{
     private final AddToWatchlistOutputBoundary addToWatchlistPresenter;
     private final AddToWatchlistDataAccessInterface dataAccessInterface;
 
+    /**
+     * Initiate an add to watchlist interactor.
+     * @param addToWatchlistPresenter presenter
+     * @param dataAccessInterface an object implement this interface
+     */
     public AddToWatchlistInteractor(AddToWatchlistOutputBoundary addToWatchlistPresenter, AddToWatchlistDataAccessInterface dataAccessInterface) {
         this.addToWatchlistPresenter = addToWatchlistPresenter;
         this.dataAccessInterface = dataAccessInterface;
     }
 
+    /**
+     * add movie in input data to the user's watchlist.
+     * @param inputData the input data object store the input data.
+     */
     @Override
     public void execute(AddToWatchlistInputData inputData) {
         // 1. find the user

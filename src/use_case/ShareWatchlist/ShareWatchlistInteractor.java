@@ -9,10 +9,20 @@ public class ShareWatchlistInteractor implements ShareWatchlistInputBoundary{
     private final ShareWatchlistOutputBoundary shareWatchlistOutputBoundary;
     private final ShareWatchlistDataAccessInterface dataAccessInterface;
 
+    /**
+     * initiate a share watchlist interactor.
+     * @param shareWatchlistOutputBoundaryy out put boudnary to be used.
+     * @param dataAccessInterface interface that can access to csv file.
+     */
     public ShareWatchlistInteractor(ShareWatchlistOutputBoundary shareWatchlistOutputBoundaryy, ShareWatchlistDataAccessInterface dataAccessInterface) {
         this.shareWatchlistOutputBoundary = shareWatchlistOutputBoundaryy;
         this.dataAccessInterface = dataAccessInterface;
     }
+
+    /**
+     * save sender's watchlist to receiver's shared watchlist.
+     * @param inputData store the sender and receiver's userName.
+     */
     @Override
     public void execute(ShareWatchlistInputData inputData) {
         //1. check if receiver exists

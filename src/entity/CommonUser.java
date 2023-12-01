@@ -11,6 +11,7 @@ import java.util.Map;
  */
 class CommonUser implements User {
 
+    private int id;
     private final String name;
     private final String password;
     private final LocalDateTime creationTime;
@@ -35,6 +36,15 @@ class CommonUser implements User {
         this.creationTime = creationTime;
         this.searchHistory = searchHistory;
         this.watchlist = watchlist;
+    }
+
+    /**
+     *
+     * @return int id of the user.
+     */
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -91,17 +101,42 @@ class CommonUser implements User {
      * Sets the shared watchlist for a specified user.
      *
      * @param userName   The name of the user with whom the watchlist is shared.
-     * @param watchlist  The shared watchlist.
+     * @return List of movies shared by the user with userName.
      */
     @Override
     public List<Movie> getSharedWatchlist(String userName) {
         return sharedWatchlist.get(userName).getWatchlist();
     }
 
+    @Override
+    public Map<String, Watchlist> getSharedWatchlist() {
+        return this.sharedWatchlist;
+    }
+
+    /**
+     * save an id in user.
+     * @param id int id of user.
+     */
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    /**
+     *
+     * @param userName  the name of user who share the watchlist with logged in user.
+     * @param watchlist watchlist of user who has userName.
+     */
 
     @Override
     public void setSharedWatchlist(String userName, Watchlist watchlist) {
         sharedWatchlist.put(userName, watchlist);
+    }
+
+    @Override
+    public void setCompleteSharedWatchlist(Map<String, Watchlist> sharedWatchlist) {
+        this.sharedWatchlist = sharedWatchlist;
     }
 
     /**
