@@ -1,7 +1,12 @@
-package use_case.AddToWatchlist;
+package use_case.DeleteWatchlist;
 
-public interface AddToWatchlistOutputBoundary {
+public interface DeleteWatchlistOutputBoundary {
+
     void PrepareFailView(String error);
 
-    void PrepareSuccessView(AddToWatchlistOutputData outputData);
+    /**
+     *
+     * @param outputData that involve the movie being added.
+     */
+    void PrepareSuccessView(DeleteWatchlistOutputData outputData);
 }
