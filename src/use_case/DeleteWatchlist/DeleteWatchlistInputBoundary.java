@@ -1,7 +1,5 @@
-package use_case.AddToWatchlist;
+package use_case.DeleteWatchlist;
 
-import entity.Movie;
-
-public interface AddToWatchlistInputBoundary {
-    void execute(AddToWatchlistInputData addToWatchlistInputData);
+public interface DeleteWatchlistInputBoundary {
+    void execute(DeleteWatchlistInputData DeleteWatchlistInputData);
 }
