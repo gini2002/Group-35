@@ -2,16 +2,21 @@ package usecase_adaptor.RecommendMovieWithoutFilter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.RecommendMovieWithoutFilter.WithoutFilterDataAccessInterface;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class WithoutFilterDAO {
+public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
+
+    private final File csvFile;
+    private final Map<String, Integer> headers = new HashMap<>();
+    private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
+
     public List<String> getKeywordsForMovie(int movieId) {
         List<String> keywords = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
@@ -44,5 +49,44 @@ public class WithoutFilterDAO {
         }
 
         return keywords;
+    }
+
+    public WithoutFilterDAO(String csvPath) throws FileNotFoundException, NoDataException {
+        csvFile = new File(csvPath);
+
+        headers.put("username", 0);
+        headers.put("watchlist", 1);
+
+        if (csvFile.length() == 0) {
+            throw new NoDataException("No data to provide movie recommendation");
+        } else {
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                String header = reader.readLine();
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    String[] col = row.split(",");
+                    String username = col[headers.get("username")];
+                    String[] watchlistStr = col[headers.get("watchlist")].split("#");
+                    List<Integer> watchlist = new ArrayList<>();
+                    for (String id : watchlistStr) {
+                        watchlist.add(Integer.valueOf(id.trim()));
+                    }
+                    usernameToWatchlist.put(username, watchlist);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading CSV file", e);
+            }
+        }
+    }
+
+    public List<Integer> getWatchlistMovies(String username) {
+        return usernameToWatchlist.getOrDefault(username, Collections.emptyList());
+    }
+
+    // Custom exception class
+    public static class NoDataException extends Exception {
+        public NoDataException(String message) {
+            super(message);
+        }
     }
 }
