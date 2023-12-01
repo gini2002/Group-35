@@ -36,6 +36,7 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
 
     /** The button for viewing the search list. */
     final JButton searchListButton;
+    final JButton mainMenuBtn;
 
     /** The controller for handling user interactions on the movie recommendation screen. */
     private final SearchByNameController controller;
@@ -65,6 +66,8 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
         buttons.add(searchButton);
         searchListButton = new JButton(viewModel.SEARCH_LIST_BUTTON_LABEL);
         buttons.add(searchListButton);
+        mainMenuBtn = new JButton(viewModel.MAIN_MENU_BUTTON_LABEL);
+        buttons.add(mainMenuBtn);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -84,6 +87,16 @@ public class MovieRecommendView extends JPanel implements ActionListener, Proper
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(searchListButton)) {
                     viewManagerModel.setActiveView("search_list");
+                    viewManagerModel.firePropertyChanged();
+                }
+            }
+        });
+
+        mainMenuBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(mainMenuBtn)) {
+                    viewManagerModel.setActiveView("Main_menu");
                     viewManagerModel.firePropertyChanged();
                 }
             }

@@ -25,6 +25,7 @@ public class SearchByNameViewModel extends ViewModel {
 
     /** The label for the view search list button. */
     public static final String SEARCH_LIST_BUTTON_LABEL = "View Searchlist";
+    public static final String MAIN_MENU_BUTTON_LABEL = "Back to Main Menu";
 
     /** The input for the keyword search. */
     private String keywordInput = "";

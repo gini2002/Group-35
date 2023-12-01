@@ -6,6 +6,7 @@ import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistState;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class MainMenuView extends JPanel{
 
     final JButton shareWatchlistButton;
     final JButton getWatchlistButton;
+    final JButton searchMovieButton;
 
     private final ViewManagerModel viewManagerModel;
 
@@ -28,7 +30,7 @@ public class MainMenuView extends JPanel{
 
 
     public MainMenuView(ViewManagerModel viewManagerModel, MainMenuViewModel mainMenuViewModel,
-                        ShareWatchlistViewModel shareWatchlistViewModel,
+                        ShareWatchlistViewModel shareWatchlistViewModel, SearchByNameViewModel searchByNameViewModel,
                         GetWatchListViewmodel getWatchListViewmodel,
                         GetWatchlistController getWatchlistController
                         ) {
@@ -67,6 +69,16 @@ public class MainMenuView extends JPanel{
 
 
         buttons.add(getWatchlistButton);
+
+        searchMovieButton = new JButton(mainMenuViewModel.SEARCH_MOVIE_BUTTON_LABEL);
+        buttons.add(searchMovieButton);
+        searchMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewManagerModel.setActiveView(searchByNameViewModel.getViewName());
+                viewManagerModel.firePropertyChanged();
+            }
+        });
 
         this.add(title);
         this.add(buttons);
