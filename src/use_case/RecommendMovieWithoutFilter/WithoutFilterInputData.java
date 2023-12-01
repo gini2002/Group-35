@@ -2,18 +2,18 @@ package use_case.RecommendMovieWithoutFilter;
 
 
 public class WithoutFilterInputData {
-    private final String watchlistId; // Identifier for the user's watchlist, if used separately
+    private final String username; // Identifier for the user's watchlist, if used separately
 
     // Additional fields can be added as needed, for example, user preferences
 
     // Constructor
-    public WithoutFilterInputData(String watchlistId) {
-        this.watchlistId = watchlistId;
+    public WithoutFilterInputData(String username) {
+        this.username = username;
     }
 
     // Getters for the fields
 
-    public String getWatchlistId() {
-        return watchlistId;
+    public String getUsername() {
+        return username;
     }
 }
