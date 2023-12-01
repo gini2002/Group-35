@@ -1,4 +1,4 @@
-package use_case.RecommendMovieWithoutFilter;
+package error_cases.RecommendMovieWithoutFilter;
 
 import data_access.MovieDataAccessObject;
 import entity.Movie;

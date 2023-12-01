@@ -1,4 +1,4 @@
-package use_case.RecommendMovieWithoutFilter;
+package error_cases.RecommendMovieWithoutFilter;
 
 
 public class WithoutFilterInputData {

@@ -1,4 +1,4 @@
-package usecase_adaptor.RecommendMovieWithoutFilter;
+package error_cases.RecommendMovieWithoutFilter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

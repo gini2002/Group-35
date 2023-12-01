@@ -1,10 +1,11 @@
-package usecase_adaptor.RecommendMovieWithoutFilter;
+package error_cases.RecommendMovieWithoutFilter;
+
+import entity.Movie;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import entity.Movie;
 public class WithoutFilterResultViewModel {
     public final String TITLE_LABEL = "Movie Results View";
 

@@ -9,10 +9,11 @@ public class GetWatchlistPresenter implements GetWatchListOutputBoundary {
 
     private ViewManagerModel viewManagerModel;
 
-    public GetWatchlistPresenter(GetWatchListViewmodel getWatchListViewmodel,
-                                 ViewManagerModel viewManagerModel) {
+    public GetWatchlistPresenter(GetWatchListViewmodel getWatchListViewmodel//,
+                                 //ViewManagerModel viewManagerModel
+                                 ) {
         this.getWatchListViewmodel = getWatchListViewmodel;
-        this.viewManagerModel = viewManagerModel;
+        //this.viewManagerModel = viewManagerModel;
     }
 
     @Override
