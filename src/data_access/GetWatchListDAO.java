@@ -19,7 +19,7 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
 
     private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
 
-    public GetWatchListDAO(String csvPath, MovieFactory movieFactory) throws FileNotFoundException {
+    public GetWatchListDAO(String csvPath) throws FileNotFoundException {
         csvFile = new File(csvPath);
 
         headers.put("username", 0);

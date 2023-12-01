@@ -3,9 +3,6 @@ package usecase_adaptor.RecommendMovieWithoutFilter;
 import use_case.RecommendMovieWithoutFilter.WithoutFilterInputBoundary;
 import use_case.RecommendMovieWithoutFilter.WithoutFilterInputData;
 
-import java.util.*;
-
-
 public class WithoutFilterController {
     final WithoutFilterInputBoundary withoutFilterInteractor;
 

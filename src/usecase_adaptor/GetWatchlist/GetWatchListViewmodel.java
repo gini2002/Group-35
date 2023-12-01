@@ -4,11 +4,12 @@ import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetWatchListViewmodel extends ViewModel {
 
-    private List<String> names;
+    private List<String> names = new ArrayList<>();
 
     private List<String> posters;
 

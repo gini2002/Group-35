@@ -4,6 +4,7 @@ import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.GetWatchlist.GetWatchListState;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
+import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,17 +24,21 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
 
     private final GetDetailMovieController getDetailMovieController;
 
+    private final ViewManagerModel viewManagerModel;
+
     final JButton backToMainMenu;
 
 
-    public GetWatchlistView(GetWatchListViewmodel viewModel,
+    public GetWatchlistView(GetWatchListViewmodel getWatchListViewmodel,
                             GetWatchlistController getwatchlistController,
                             GetDetailMovieController getdetailMovieController,
-                            GetDetailMovieViewModel getDetailMovieViewModel) {
+                            GetDetailMovieViewModel getDetailMovieViewModel,
+                            ViewManagerModel viewManagerModel) {
         this.getWatchlistController = getwatchlistController;
         this.getDetailMovieController = getdetailMovieController;
         this.getDetailMovieViewModel = getDetailMovieViewModel;
-        this.getWatchListViewModel = viewModel;
+        this.getWatchListViewModel = getWatchListViewmodel;
+        this.viewManagerModel = viewManagerModel;
         this.getWatchListViewModel.addPropertyChangeListener(this);
 
 
@@ -45,15 +50,16 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
         List<String> names = getWatchListViewModel.getNames();
         backToMainMenu = new JButton(GetWatchListViewmodel.MAIN_MENU_BUTTON_LABEL);
         buttons.add(backToMainMenu);
-        for (String name: names) {
-            JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + name);
+        for (int i = 0; i < names.size(); i++) {
+            JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + names.get(i));
             buttons.add(button);
+            int finalI = i;
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource().equals(button)) {
                         String name = button.getName();
-                        int id = getWatchListViewModel.getIds().get();
+                        int id = getWatchListViewModel.getIds().get(finalI);
                         String loggedinusername = getWatchListViewModel.getLogged_in_username();
                         // TODO: movie ID needed
                         getDetailMovieController.execute(name, id, loggedinusername);

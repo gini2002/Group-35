@@ -1,9 +1,7 @@
 package view;
 
-import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
-import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterController;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 
 import javax.swing.*;

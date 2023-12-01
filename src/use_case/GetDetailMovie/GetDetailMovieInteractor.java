@@ -7,15 +7,15 @@ import java.util.ArrayList;
 
 public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
     final GetDetailMovieOutputBoundary getDetailMoviePresenter;
-    final MovieFactory movieFactory;
+    //final MovieFactory movieFactory;
     final GetDetailMovieDataAccessInterface getDetailMovieDataAccessObject;
 
     public GetDetailMovieInteractor(GetDetailMovieOutputBoundary getDetailMovieOutputBoundary,
-                                    MovieFactory movieFactory,
+                                    //MovieFactory movieFactory,
                                     GetDetailMovieDataAccessInterface getDetailMovieDataAccessObject) {
         this.getDetailMoviePresenter = getDetailMovieOutputBoundary;
         this.getDetailMovieDataAccessObject = getDetailMovieDataAccessObject;
-        this.movieFactory = movieFactory;
+        //this.movieFactory = movieFactory;
     }
 
 

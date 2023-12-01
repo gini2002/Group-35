@@ -7,7 +7,7 @@ import use_case.GetDetailMovie.GetDetailMovieInteractor;
 public class GetDetailMovieController {
     final GetDetailMovieInputBoundary getDetailMovieInteractor;
 
-    public GetDetailMovieController(GetDetailMovieInteractor getDetailMovieInteractor){
+    public GetDetailMovieController(GetDetailMovieInputBoundary getDetailMovieInteractor){
         this.getDetailMovieInteractor = getDetailMovieInteractor;
     }
 

@@ -1,16 +1,15 @@
 package view;
 
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
-
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 
 public class WithoutFilterResultView extends JPanel implements PropertyChangeListener{
     public final String viewName = "movie_result";
