@@ -17,18 +17,36 @@ public class ShareWatchlistViewModel extends ViewModel {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
+    /**
+     * initiate the view model.
+     */
     public ShareWatchlistViewModel() {super("ShareWatchlist");}
 
+    /**
+     *
+     * @return the state stored in view model.
+     */
     public ShareWatchlistState getState() {return state;}
 
+    /**
+     * save state.
+     * @param state the state saved user information.
+     */
     public void setState(ShareWatchlistState state) {this.state = state;}
 
 
+    /**
+     * announce changes to listeners.
+     */
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("ShareWatchlistState", null, this.state);
     }
 
+    /**
+     * add listener.
+     * @param listener who listens to this view model.
+     */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);

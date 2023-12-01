@@ -20,4 +20,18 @@ import java.util.List;
         public List<Movie> getWatchlist() {
             return list;
         }
+
+        @Override
+        public String toString() {
+            String result = "";
+            for (Movie movie:list) {
+                int id = movie.getID();
+                result = result + id + "#";
+            }
+            if (result.isEmpty()) {
+                return result;
+            } else {
+                return result.substring(0, result.length()-2);
+            }
+        }
     }
