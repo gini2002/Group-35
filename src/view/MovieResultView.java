@@ -1,16 +1,23 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
+import entity.Movie;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 
 /**
  * The MovieResultView class represents the graphical user interface for displaying movie recommendations.
@@ -31,6 +38,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
 
     /** The button for navigating back to the main menu. */
     final JButton mainMenuBtn;
+    private final GetDetailMovieController controller;
 
     /** The list model for displaying recommended movies. */
     public DefaultListModel<String> listModel;
@@ -48,7 +56,8 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
      * @param searchByNameViewModel The view model associated with the movie recommendation screen.
      * @param viewManagerModel The model for managing the active view in the application.
      */
-    public MovieResultView(MovieResultViewModel viewModel, SearchByNameViewModel searchByNameViewModel, ViewManagerModel viewManagerModel) {
+    public MovieResultView(MovieResultViewModel viewModel, SearchByNameViewModel searchByNameViewModel, ViewManagerModel viewManagerModel, GetDetailMovieController getDetailMovieController) {
+        this.controller = getDetailMovieController;
         this.searchByNameViewModel = searchByNameViewModel;
         setVisible(false);
         this.viewManagerModel = viewManagerModel;
@@ -78,6 +87,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
         listModel = new DefaultListModel<>();
         movieList = new JList<>(listModel);
         listModel.clear();
+
         String[] recommendedMovies = searchByNameViewModel.getRecommendedMovies();
 
         // Update movie list
@@ -87,6 +97,22 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
 
         // Update error label
         movieList.setModel(listModel);
+
+        movieList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = movieList.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        // Get the selected movie name
+                        String selectedMovie = listModel.getElementAt(selectedIndex);
+
+                        // Handle the click event, e.g., switch to another view
+                        handleMovieClick(selectedMovie);
+                    }
+                }
+            }
+        });
 
         JScrollPane scrollPane = new JScrollPane(movieList);
         movieListPanel.add(scrollPane, BorderLayout.CENTER);
@@ -157,5 +183,13 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
 
             System.out.println("Update complete.");
         });
+    }
+
+    private void handleMovieClick(String selectedMovie) {
+        int movie_id = searchByNameViewModel.getID(selectedMovie);
+        controller.execute(selectedMovie, movie_id, "");
+        viewManagerModel.setActiveView("detail_view");
+        viewManagerModel.firePropertyChanged();
+        System.out.println("Movie clicked");
     }
 }

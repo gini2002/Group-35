@@ -12,6 +12,7 @@ import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
 import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
 import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
@@ -67,6 +68,7 @@ public class Main {
 
         // Create data access interface(object).
         MovieDataAccessObject movieDataAccessObject;
+        GetDetailMovieController getDetailMovieController = null;
 
         WithoutFilterDAO withoutFilterDAO;
 
@@ -86,7 +88,7 @@ public class Main {
 
         DeleteWatchlistDataAccessInterface deleteWatchlistDataAccessObject;
         deleteWatchlistDataAccessObject = new WatchlistDAO(
-                "./userInformation.csv");
+                "./username_to_watchlist.csv");
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
@@ -125,7 +127,10 @@ public class Main {
                 viewManagerModel, searchByNameViewModel, resultViewModel, searchListViewModel, movieDataAccessObject);
         views.add(movieRecommendView, movieRecommendView.viewName);
 
-        MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel, viewManagerModel);
+//        MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel, viewManagerModel);
+//        views.add(movieResultView, movieResultView.viewName);
+
+        MovieResultView movieResultView = MovieResultUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, getDetailMovieViewModel, getDetailMovieDataAccessInterface);
         views.add(movieResultView, movieResultView.viewName);
 
         WithoutFilterView withoutFilterView = WithoutFilterUseCaseFactory.create(viewManagerModel, withoutFilterViewModel, withoutFilterResultViewModel, movieDataAccessObject, withoutFilterDAO);
