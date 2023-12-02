@@ -15,8 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
-    private static final String API_URL = "https://grade-logging-api.chenpan.ca/api/grade";
-    // load API_TOKEN from env variable.
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 
     public static String getApiToken() {
@@ -31,23 +29,23 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url(String.format("https://api.themoviedb.org/3/movie/movie_id=%s?language=en-US", movie_id))
+                .url(String.format("https://api.themoviedb.org/3/movie/%s?language=en-US", movie_id))
                 .get()
                 .addHeader("accept", "application/json")
-                .addHeader("Authorization", API_TOKEN)
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTM1NDRjZTMxNTEyYjhlZGMzOWFlYWQyMTdiZWFlZCIsInN1YiI6IjY1MTZlZjJmYzUwYWQyMDBjOTFhNjYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5F2KzF4gOHTdMcv3AZzazTgKTGv--FzILbQvLVG9EI")
                 .build();
         try {
             Response response = client.newCall(request).execute();
             System.out.println(response);
             JSONObject responseBody = new JSONObject(response.body().string());
-            if (responseBody.getInt("status_code") == 200) {
-                JSONObject title = responseBody.getJSONObject("title");
-                JSONObject rating = responseBody.getJSONObject("vote_average");
-                JSONObject release_date = responseBody.getJSONObject("release_date");
-                JSONObject poster_path = responseBody.getJSONObject("poster_path");
-                JSONObject overview = responseBody.getJSONObject("overview");
+            if (response.code() == 200) {
+                String title = responseBody.getString("title");
+                Double rating = responseBody.getDouble("vote_average");
+                String release_date = responseBody.getString("release_date");
+                String poster_path = responseBody.getString("poster_path");
+                String overview = responseBody.getString("overview");
                 JSONArray genres = responseBody.getJSONArray("genres");
-                JSONObject id2 = responseBody.getJSONObject("id");
+                int id2 = responseBody.getInt("id");
                 ArrayList<String> genre_lists = new ArrayList<>();
                 for (int i = 0; i < genres.length(); i++) {
                     JSONObject genre = genres.getJSONObject(i);
@@ -55,12 +53,12 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
                 }
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 return Movie.builder()
-                        .id(id2.getInt("id"))
-                        .name(title.getString("title"))
-                        .poster_path(poster_path.getString("poster_path"))
-                        .overview(overview.getString("overview"))
-                        .rating(rating.getDouble("rating"))
-                        .releaseDate(LocalDate.parse(release_date.getString("release_date"), formatter))
+                        .id(id2)
+                        .name(title)
+                        .poster_path(poster_path)
+                        .overview(overview)
+                        .rating(rating)
+                        .releaseDate(LocalDate.parse(release_date, formatter))
                         .genre(genre_lists)
                         .build();
             } else {
@@ -73,7 +71,25 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
 
     @Override
     public boolean existsById(int id) {
-        return false;
+        String movie_id = String.valueOf(id);
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(String.format("https://api.themoviedb.org/3/movie/%s?language=en-US", movie_id))
+                .get()
+                .addHeader("accept", "application/json")
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTM1NDRjZTMxNTEyYjhlZGMzOWFlYWQyMTdiZWFlZCIsInN1YiI6IjY1MTZlZjJmYzUwYWQyMDBjOTFhNjYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5F2KzF4gOHTdMcv3AZzazTgKTGv--FzILbQvLVG9EI")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            System.out.println(response);
+            JSONObject responseBody = new JSONObject(response.body().string());
+            if (response.code() == 404) {
+                return false;
+            } else {return true;}
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
     // if the status message is returned as "The resource you requested could not be found."
     // the movie is not found so is not exist by name
