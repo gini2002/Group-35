@@ -190,7 +190,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
     private void handleMovieClick(String selectedMovie) {
         String username = searchByNameViewModel.getState().getUsername();
         int movie_id = searchByNameViewModel.getID(selectedMovie);
-        controller.execute(selectedMovie, movie_id, username);
+        controller.execute(movie_id, username);
         viewManagerModel.setActiveView("detail_view");
         viewManagerModel.firePropertyChanged();
         System.out.println("Movie clicked");
