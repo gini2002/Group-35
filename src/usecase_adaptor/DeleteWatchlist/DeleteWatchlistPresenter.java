@@ -9,7 +9,6 @@ public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
 
     /**
      * initiate a presenter.
-     *
      * @param viewModel a view model object.
      */
     public DeleteWatchlistPresenter(DeleteWatchlistViewModel viewModel) {
@@ -18,9 +17,9 @@ public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
     }
 
     /**
-     * prepare view if failed to add.
+     * prepare view if failed to delete.
      *
-     * @param error string of error message when add failed.
+     * @param error string of error message when delete failed.
      */
     @Override
     public void PrepareFailView(String error) {
@@ -31,14 +30,15 @@ public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
     }
 
     /**
-     * prepare view if success added.
+     * prepare view if successfully deleted.
      *
-     * @param outputData that involve the movie being added.
+     * @param outputData that involve the movie being deleted.
      */
     @Override
     public void PrepareSuccessView(DeleteWatchlistOutputData outputData) {
         DeleteWatchlistState state = viewModel.getState();
         state.setMessage(outputData.getMessage());
+        state.setMovieExistError(null);
         viewModel.firePropertyChanged();
 
     }

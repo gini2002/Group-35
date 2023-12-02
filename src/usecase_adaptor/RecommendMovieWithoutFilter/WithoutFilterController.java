@@ -10,8 +10,8 @@ public class WithoutFilterController {
         this.withoutFilterInteractor = withoutFilterInteractor;
     }
 
-    public void execute(String watchlistId){
-        WithoutFilterInputData withoutFilterInputData = new WithoutFilterInputData(watchlistId);
+    public void execute(String username){
+        WithoutFilterInputData withoutFilterInputData = new WithoutFilterInputData(username);
         withoutFilterInteractor.execute(withoutFilterInputData);
     }
 }

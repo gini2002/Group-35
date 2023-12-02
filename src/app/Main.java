@@ -4,14 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
 
 import data_access.*;
 import entity.CommonUserFactory;
-import entity.Movie;
-import entity.MovieFactory;
 import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
+import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
 import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
 import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
@@ -21,6 +18,9 @@ import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import data_access.WithoutFilterDAO;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
@@ -32,7 +32,7 @@ import view.*;
 
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
         JFrame application = new JFrame("Movie Recommendations App");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,6 +58,8 @@ public class Main {
         SearchListViewModel searchListViewModel = new SearchListViewModel();
         GetWatchListViewmodel getWatchListViewmodel = new GetWatchListViewmodel();
         GetDetailMovieViewModel getDetailMovieViewModel = new GetDetailMovieViewModel();
+        WithoutFilterResultViewModel withoutFilterResultViewModel = new WithoutFilterResultViewModel();
+        WithoutFilterViewModel withoutFilterViewModel = new WithoutFilterViewModel();
 
 
 
@@ -67,6 +69,8 @@ public class Main {
         // Create data access interface(object).
         MovieDataAccessObject movieDataAccessObject;
         GetDetailMovieController getDetailMovieController = null;
+
+        WithoutFilterDAO withoutFilterDAO;
 
         GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./username_to_watchlist.csv");
 
@@ -82,7 +86,13 @@ public class Main {
                 "./userInformation.csv",
                 new CommonUserFactory());
 
+        DeleteWatchlistDataAccessInterface deleteWatchlistDataAccessObject;
+        deleteWatchlistDataAccessObject = new WatchlistDAO(
+                "./userInformation.csv");
+
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
+
+        withoutFilterDAO = new WithoutFilterDAO("./username_to_watchlist.csv");
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -100,7 +110,7 @@ public class Main {
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, mainMenuViewModel, userDataAccessObject);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, mainMenuViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
         // MainMenuView mainMenuView = new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel, getWatchListViewmodel);
@@ -123,11 +133,17 @@ public class Main {
         MovieResultView movieResultView = MovieResultUseCaseFactory.create(viewManagerModel, searchByNameViewModel, resultViewModel, getDetailMovieViewModel, getDetailMovieDataAccessInterface);
         views.add(movieResultView, movieResultView.viewName);
 
+        WithoutFilterView withoutFilterView = WithoutFilterUseCaseFactory.create(viewManagerModel, withoutFilterViewModel, withoutFilterResultViewModel, movieDataAccessObject, withoutFilterDAO);
+        views.add(withoutFilterView, withoutFilterView.viewName);
+
+        WithoutFilterResultView withoutFilterResultView = new WithoutFilterResultView(withoutFilterResultViewModel, withoutFilterViewModel, viewManagerModel);
+        views.add(withoutFilterResultView, withoutFilterResultView.viewName);
+
         SearchListView searchListView = new SearchListView(searchListViewModel, viewManagerModel);
         views.add(searchListView, searchListView.viewName);
 
         GetWatchlistView getWatchlistView = GetWatchlistUseCaseFactory.create(viewManagerModel, getWatchListDataAccessInterface,
-                getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface);
+                getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface, mainMenuViewModel);
         views.add(getWatchlistView, getWatchlistView.viewName);
 
 

@@ -62,4 +62,5 @@ public class GetWatchListState {
     public void setIds(List<Integer> ids) {
         this.ids = ids;
     }
+
 }

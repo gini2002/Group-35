@@ -6,7 +6,7 @@ public interface DeleteWatchlistOutputBoundary {
 
     /**
      *
-     * @param outputData that involve the movie being added.
+     * @param outputData that involve the movie being deleted.
      */
     void PrepareSuccessView(DeleteWatchlistOutputData outputData);
 }

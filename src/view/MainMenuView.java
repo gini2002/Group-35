@@ -66,6 +66,18 @@ public class MainMenuView extends JPanel{
         // add a new button for get watchlist
         getWatchlistButton = new JButton(mainMenuViewModel.Get_WATCHLIST_BUTTON_LABEL);
         buttons.add(shareWatchlistButton);
+        getWatchlistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GetWatchListState getWatchListState = getWatchListViewmodel.getState();
+                String loggedinuesername = mainMenuViewModel.getState().getUserName();
+                getWatchListState.setLoggedinusername(loggedinuesername);
+                getWatchListViewmodel.setState(getWatchListState);
+
+                viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
+                viewManagerModel.firePropertyChanged();
+            }
+        });
 
 
         buttons.add(getWatchlistButton);

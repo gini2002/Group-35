@@ -2,22 +2,21 @@ package use_case.RecommendMovieWithoutFilter;
 
 import data_access.MovieDataAccessObject;
 import entity.Movie;
-import entity.Watchlist;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterDAO;
+import data_access.WithoutFilterDAO;
 
 import java.util.*;
 
 public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
-    final WithoutFilterDataAccessInterface MovieDataAccessObject;
+//    final WithoutFilterDataAccessInterface withoutFilterDAO;
     final WithoutFilterOutputBoundary WithoutFilterPresenter;
-    private Watchlist watchlist;
+//    private Watchlist watchlist;
     private WithoutFilterDAO withoutFilterDAO;
     private data_access.MovieDataAccessObject movieDAO;
 
-    public WithoutFilterInteractor(WithoutFilterDataAccessInterface movieDataAccessObject, WithoutFilterOutputBoundary WithoutFilterPresenter, Watchlist watchlist, WithoutFilterDAO withoutFilterDAO, MovieDataAccessObject movieDAO) {
-        this.MovieDataAccessObject = movieDataAccessObject;
+    public WithoutFilterInteractor(WithoutFilterOutputBoundary WithoutFilterPresenter, WithoutFilterDAO withoutFilterDAO, MovieDataAccessObject movieDAO) {
+//        this.MovieDataAccessObject = movieDataAccessObject;
         this.WithoutFilterPresenter = WithoutFilterPresenter;
-        this.watchlist = watchlist;
+//        this.watchlist = watchlist;
         this.withoutFilterDAO = withoutFilterDAO;
         this.movieDAO = movieDAO;
     }

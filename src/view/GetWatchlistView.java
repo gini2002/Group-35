@@ -4,6 +4,7 @@ import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.GetWatchlist.GetWatchListState;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
+import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
     private final GetDetailMovieController getDetailMovieController;
 
     private final ViewManagerModel viewManagerModel;
+    private final MainMenuViewModel mainMenuViewModel;
 
     final JButton backToMainMenu;
 
@@ -33,12 +35,14 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                             GetWatchlistController getwatchlistController,
                             GetDetailMovieController getdetailMovieController,
                             GetDetailMovieViewModel getDetailMovieViewModel,
-                            ViewManagerModel viewManagerModel) {
+                            ViewManagerModel viewManagerModel,
+                            MainMenuViewModel mainMenuViewModel) {
         this.getWatchlistController = getwatchlistController;
         this.getDetailMovieController = getdetailMovieController;
         this.getDetailMovieViewModel = getDetailMovieViewModel;
         this.getWatchListViewModel = getWatchListViewmodel;
         this.viewManagerModel = viewManagerModel;
+        this.mainMenuViewModel = mainMenuViewModel;
         this.getWatchListViewModel.addPropertyChangeListener(this);
 
 
@@ -50,6 +54,16 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
         List<String> names = getWatchListViewModel.getNames();
         backToMainMenu = new JButton(GetWatchListViewmodel.MAIN_MENU_BUTTON_LABEL);
         buttons.add(backToMainMenu);
+        backToMainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(backToMainMenu)) {
+                    viewManagerModel.setActiveView(mainMenuViewModel.getViewName());
+                    viewManagerModel.firePropertyChanged();
+                }
+            }
+        });
+
         for (int i = 0; i < names.size(); i++) {
             JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + names.get(i));
             buttons.add(button);
@@ -79,9 +93,17 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
-        if (getWatchListState.getGetWatchListError() != null){
-            JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
+        if (evt.getPropertyName().equals("GetWatchlistState")){
+            GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
+            if (getWatchListState.getGetWatchListError() != null){
+                JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
+            } else {
+                JOptionPane.showMessageDialog(this, "get watchlist for" + getWatchListState.getLoggedinusername());
+            }
         }
+        // GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
+        // if (getWatchListState.getGetWatchListError() != null){
+        //     JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
+        // }
     }
 }

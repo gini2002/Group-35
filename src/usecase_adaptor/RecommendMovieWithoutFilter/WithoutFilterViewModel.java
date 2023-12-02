@@ -11,11 +11,11 @@ import java.util.List;
 public class WithoutFilterViewModel extends ViewModel {
 
     public final String TITLE_LABEL = "Movie Recommendation View Without Filter";
-    public final String KEYWORD_LABEL = "Enter your watchlist ID here";
+    public final String USERNAME_LABEL = "Enter your username here";
 
     public static final String SEARCH_BUTTON_LABEL = "Search";
 
-    private String watchlistidInput = "";
+    private String usernameInput = "";
     private List<Movie> withoutFilterMovies;
 
 
@@ -26,13 +26,13 @@ public class WithoutFilterViewModel extends ViewModel {
     }
 
 
-    public void setwatchlistidInput(String watchlistidInput) {
-        this.watchlistidInput = watchlistidInput;
+    public void setwatchlistidInput(String usernameInput) {
+        this.usernameInput = usernameInput;
         firePropertyChanged();
     }
 
     public String getwatchlistidInput() {
-        return watchlistidInput;
+        return usernameInput;
     }
 
     public String[] getRecommendedMovies() {
@@ -70,11 +70,11 @@ public class WithoutFilterViewModel extends ViewModel {
     // This is what the MovieRecommendationPresenter will call to let the ViewModel know
     // to alert the View
     public void firePropertyChanged() {
-        support.firePropertyChange("watchlistidInput", null, this.watchlistidInput);
+        support.firePropertyChange("usernameInput", null, this.usernameInput);
     }
 
     public void fireRecommendedMoviesChanged() {
-        support.firePropertyChange("withoutFilterMovies", null, watchlistidInput);
+        support.firePropertyChange("withoutFilterMovies", null, usernameInput);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

@@ -9,7 +9,7 @@ public class ShareWatchlistViewModel extends ViewModel {
 
     private ShareWatchlistState state = new ShareWatchlistState();
 
-    public static final String USER_NAME_LABEL = "enter receiver's username";
+    public static final String USER_NAME_LABEL = "share with user";
 
     public static final String BACK_LABEL = "back to main menu";
 

@@ -4,8 +4,13 @@ import entity.Movie;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistState;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistController;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistViewModel;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
+import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
+import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,22 +24,38 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     public final String viewname = "detail_view";
     private final GetDetailMovieViewModel getDetailMovieViewModel;
     private final AddToWatchlistController addToWatchlistController;
+
+    private final DeleteWatchlistController deleteWatchlistController;
     JLabel movie_title;
 
     JLabel overview;
 
     JLabel genre;
+
+    final JButton backToMainMenu;
   
     private final AddToWatchlistViewModel addToWatchlistViewModel;
+
+    private final DeleteWatchlistViewModel deleteWatchlistViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final MainMenuViewModel mainMenuViewModel;
 
 
     public GetDetailMovieView(GetDetailMovieViewModel getDetailMovieViewmodel,
                               AddToWatchlistController addToWatchlistcontroller,
-                              AddToWatchlistViewModel addToWatchlistViewmodel){
+                              AddToWatchlistViewModel addToWatchlistViewmodel,
+                              DeleteWatchlistController deleteWatchlistController,
+                              DeleteWatchlistViewModel deleteWatchlistViewModel,
+                              ViewManagerModel viewManagerModel,
+                              MainMenuViewModel mainMenuViewModel){
         this.getDetailMovieViewModel = getDetailMovieViewmodel;
         this.addToWatchlistController = addToWatchlistcontroller;
         this.addToWatchlistViewModel = addToWatchlistViewmodel;
+        this.deleteWatchlistController = deleteWatchlistController;
+        this.deleteWatchlistViewModel = deleteWatchlistViewModel;
         this.addToWatchlistViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
+        this.mainMenuViewModel = mainMenuViewModel;
 
 
         JLabel title = new JLabel("details");
@@ -43,9 +64,20 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         JPanel buttons = new JPanel();
 
         JButton addToWatchlist = new JButton(AddToWatchlistViewModel.ADD_WATCH_LIST_BUTTON_LABEL);
-        JButton removeFromWatchlist = new JButton(GetDetailMovieViewModel.DELETE_WATCHLIST_MOVIE_LABEL);
+        JButton removeFromWatchlist = new JButton(DeleteWatchlistViewModel.DELETE_WATCHLIST_BUTTON_LABEL);
         buttons.add(addToWatchlist);
         buttons.add(removeFromWatchlist);
+        backToMainMenu = new JButton(GetWatchListViewmodel.MAIN_MENU_BUTTON_LABEL);
+        buttons.add(backToMainMenu);
+        backToMainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(backToMainMenu)) {
+                    viewManagerModel.setActiveView(mainMenuViewModel.getViewName());
+                    viewManagerModel.firePropertyChanged();
+                }
+            }
+        });
 
         addToWatchlist.addActionListener(new ActionListener() {
             @Override
@@ -63,6 +95,10 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(removeFromWatchlist)) {
+                    int id = getDetailMovieViewModel.getId();
+                    String name = getDetailMovieViewModel.getTitle();
+                    String loggedinusername = getDetailMovieViewModel.getLoggedinusername();
+                    deleteWatchlistController.execute(new Movie(name, id), loggedinusername);
                     // TODO: fulfill the remove from watchlist button
                 }
             }

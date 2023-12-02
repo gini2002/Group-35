@@ -1,5 +1,6 @@
 package data_access;
 
+import entity.Movie;
 import entity.User;
 import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
 
@@ -11,28 +12,46 @@ import java.util.Map;
 
 public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     private final File csvFile;
+    private final Map<String, Integer> headers = new HashMap<>();
     private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
 
-    public WatchlistDAO(String csvPath) throws FileNotFoundException {
+    public WatchlistDAO(String csvPath) throws NoDataException {
         csvFile = new File(csvPath);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String username = parts[1];
-                List<Integer> watchlist = parseWatchlist(parts[5]);
-                usernameToWatchlist.put(username, watchlist);
+        headers.put("username", 1);
+        headers.put("watchlist", 5);
+
+        if (csvFile.length() == 0) {
+            throw new NoDataException("No data in watchlist");
+        } else {
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                String header = reader.readLine();
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    String[] col = row.split(",");
+                    String username = col[headers.get("username")];
+                    String[] watchlistStr = col[headers.get("watchlist")].split("#");
+                    List<Integer> watchlist = new ArrayList<>();
+                    for (String id : watchlistStr) {
+                        watchlist.add(Integer.valueOf(id.trim()));
+                    }
+                    usernameToWatchlist.put(username, watchlist);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading CSV file", e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading CSV file: " + e.getMessage(), e);
         }
     }
 
 
-    public WatchlistDAO getWatchlistDAO() {
-        // In this case, just return 'this', since WatchlistDAO itself is being used.
-        return this;
+//    public WatchlistDAO getWatchlistDAO() {
+//        // In this case, just return 'this', since WatchlistDAO itself is being used.
+//        return this;
+//    }
+
+    public List<Integer> getWatchlistMoviesID(String name) {
+
+        return usernameToWatchlist.get(name);
     }
 
     public boolean removeMovieFromWatchlist(String username, int movieId) {
@@ -64,5 +83,12 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
             throw new RuntimeException("Error writing CSV file: " + e.getMessage(), e);
         }
     }
+
+    public static class NoDataException extends Exception {
+        public NoDataException(String message) {
+            super(message);
+        }
+    }
 }
+
 

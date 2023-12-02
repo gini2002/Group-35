@@ -23,7 +23,7 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
     public void execute(GetDetailMovieInputData getDetailMovieInputData) {
         int id = getDetailMovieInputData.getId();
         if (!getDetailMovieDataAccessObject.existsById(id)) {
-            getDetailMoviePresenter.getDetailMovieFailView("No Such Movie");
+            getDetailMoviePresenter.getDetailMovieFailView("The resource you requested could not be found.");
         }
         else {
             Movie movie = getDetailMovieDataAccessObject.getdetailMovie(id);

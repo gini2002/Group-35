@@ -1,9 +1,11 @@
 package view;
 
+import usecase_adaptor.ViewManagerModel;
 import usecase_adaptor.login.LoginController;
 import usecase_adaptor.login.LoginState;
 import usecase_adaptor.login.LoginViewModel;
 import usecase_adaptor.signup.SignupState;
+import usecase_adaptor.signup.SignupViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +21,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     public final String viewName = "log in";
     private final LoginViewModel loginViewModel;
 
+    private final ViewManagerModel viewManagerModel;
+
+    private final SignupViewModel signupViewModel;
+
     final JTextField usernameInputField = new JTextField(15);
     private final JLabel usernameErrorField = new JLabel();
 
@@ -29,11 +35,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     final JButton cancel;
     private final LoginController loginController;
 
-    public LoginView(LoginViewModel loginViewModel, LoginController controller) {
+    public LoginView(LoginViewModel loginViewModel,
+                     LoginController controller,
+                     ViewManagerModel viewManagerModel,
+                     SignupViewModel signupViewModel) {
 
         this.loginController = controller;
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
+        this.signupViewModel = signupViewModel;
 
         JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,7 +75,15 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(cancel)) {
+                    viewManagerModel.setActiveView(signupViewModel.getViewName());
+                    viewManagerModel.firePropertyChanged();
+                }
+            }
+        });
 
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
