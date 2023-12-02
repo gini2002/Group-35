@@ -42,7 +42,7 @@ public class MovieResultUseCaseFactory {
             MovieResultViewModel movieResultViewModel,
             GetDetailMovieViewModel getDetailMovieViewModel,
             GetDetailMovieDataAccessInterface detailMovieDataAccessInterface) throws IOException {
-        GetDetailMovieOutputBoundary getDetailMovieOutputBoundary = new GetDetailMoviePresenter(getDetailMovieViewModel);
+        GetDetailMovieOutputBoundary getDetailMovieOutputBoundary = new GetDetailMoviePresenter(getDetailMovieViewModel, viewManagerModel);
 
         UserFactory userFactory = new CommonUserFactory();
         GetDetailMovieInputBoundary getDetailInteractor = new GetDetailMovieInteractor(getDetailMovieOutputBoundary, detailMovieDataAccessInterface);
