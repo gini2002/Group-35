@@ -13,7 +13,8 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessInterface, GetWatchListDataAccessInterface {
+public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessInterface//, GetWatchListDataAccessInterface
+{
 
     private final File csvFile;
 
@@ -120,8 +121,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         for (String num : movie_list) {
             try {
                 int movie_id = Integer.parseInt(num);
-                GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
-                Movie history_movie = getDetailMovieDataAccessInterface.getdetailMovie(movie_id);
+                Movie history_movie = get_movie_from_api(movie_id);
                 movies.add(history_movie);
             } catch (NumberFormatException e) {
                 System.out.println("file error");
@@ -214,9 +214,5 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         }
         return result.substring(0, result.length() - 1);
 
-    }
-    @Override
-    public List<Movie> getWatchlistMovies(String logged_in_username) {
-        return getUser(logged_in_username).getWatchlist();
     }
 }

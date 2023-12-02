@@ -1,6 +1,7 @@
 package use_case.GetWatchList;
 
 import data_access.AddToWatchlistDataAccessObject;
+import data_access.GetWatchListDAO;
 import entity.CommonUserFactory;
 import org.junit.Test;
 
@@ -12,8 +13,8 @@ import static org.junit.Assert.fail;
 
 public class GetWatchListInteractorTest {
     @Test
-    public void successTest() throws FileNotFoundException {
-        GetWatchListDataAccessInterface getWatchListRepo = new AddToWatchlistDataAccessObject("./AddTestFile1.csv", new CommonUserFactory());
+    public void successTest() throws Exception {
+        GetWatchListDataAccessInterface getWatchListRepo = new GetWatchListDAO("./AddTestFile1.csv");
 
         GetWatchListOutputBoundary successPresenter2 = new GetWatchListOutputBoundary() {
             @Override
@@ -26,7 +27,6 @@ public class GetWatchListInteractorTest {
                 assertEquals(ids, getWatchListOutputData.getIds());
                 assertEquals(names, getWatchListOutputData.getNames());
                 assertEquals(poster_urls, getWatchListOutputData.getPoster_urls());
-                // TODO: Need add to watchlist tp test non-empty ones
             }
 
             @Override

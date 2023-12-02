@@ -32,7 +32,7 @@ import view.*;
 
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
+    public static void main(String[] args) throws WatchlistDAO.NoDataException, FileNotFoundException, WithoutFilterDAO.NoDataException {
         JFrame application = new JFrame("Movie Recommendations App");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,7 +72,7 @@ public class Main {
 
         WithoutFilterDAO withoutFilterDAO;
 
-        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new AddToWatchlistDataAccessObject("./username_to_watchlist.csv", new CommonUserFactory());
+        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./username_to_watchlist.csv");
 
         GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
 
