@@ -22,8 +22,6 @@ public class ShareWatchlistInteractorTest {
     @Test
     public void successTest() {
 
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile1.csv", new CommonUserFactory());
-
         User sender = new CommonUserFactory().
                 create("sender", "password",
                         LocalDateTime.of(1,1,1,1,1));
@@ -43,6 +41,8 @@ public class ShareWatchlistInteractorTest {
 
         userDataAccessObject.save(sender);
         userDataAccessObject.save(receiver);
+
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile1.csv", new CommonUserFactory());
 
         ShareWatchlistOutputBoundary presenter = new ShareWatchlistOutputBoundary() {
             @Override
@@ -67,7 +67,6 @@ public class ShareWatchlistInteractorTest {
 
     @Test
     public void UserNotExistFailTest() {
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile2.csv", new CommonUserFactory());
 
         User sender = new CommonUserFactory().
                 create("sender", "password",
@@ -83,6 +82,8 @@ public class ShareWatchlistInteractorTest {
         }
 
         userDataAccessObject.save(sender);
+
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile2.csv", new CommonUserFactory());
 
         ShareWatchlistOutputBoundary presenter = new ShareWatchlistOutputBoundary() {
             @Override
@@ -105,7 +106,6 @@ public class ShareWatchlistInteractorTest {
 
     @Test
     public void EmptyWatchlistFailTest() {
-        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile3.csv", new CommonUserFactory());
 
         User sender = new CommonUserFactory().
                 create("sender", "password",
@@ -123,6 +123,8 @@ public class ShareWatchlistInteractorTest {
 
         userDataAccessObject.save(sender);
         userDataAccessObject.save(receiver);
+
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject("./ShareTestFile3.csv", new CommonUserFactory());
 
         ShareWatchlistOutputBoundary presenter = new ShareWatchlistOutputBoundary() {
             @Override

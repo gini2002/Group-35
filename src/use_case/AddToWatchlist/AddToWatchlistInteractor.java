@@ -39,7 +39,7 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary{
         List<Movie> watchList = user.getWatchlist();
         int count = 0;
         for (Movie movies : watchList) {
-            if (movies.getName().equals(movie.getName())) {
+            if (movies.getID() == movie.getID()) {
                 count = count + 1;
             }
         }
