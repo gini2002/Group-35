@@ -11,7 +11,7 @@ import java.util.List;
 public class WithoutFilterViewModel extends ViewModel {
 
     public final String TITLE_LABEL = "Movie Recommendation View Without Filter";
-    public final String KEYWORD_LABEL = "Enter your username here";
+    public final String USERNAME_LABEL = "Enter your username here";
 
     public static final String SEARCH_BUTTON_LABEL = "Search";
 
