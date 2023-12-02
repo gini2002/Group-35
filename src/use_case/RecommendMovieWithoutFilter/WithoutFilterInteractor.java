@@ -2,8 +2,7 @@ package use_case.RecommendMovieWithoutFilter;
 
 import data_access.MovieDataAccessObject;
 import entity.Movie;
-import entity.Watchlist;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterDAO;
+import data_access.WithoutFilterDAO;
 
 import java.util.*;
 
