@@ -1,13 +1,12 @@
 package app;
 
 import data_access.MovieDataAccessObject;
-import entity.Watchlist;
+import data_access.WithoutFilterDAO;
 import use_case.RecommendMovieWithoutFilter.WithoutFilterInputBoundary;
 import usecase_adaptor.RecommendMovieWithoutFilter.*;
 import usecase_adaptor.ViewManagerModel;
 import use_case.RecommendMovieWithoutFilter.WithoutFilterInteractor;
 import use_case.RecommendMovieWithoutFilter.WithoutFilterOutputBoundary;
-import use_case.RecommendMovieWithoutFilter.WithoutFilterDataAccessInterface;
 // Other necessary imports...
 
 import view.WithoutFilterView;
