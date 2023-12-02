@@ -14,6 +14,7 @@ public class WithoutFilterViewModel extends ViewModel {
     public final String USERNAME_LABEL = "Enter your username here";
 
     public static final String SEARCH_BUTTON_LABEL = "Search";
+    public static final String MAIN_MENU_BUTTON_LABEL = "Back to Main Menu";
 
     private String usernameInput = "";
     private List<Movie> withoutFilterMovies;
@@ -22,7 +23,7 @@ public class WithoutFilterViewModel extends ViewModel {
     private String error = null;
 
     public WithoutFilterViewModel() {
-        super("movie_recommendation");
+        super("movie_recommendation_filter");
     }
 
 
@@ -44,6 +45,15 @@ public class WithoutFilterViewModel extends ViewModel {
         }
         System.out.println("Called in result view model: " + movies);
         return movies.toArray(new String[0]);
+    }
+
+    public int getID(String movieTitle) {
+        for (Movie movie : withoutFilterMovies) {
+            if (movie.getName().equals(movieTitle)) {
+                return movie.getID();
+            }
+        }
+        return 0;
     }
 
     public void setWithoutFilterMovies(List<Movie> withoutFilterMovies) {

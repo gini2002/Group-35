@@ -8,6 +8,7 @@ import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.GetWatchlist.GetWatchlistPresenter;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
@@ -19,10 +20,11 @@ public class MainmenuUseCaseFactory {
                                       MainMenuViewModel mainMenuViewModel,
                                       ShareWatchlistViewModel shareWatchlistViewModel,
                                       GetWatchListViewmodel getWatchListViewmodel, SearchByNameViewModel searchByNameViewModel,
+                                      WithoutFilterViewModel withoutFilterViewModel,
                                       GetWatchListDataAccessInterface getWatchListDataAccessInterface){
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListDataAccessInterface,
                 getWatchListViewmodel);
-        return new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel,searchByNameViewModel,
+        return new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel,searchByNameViewModel,withoutFilterViewModel,
                 getWatchListViewmodel, getWatchlistController);
     }
 
