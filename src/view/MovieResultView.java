@@ -43,6 +43,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
     /** The list model for displaying recommended movies. */
     public DefaultListModel<String> listModel;
 
+
     /** The JList component for displaying recommended movies. */
     public JList<String> movieList;
 
@@ -63,6 +64,7 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
         this.viewManagerModel = viewManagerModel;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+
 
         setLayout(new BorderLayout());
         JPanel buttons = new JPanel(new FlowLayout());
@@ -186,8 +188,9 @@ public class MovieResultView extends JPanel implements PropertyChangeListener {
     }
 
     private void handleMovieClick(String selectedMovie) {
+        String username = searchByNameViewModel.getState().getUsername();
         int movie_id = searchByNameViewModel.getID(selectedMovie);
-        controller.execute(movie_id, "");
+        controller.execute(movie_id, username);
         viewManagerModel.setActiveView("detail_view");
         viewManagerModel.firePropertyChanged();
         System.out.println("Movie clicked");

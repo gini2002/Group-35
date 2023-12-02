@@ -6,6 +6,7 @@ import entity.Movie;
 public class SearchByNameState {
 
     private List<Movie> movies;
+    private String username;
 
     public SearchByNameState() {}
 
@@ -15,5 +16,12 @@ public class SearchByNameState {
 
     public List<Movie> getMovies() {
         return movies;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getUsername() {
+        return username;
     }
 }
