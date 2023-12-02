@@ -1,4 +1,4 @@
-package usecase_adaptor.RecommendMovieWithoutFilter;
+package data_access;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,8 +54,8 @@ public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
     public WithoutFilterDAO(String csvPath) throws FileNotFoundException, NoDataException {
         csvFile = new File(csvPath);
 
-        headers.put("username", 0);
-        headers.put("watchlist", 1);
+        headers.put("username", 1);
+        headers.put("watchlist", 5);
 
         if (csvFile.length() == 0) {
             throw new NoDataException("No data to provide movie recommendation");

@@ -9,14 +9,14 @@ public class DeleteWatchlistViewModel extends ViewModel {
 
     private DeleteWatchlistState state = new DeleteWatchlistState();
 
-    public static String ADD_WATCH_LIST_BUTTON_LABEL = "add to watchlist";
+    public static String DELETE_WATCHLIST_BUTTON_LABEL = "delete from watchlist";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     /**
      * initiate view model.
      */
-    public DeleteWatchlistViewModel() {super("AddToWatchlist");}
+    public DeleteWatchlistViewModel() {super("DeleteWatchlist");}
 
     /**
      *

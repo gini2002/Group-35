@@ -18,8 +18,8 @@ public class DeleteWatchlistController {
 
     /**
      * add movie to the watchlist.
-     * @param movie that want to be added.
-     * @param userName of user who want to save movie.
+     * @param movie that want to be deleted.
+     * @param userName of user who want to delete movie.
      */
     public void execute (Movie movie, String userName) {
         DeleteWatchlistInputData inputData = new DeleteWatchlistInputData(movie, userName);
