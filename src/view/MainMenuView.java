@@ -70,7 +70,7 @@ public class MainMenuView extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 GetWatchListState getWatchListState = getWatchListViewmodel.getState();
-                String loggedinuesername = mainMenuViewModel.getLoggedInUser();
+                String loggedinuesername = mainMenuViewModel.getState().getUserName();
                 getWatchListState.setLoggedinusername(loggedinuesername);
                 getWatchListViewmodel.setState(getWatchListState);
 

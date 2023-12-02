@@ -19,7 +19,7 @@ public interface ShareWatchlistDataAccessInterface {
      * @param userName the name of user.
      * @param watchlist a watchlist.
      */
-    public void setWatchlist(String userName, List<Movie> watchlist);
+    public void setWatchlist(String receiverName, String senderName, List<Movie> watchlist);
 
     /**
      *
