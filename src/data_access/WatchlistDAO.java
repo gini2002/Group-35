@@ -18,8 +18,8 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     public WatchlistDAO(String csvPath) throws NoDataException {
         csvFile = new File(csvPath);
 
-        headers.put("username", 1);
-        headers.put("watchlist", 5);
+        headers.put("username", 0);
+        headers.put("watchlist", 1);
 
         if (csvFile.length() == 0) {
             throw new NoDataException("No data in watchlist");
@@ -29,13 +29,13 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
-                    String username = col[headers.get("username")];
-                    String[] watchlistStr = col[headers.get("watchlist")].split("#");
-                    List<Integer> watchlist = new ArrayList<>();
-                    for (String id : watchlistStr) {
-                        watchlist.add(Integer.valueOf(id.trim()));
+                    String username = String.valueOf(col[headers.get("username")]);
+                    String[] watchlist = String.valueOf(col[headers.get("watchlist")]).split(",");
+                    List<Integer> watchlist2 = new ArrayList<>();
+                    for (String id : watchlist) {
+                        watchlist2.add(Integer.valueOf(id));
                     }
-                    usernameToWatchlist.put(username, watchlist);
+                    usernameToWatchlist.put(username, watchlist2);
                 }
             } catch (IOException e) {
                 throw new RuntimeException("Error reading CSV file", e);
