@@ -24,7 +24,7 @@ public class GetWatchlistUseCaseFactory {
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListViewmodel,
                 getWatchListDataAccessInterface);
         GetDetailMovieController getDetailMovieController = createGetDetailMovieController(
-                getDetailMovieViewModel, getDetailMovieDataAccessInterface);
+                getDetailMovieViewModel, getDetailMovieDataAccessInterface, viewManagerModel);
         return new GetWatchlistView(getWatchListViewmodel, getWatchlistController,
                 getDetailMovieController, getDetailMovieViewModel, viewManagerModel, mainMenuViewModel);
     }
