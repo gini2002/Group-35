@@ -86,7 +86,7 @@ public class Main {
 
         DeleteWatchlistDataAccessInterface deleteWatchlistDataAccessObject;
         deleteWatchlistDataAccessObject = new WatchlistDAO(
-                "./userInformation.csv");
+                "./username_to_watchlist.csv");
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
