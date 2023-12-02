@@ -4,6 +4,7 @@ import usecase_adaptor.GetWatchlist.GetWatchListState;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistState;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
@@ -21,6 +22,7 @@ public class MainMenuView extends JPanel{
     final JButton shareWatchlistButton;
     final JButton getWatchlistButton;
     final JButton searchMovieButton;
+    final JButton recommendMovieButton;
 
     private final ViewManagerModel viewManagerModel;
 
@@ -31,10 +33,11 @@ public class MainMenuView extends JPanel{
 
     public MainMenuView(ViewManagerModel viewManagerModel, MainMenuViewModel mainMenuViewModel,
                         ShareWatchlistViewModel shareWatchlistViewModel, SearchByNameViewModel searchByNameViewModel,
+                        WithoutFilterViewModel withoutFilterViewModel,
                         GetWatchListViewmodel getWatchListViewmodel,
                         GetWatchlistController getWatchlistController
-                        ) {
-                        // ShareWatchlistViewModel shareWatchlistViewModel) {
+    ) {
+        // ShareWatchlistViewModel shareWatchlistViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.shareWatchlistViewModel = shareWatchlistViewModel;
@@ -92,9 +95,20 @@ public class MainMenuView extends JPanel{
             }
         });
 
+        recommendMovieButton = new JButton(mainMenuViewModel.RECOMMEND_MOVIE_BUTTON_LABEL);
+        buttons.add(recommendMovieButton);
+        recommendMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewManagerModel.setActiveView(withoutFilterViewModel.getViewName());
+                viewManagerModel.firePropertyChanged();
+            }
+        });
+
         this.add(title);
         this.add(buttons);
     }
 
 
 }
+

@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  */
 public class WithoutFilterView extends JPanel implements ActionListener, PropertyChangeListener {
     /** The name of the view. */
-    public final String viewName = "movie_recommendation";
+    public final String viewName = "movie_recommendation_filter";
 
     /** The view model associated with the movie recommendation screen. */
     private final WithoutFilterViewModel viewModel;
@@ -33,6 +33,7 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
 
     /** The button for initiating a search. */
     final JButton searchButton;
+    final JButton mainMenuBtn;
 
     /** The controller for handling user interactions on the movie recommendation screen. */
     private final WithoutFilterController controller;
@@ -60,6 +61,8 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
         JPanel buttons = new JPanel();
         searchButton = new JButton(viewModel.SEARCH_BUTTON_LABEL);
         buttons.add(searchButton);
+        mainMenuBtn = new JButton(viewModel.MAIN_MENU_BUTTON_LABEL);
+        buttons.add(mainMenuBtn);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -68,7 +71,17 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
                     String keyword = usernameInputField.getText();
                     controller.execute(keyword);
                     System.out.println(keyword);
-                    viewManagerModel.setActiveView("movie_result");
+                    viewManagerModel.setActiveView("without_result");
+                    viewManagerModel.firePropertyChanged();
+                }
+            }
+        });
+
+        mainMenuBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(mainMenuBtn)) {
+                    viewManagerModel.setActiveView("Main_menu");
                     viewManagerModel.firePropertyChanged();
                 }
             }
@@ -104,7 +117,7 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
             System.out.println(evt.getPropertyName());
             String error = (String) evt.getNewValue();
             errorLabel.setText(error);
-        } else if ("recommendedMovies".equals(evt.getPropertyName())) {
+        } else if ("withoutFilterMovies".equals(evt.getPropertyName())) {
             // Update the recommended movies area when the property changes
         }
     }

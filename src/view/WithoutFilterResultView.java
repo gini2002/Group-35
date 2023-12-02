@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
 public class WithoutFilterResultView extends JPanel implements PropertyChangeListener {
-    public final String viewName = "movie_result";
+    public final String viewName = "without_result";
     private final WithoutFilterResultViewModel viewModel;
     private final WithoutFilterViewModel withoutFilterViewModel;
 
@@ -44,7 +44,7 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(mainMenuBtn)) {
-                    viewManagerModel.setActiveView("movie_recommendation");
+                    viewManagerModel.setActiveView("movie_recommendation_filter");
                     viewManagerModel.firePropertyChanged();
                 }
             }
