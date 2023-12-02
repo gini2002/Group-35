@@ -20,6 +20,9 @@ import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterDAO;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.SearchList.SearchListViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
 import usecase_adaptor.ViewManagerModel;
@@ -31,7 +34,7 @@ import view.*;
 
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException {
         JFrame application = new JFrame("Movie Recommendations App");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +60,8 @@ public class Main {
         SearchListViewModel searchListViewModel = new SearchListViewModel();
         GetWatchListViewmodel getWatchListViewmodel = new GetWatchListViewmodel();
         GetDetailMovieViewModel getDetailMovieViewModel = new GetDetailMovieViewModel();
+        WithoutFilterResultViewModel withoutFilterResultViewModel = new WithoutFilterResultViewModel();
+        WithoutFilterViewModel withoutFilterViewModel = new WithoutFilterViewModel();
 
 
 
@@ -65,6 +70,8 @@ public class Main {
 
         // Create data access interface(object).
         MovieDataAccessObject movieDataAccessObject;
+
+        WithoutFilterDAO withoutFilterDAO;
 
         GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./username_to_watchlist.csv");
 
@@ -81,6 +88,8 @@ public class Main {
                 new CommonUserFactory());
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
+
+        withoutFilterDAO = new WithoutFilterDAO("./username_to_watchlist.csv");
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -117,6 +126,14 @@ public class Main {
 
         MovieResultView movieResultView = new MovieResultView(resultViewModel, searchByNameViewModel, viewManagerModel);
         views.add(movieResultView, movieResultView.viewName);
+
+        //TODO: add withoutfilter main
+        WithoutFilterView withoutFilterView = WithoutFilterUseCaseFactory.create(viewManagerModel, withoutFilterViewModel, withoutFilterResultViewModel, movieDataAccessObject, withoutFilterDAO);
+        views.add(withoutFilterView, withoutFilterView.viewName);
+
+        //TODO: resultview 고치고 돌아오기
+        WithoutFilterResultView withoutFilterResultView = new WithoutFilterResultView(withoutFilterResultViewModel, withoutFilterViewModel, viewManagerModel);
+        views.add(withoutFilterResultView, withoutFilterResultView.viewName);
 
         SearchListView searchListView = new SearchListView(searchListViewModel, viewManagerModel);
         views.add(searchListView, searchListView.viewName);
