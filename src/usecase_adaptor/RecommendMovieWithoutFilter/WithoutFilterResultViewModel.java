@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class WithoutFilterResultViewModel {
     public final String TITLE_LABEL = "Movie Results View";
+    public static final String MAIN_MENU_LABEL = "Back to Main Menu";
 
     private List<Movie> withoutFilterMovies;
 
