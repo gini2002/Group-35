@@ -1,4 +1,4 @@
-package use_case.GetDetailMovieTest;
+package use_case.GetDetailMovie;
 
 public class GetDetailMovieDAOTest {
 

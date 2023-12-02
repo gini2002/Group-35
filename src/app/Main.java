@@ -72,7 +72,7 @@ public class Main {
 
         WithoutFilterDAO withoutFilterDAO;
 
-        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./username_to_watchlist.csv");
+        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new AddToWatchlistDataAccessObject("./username_to_watchlist.csv", new CommonUserFactory());
 
         GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
 

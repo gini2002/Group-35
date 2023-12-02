@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
+/**
+ * This class provides data access methods for get detail of a certain movie using
+ * The Movie Database (TMDb) API.
+ */
 public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 
@@ -22,7 +25,13 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
     }
 
 
-
+    /**
+     * Get the movie with a certain id (movie includes detailed information).
+     *
+     * @param id The id of the movie that we need get detail for
+     * @return The movies with aimed id and
+     * other information including title, rating, release date and genres.
+     */
     @Override
     public Movie getdetailMovie(int id) {
         String movie_id = String.valueOf(id);
@@ -68,7 +77,12 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Check if the movie with certain movie id exists.
+     *
+     * @param id The id of the movie that we need get detail for
+     * @return true if the movie we are looking for exists. false otherwise
+     */
     @Override
     public boolean existsById(int id) {
         String movie_id = String.valueOf(id);
@@ -82,8 +96,6 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            System.out.println(response);
-            JSONObject responseBody = new JSONObject(response.body().string());
             if (response.code() == 404) {
                 return false;
             } else {return true;}

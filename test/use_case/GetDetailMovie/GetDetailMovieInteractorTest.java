@@ -1,7 +1,7 @@
-package use_case.GetDetailMovieTest;
+package use_case.GetDetailMovie;
 import data_access.MovieDetailAccessAPI;
 import org.junit.Test;
-import use_case.GetDetailMovie.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
