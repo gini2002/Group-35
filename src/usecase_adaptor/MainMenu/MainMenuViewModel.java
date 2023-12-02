@@ -12,6 +12,7 @@ public class MainMenuViewModel extends ViewModel {
     public final String Get_WATCHLIST_BUTTON_LABEL = "get Watchlist";
 
     public final String SEARCH_MOVIE_BUTTON_LABEL = "Search Movies";
+    public final String RECOMMEND_MOVIE_BUTTON_LABEL = "Recommend Movies";
 
     private MainMenuState state = new MainMenuState();
 
