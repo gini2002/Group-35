@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetWatchListDAO implements GetWatchListDataAccessInterface {
+public class GetWatchListDAO //implements GetWatchListDataAccessInterface
+        {
     private final File csvFile;
     private final MovieDetailAccessAPI movieDetailAccessAPI = new MovieDetailAccessAPI();
 
@@ -49,7 +50,7 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
         }
     }
 
-    @Override
+    // @Override
     public List<Movie> getWatchlistMovies(String name) {
         List<Integer> watchlist_only_id = usernameToWatchlist.get(name);
         List<Movie> result = new ArrayList<>();
@@ -60,7 +61,7 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
     }
     // TODO; Get watchlist by input the name of the user
 
-    @Override
+    // @Override
     public void add_to_watchlist(User user, int movie_id) {
         Movie movie_added = movieDetailAccessAPI.getdetailMovie(movie_id);
         List<Movie> watchlist = user.getWatchlist();
