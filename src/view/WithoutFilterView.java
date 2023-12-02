@@ -1,8 +1,8 @@
-package error_cases;
+package view;
 
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterController;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
+import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,30 +11,51 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * The MovieRecommendView class represents the graphical user interface for the movie recommendation screen.
+ * It provides a form for entering a keyword, buttons for initiating a search and viewing the search list, and displays error messages.
+ */
 public class WithoutFilterView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    /** The name of the view. */
     public final String viewName = "movie_recommendation";
+
+    /** The view model associated with the movie recommendation screen. */
     private final WithoutFilterViewModel viewModel;
 
-    final JTextField idInputField = new JTextField(15);
-    private final JLabel errorLabel = new JLabel();
+    /** The input field for entering the search keyword. */
+    final JTextField usernameInputField = new JTextField(15);
 
+    /** The label for displaying error messages. */
+    final JLabel errorLabel = new JLabel();
 
+    /** The model for managing the active view in the application. */
+    private final ViewManagerModel viewManagerModel;
+
+    /** The button for initiating a search. */
     final JButton searchButton;
 
+    /** The controller for handling user interactions on the movie recommendation screen. */
     private final WithoutFilterController controller;
 
-    public WithoutFilterView(WithoutFilterViewModel viewModel, WithoutFilterController controller) {
+    /**
+     * Constructs a MovieRecommendView with the specified view model, controller, and view manager model.
+     *
+     * @param viewModel The view model associated with the movie recommendation screen.
+     * @param controller The controller for handling user interactions on the movie recommendation screen.
+     * @param viewManagerModel The model for managing the active view in the application.
+     */
+    public WithoutFilterView(WithoutFilterViewModel viewModel, WithoutFilterController controller, ViewManagerModel viewManagerModel) {
         this.controller = controller;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         JLabel title = new JLabel("Movie Recommendation Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel keywordPanel = new JPanel();
-        keywordPanel.add(new JLabel("Enter your watchlist id here:"));
-        keywordPanel.add(idInputField);
+        keywordPanel.add(new JLabel("Enter your username here:"));
+        keywordPanel.add(usernameInputField);
 
         JPanel buttons = new JPanel();
         searchButton = new JButton(viewModel.SEARCH_BUTTON_LABEL);
@@ -44,12 +65,11 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(searchButton)) {
-                    String watchlistid = idInputField.getText();
-                    controller.execute(watchlistid);
-                    System.out.println(watchlistid);
-                    WithoutFilterResultViewModel withoutFilterResultViewModel = new WithoutFilterResultViewModel();
-                    showWithoutFilterResultView(withoutFilterResultViewModel, viewModel);
-
+                    String keyword = usernameInputField.getText();
+                    controller.execute(keyword);
+                    System.out.println(keyword);
+                    viewManagerModel.setActiveView("movie_result");
+                    viewManagerModel.firePropertyChanged();
                 }
             }
         });
@@ -61,55 +81,31 @@ public class WithoutFilterView extends JPanel implements ActionListener, Propert
         this.add(keywordPanel);
         this.add(errorLabel);
         this.add(buttons);
-
-
     }
 
-    private void showWithoutFilterResultView(WithoutFilterResultViewModel withoutFilterResultViewModel, WithoutFilterViewModel viewModel) {
-        SwingUtilities.invokeLater(() -> {
-            WithoutFilterResultView resultView = new WithoutFilterResultView(withoutFilterResultViewModel, viewModel);
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(resultView);
-            frame.revalidate();
-            frame.repaint();
-//            resultView.updateView();
-//            frame.setVisible(true);
-        });
-    }
-
+    /**
+     * Handles the actionPerformed event.
+     *
+     * @param e The ActionEvent that occurred.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click " + e.getActionCommand());
     }
 
+    /**
+     * Handles property change events.
+     *
+     * @param evt The PropertyChangeEvent that occurred.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("error".equals(evt.getPropertyName())) {
             System.out.println(evt.getPropertyName());
             String error = (String) evt.getNewValue();
             errorLabel.setText(error);
-        } else if ("withoutFilterMovies".equals(evt.getPropertyName())) {
+        } else if ("recommendedMovies".equals(evt.getPropertyName())) {
             // Update the recommended movies area when the property changes
-//            List<Movie> recommendedMovies = (List<Movie>) evt.getNewValue();
-//            updateRecommendedMoviesArea(recommendedMovies);
-//            MovieResultViewModel movieResultViewModel = new MovieResultViewModel();
-//            showMovieResultView(movieResultViewModel);
-
-//            System.out.println(evt.getPropertyName());
-//            MovieResultViewModel movieResultViewModel = (MovieResultViewModel) evt.getNewValue();
-//            showMovieResultView(movieResultViewModel);
-//        } else if ("shareWatchlistState".equals((evt.getPropertyName()))) {
-//            ShareWatchlistState state = (ShareWatchlistState) evt.getNewValue();
-//            if (state.getError() != null) {
-//                JOptionPane.showMessageDialog(this, state.getError());
-//            } else {
-//                JOptionPane.showMessageDialog(this, "shared with " + state.getReseiverName());
-//            }
-//        }
         }
-
-        }
-
     }
-
+}

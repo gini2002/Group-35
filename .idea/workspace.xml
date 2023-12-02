@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a178b85b-866d-40b7-9dbe-6b8a9101f3f6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/app/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/app/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/app/MovieSearchUseCaseFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/app/MovieSearchUseCaseFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/data_access/MovieDataAccessObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/CommonUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/CommonUserFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/Movie.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/entity/Movie.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/SearchHistory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/UserFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/entity/Watchlist.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/entity/Watchlist.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistDataAccessInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistDataAccessInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistInputBoundary.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistInputBoundary.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistInputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistInputData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistInteractor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/AddToWatchlist/AddToWatchlistOutputData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/MovieSearchByKeyword/RecommendInputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/MovieSearchByKeyword/RecommendInputData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/MovieSearchByKeyword/RecommendOutputData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/MovieSearchByKeyword/SearchByNameInteractor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/MovieSearchByKeyword/SearchByNameOutputBoundary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistDataAccessInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistDataAccessInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistInputBoundary.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistInputBoundary.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistInputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistInputData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistInteractor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistOutputBoundary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/use_case/ShareWatchlist/ShareWatchlistOutputData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/AddToWatchlist/AddToWatchlistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/AddToWatchlist/AddToWatchlistController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/AddToWatchlist/AddToWatchlistPresenter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/AddToWatchlist/AddToWatchlistState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/AddToWatchlist/AddToWatchlistState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/MovieResultViewModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/MovieResultViewModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNamePresenter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNameState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNameViewModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/MovieSearchByKeyword/SearchByNameViewModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistPresenter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistViewModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ShareWatchlist/ShareWatchlistViewModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ViewManagerModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/usecase_adaptor/ViewManagerModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/view/MovieRecommendView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Group-35-2/view/MovieRecommendView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/view/MovieResultView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Group-35-2/view/ViewManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterDataAccessInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterDataAccessInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInputBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInputBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInputData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInteractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterInteractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterOutputBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterOutputBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterOutputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/use_case/RecommendMovieWithoutFilter/WithoutFilterOutputData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterResultViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterResultViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/usecase_adaptor/RecommendMovieWithoutFilter/WithoutFilterViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/WithoutFilterResultView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/WithoutFilterResultView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/WithoutFilterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/WithoutFilterView.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2YxYLM5bxQZTtYimw0gagkRCIEL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "leechaejin",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a178b85b-866d-40b7-9dbe-6b8a9101f3f6" name="Changes" comment="" />
+      <created>1701468640868</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701468640868</updated>
+      <workItem from="1701468642178" duration="9244000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
