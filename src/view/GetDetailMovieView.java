@@ -21,7 +21,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public class GetDetailMovieView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewname = "";
+    public final String viewname = "detail_view";
     private final GetDetailMovieViewModel getDetailMovieViewModel;
     private final AddToWatchlistController addToWatchlistController;
 

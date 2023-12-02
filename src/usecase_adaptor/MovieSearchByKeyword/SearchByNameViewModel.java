@@ -78,6 +78,15 @@ public class SearchByNameViewModel extends ViewModel {
         return movies.toArray(new String[0]);
     }
 
+    public int getID(String movieTitle) {
+        for (Movie movie : recommendedMovies) {
+            if (movie.getName().equals(movieTitle)) {
+                return movie.getID();
+            }
+        }
+        return 0;
+    }
+
     /**
      * Sets the list of recommended movies.
      *
