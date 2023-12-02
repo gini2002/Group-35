@@ -1,4 +1,7 @@
-package error_cases.RecommendMovieWithoutFilter;
+package usecase_adaptor.RecommendMovieWithoutFilter;
+
+import use_case.RecommendMovieWithoutFilter.WithoutFilterInputBoundary;
+import use_case.RecommendMovieWithoutFilter.WithoutFilterInputData;
 
 public class WithoutFilterController {
     final WithoutFilterInputBoundary withoutFilterInteractor;
@@ -7,8 +10,8 @@ public class WithoutFilterController {
         this.withoutFilterInteractor = withoutFilterInteractor;
     }
 
-    public void execute(String watchlistId){
-        WithoutFilterInputData withoutFilterInputData = new WithoutFilterInputData(watchlistId);
+    public void execute(String username){
+        WithoutFilterInputData withoutFilterInputData = new WithoutFilterInputData(username);
         withoutFilterInteractor.execute(withoutFilterInputData);
     }
 }
