@@ -19,7 +19,6 @@ public class AddToWatchlistInteractorTest {
 
     @Test
     public void successTest() {
-        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile1.csv", new CommonUserFactory());
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -30,6 +29,8 @@ public class AddToWatchlistInteractorTest {
         User user = new CommonUserFactory().create("user",
                 "password", LocalDateTime.of(1,1,1,1,1));
         userDataAccessObject.save(user);
+
+        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile1.csv", new CommonUserFactory());
 
         AddToWatchlistOutputBoundary successPresenter = new AddToWatchlistOutputBoundary() {
             @Override
@@ -60,7 +61,6 @@ public class AddToWatchlistInteractorTest {
 
     @Test
     public void failTest() {
-        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile2.csv", new CommonUserFactory());
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -73,10 +73,10 @@ public class AddToWatchlistInteractorTest {
 
         User user = new CommonUserFactory().create("user",
                 "password", LocalDateTime.of(1,1,1,1,1));
-        user.addMovieToWatchlist(new Movie("Ariel", 2));
+        user.addMovieToWatchlist(new Movie("Arial", 2));
         userDataAccessObject.save(user);
 
-
+        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject("./AddTestFile2.csv", new CommonUserFactory());
 
         AddToWatchlistViewModel viewModel = new AddToWatchlistViewModel();
         AddToWatchlistOutputBoundary failPresenter = new AddToWatchlistOutputBoundary() {

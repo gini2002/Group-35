@@ -7,6 +7,7 @@ import entity.Movie;
 import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,14 +88,14 @@ class ShareWatchlistViewTest {
     }
 
     @Test
-    public void testShareButtonExist() throws FileNotFoundException {
+    public void testShareButtonExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
         Main.main(null);
         JButton button = getButton();
         assertEquals("share with user", button.getText());
     }
 
     @Test
-    public void testTextFieldExist() throws FileNotFoundException {
+    public void testTextFieldExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
         Main.main(null);
         JTextField textField = getTextField(3, 1, 1);
         assertEquals("", textField.getText());
