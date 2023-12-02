@@ -96,29 +96,34 @@ package use_case.DeleteWatchlist;
 import data_access.WatchlistDAO;
 import entity.Movie;
 
+import java.util.List;
+
 public class DeleteWatchlistInteractor implements DeleteWatchlistInputBoundary {
     private final DeleteWatchlistOutputBoundary deleteWatchlistPresenter;
-    private final WatchlistDAO deleteWatchListDAO;
+    private final DeleteWatchlistDataAccessInterface deleteWatchListDAI;
 
     public DeleteWatchlistInteractor(DeleteWatchlistOutputBoundary deleteWatchlistPresenter, DeleteWatchlistDataAccessInterface dataAccessInterface) {
         this.deleteWatchlistPresenter = deleteWatchlistPresenter;
-        this.deleteWatchListDAO = dataAccessInterface.getWatchlistDAO();
+        this.deleteWatchListDAI = dataAccessInterface;
     }
 
     @Override
     public void execute(DeleteWatchlistInputData inputData) {
         String username = inputData.getUserName();
         Movie movie = inputData.getMovie();
+        List<Integer> all_movie = deleteWatchListDAI.getWatchlistMoviesID(username);
 
-        try {
-            deleteWatchListDAO.removeMovieFromWatchlist(username, movie.getID());
+        if (all_movie.contains(movie.getID())) {
+            deleteWatchListDAI.removeMovieFromWatchlist(username, movie.getID());
             DeleteWatchlistOutputData outputData = new DeleteWatchlistOutputData(movie);
             deleteWatchlistPresenter.PrepareSuccessView(outputData);
-        } catch (IllegalArgumentException e) {
-            // Handle the case where the user doesn't exist or the movie is not in the watchlist
-            deleteWatchlistPresenter.PrepareFailView(e.getMessage());
+        } else {
+
+            deleteWatchlistPresenter.PrepareFailView(movie.getName() + " doesn't exists");
+
         }
     }
 }
+
 
 
