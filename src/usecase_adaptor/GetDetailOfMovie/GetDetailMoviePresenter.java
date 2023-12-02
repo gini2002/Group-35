@@ -6,18 +6,33 @@ import usecase_adaptor.ViewManagerModel;
 
 import java.util.List;
 
+/**
+ * The GetDetailMoviePresenter class acts as a presenter for get the detail of a movie.
+ * It prepares the view models based on the output data and updates the view manager accordingly.
+ */
 public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
+    /** The view model for get the detail of certain movie. */
     private final GetDetailMovieViewModel getDetailMovieViewModel;
 
+    /** The view manager model for controlling the active view. */
     private ViewManagerModel viewManagerModel;
 
+    /**
+     * Constructs a GetDetailMoviePresenter with the provided view models and view manager model.
+     * @param viewManagerModel             The view manager model for controlling the active view.
+     * @param getDetailMovieViewModel      The view model for get the detail of certain movie.
+     */
     public GetDetailMoviePresenter(GetDetailMovieViewModel getDetailMovieViewModel
-            //, ViewManagerModel viewManagerModel
+            , ViewManagerModel viewManagerModel
     ) {
         this.getDetailMovieViewModel = getDetailMovieViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Prepares the success view based on the provided output data.
+     * @param response The output data containing information for the success view.
+     */
     @Override
     public void getDetailMovieSuccessView(GetDetailMovieOutputData response) {
         String title = response.getTitle();
@@ -33,17 +48,21 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         getDetailMovieState.setId(id);
         getDetailMovieState.setLoggedinusername(response.getLoggedinusername());
         getDetailMovieViewModel.setLoggedinusername(response.getLoggedinusername());
-        getDetailMovieViewModel.setTitle(title);
         getDetailMovieViewModel.setOverview(overview);
         getDetailMovieViewModel.setGenre(genre);
         getDetailMovieViewModel.setTitle(title);
         getDetailMovieViewModel.setId(id);
+        getDetailMovieViewModel.setPoster_path(poster_path);
         getDetailMovieViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(getDetailMovieViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the fail view based on the provided output data.
+     * @param error The error message shown in the fail view.
+     */
     @Override
     public void getDetailMovieFailView(String error) {
         GetDetailMovieState getDetailMovieState = getDetailMovieViewModel.getGetDetailMovieState();

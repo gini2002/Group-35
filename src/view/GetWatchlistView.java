@@ -31,16 +31,16 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
     final JButton backToMainMenu;
 
 
-    public GetWatchlistView(GetWatchListViewmodel getWatchListViewmodel,
+    public GetWatchlistView(GetWatchListViewmodel getwatchListViewmodel,
                             GetWatchlistController getwatchlistController,
                             GetDetailMovieController getdetailMovieController,
-                            GetDetailMovieViewModel getDetailMovieViewModel,
+                            GetDetailMovieViewModel getdetailMovieViewModel,
                             ViewManagerModel viewManagerModel,
                             MainMenuViewModel mainMenuViewModel) {
         this.getWatchlistController = getwatchlistController;
         this.getDetailMovieController = getdetailMovieController;
-        this.getDetailMovieViewModel = getDetailMovieViewModel;
-        this.getWatchListViewModel = getWatchListViewmodel;
+        this.getDetailMovieViewModel = getdetailMovieViewModel;
+        this.getWatchListViewModel = getwatchListViewmodel;
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.getWatchListViewModel.addPropertyChangeListener(this);
@@ -75,10 +75,8 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                         String name = button.getName();
                         int id = getWatchListViewModel.getIds().get(finalI);
                         String loggedinusername = getWatchListViewModel.getLogged_in_username();
-                        // TODO: movie ID needed
-                        getDetailMovieController.execute(name, id, loggedinusername);
+                        getDetailMovieController.execute(id, loggedinusername);
                         // JOptionPane.showMessageDialog(new JFrame(), getDetailMovieViewModel.getOverview());
-                        // TODO:add other infos (maybe needed
                     }
                 }
             });
@@ -101,9 +99,5 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                 JOptionPane.showMessageDialog(this, "get watchlist for" + getWatchListState.getLoggedinusername());
             }
         }
-        // GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
-        // if (getWatchListState.getGetWatchListError() != null){
-        //     JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
-        // }
     }
 }

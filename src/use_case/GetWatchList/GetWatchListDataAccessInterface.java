@@ -8,5 +8,5 @@ import java.util.List;
 public interface GetWatchListDataAccessInterface {
     List<Movie> getWatchlistMovies(String name);
 
-    void add_to_watchlist(User user, int movie_id);
+    //void add_to_watchlist(User user, int movie_id);
 }

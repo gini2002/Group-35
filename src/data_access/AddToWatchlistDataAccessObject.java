@@ -6,12 +6,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
+import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
+import use_case.GetWatchList.GetWatchListDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessInterface {
+public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessInterface, GetWatchListDataAccessInterface {
 
     private final File csvFile;
 
@@ -20,6 +22,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
     private final Map<String, User> accounts = new HashMap<>();
 
     private UserFactory userFactory;
+    private final Map<String, Watchlist> usernameToWatchlist = new HashMap<>();
 
 
     /**
@@ -45,7 +48,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
 
                 try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
                     String header = reader.readLine();
-
+                    System.out.println(header);
                     // For later: clean this up by creating a new Exception subclass and handling it in the UI.
                     assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
 
@@ -69,6 +72,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
                         //create watchlist from string
                         List<Movie> watchlistMovies = trans_to_movie(watchlist, "#");
                         Watchlist watchList = new Watchlist(watchlistMovies);
+                        usernameToWatchlist.put(username, watchList);
 
                         //crate shared watchlist from string
                         Map<String, Watchlist> sharedWatchlist= trans_to_shared_watchlist(
@@ -116,7 +120,8 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         for (String num : movie_list) {
             try {
                 int movie_id = Integer.parseInt(num);
-                Movie history_movie = get_movie_from_api(movie_id);
+                GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
+                Movie history_movie = getDetailMovieDataAccessInterface.getdetailMovie(movie_id);
                 movies.add(history_movie);
             } catch (NumberFormatException e) {
                 System.out.println("file error");
@@ -209,5 +214,9 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         }
         return result.substring(0, result.length() - 1);
 
+    }
+    @Override
+    public List<Movie> getWatchlistMovies(String logged_in_username) {
+        return getUser(logged_in_username).getWatchlist();
     }
 }
