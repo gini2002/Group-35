@@ -6,6 +6,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
+import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
 
 import java.io.*;
@@ -119,7 +120,8 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
         for (String num : movie_list) {
             try {
                 int movie_id = Integer.parseInt(num);
-                Movie history_movie = get_movie_from_api(movie_id);
+                GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
+                Movie history_movie = getDetailMovieDataAccessInterface.getdetailMovie(movie_id);
                 movies.add(history_movie);
             } catch (NumberFormatException e) {
                 System.out.println("file error");

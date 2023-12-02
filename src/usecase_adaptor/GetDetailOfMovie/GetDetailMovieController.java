@@ -21,15 +21,14 @@ public class GetDetailMovieController {
     }
 
     /**
-     * Initiates the execution of the get detail of a certain movie use case with the certain name, id.
+     * Initiates the execution of the get detail of a certain movie use case with the certain id.
      * And transfer the name of user that is looged in currently to enable other use case including get use case.
      *
-     * @param name               The movie title we are getting detail for.
      * @param id                 The movie id of movie we are getting detail for.
      * @param logged_in_username The name of the user that is currently logged in.
      */
-    public void execute(String name, int id, String logged_in_username){
-        GetDetailMovieInputData getDetailMovieInputData = new GetDetailMovieInputData(name, id, logged_in_username);
+    public void execute(int id, String logged_in_username){
+        GetDetailMovieInputData getDetailMovieInputData = new GetDetailMovieInputData(id, logged_in_username);
         getDetailMovieInteractor.execute(getDetailMovieInputData);
     }
 }
