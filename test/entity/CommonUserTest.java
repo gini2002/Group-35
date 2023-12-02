@@ -53,7 +53,7 @@ class CommonUserTest {
                 "password", LocalDateTime.of(1, 1, 1, 1, 1));
         Movie movie = new Movie("movie", 1);
         user.addMovieToWatchlist(movie);
-        assertEquals("1", user.getWatchlist().toString());
+        assertEquals(1, user.getWatchlist().get(0).getID());
     }
 
     @Test

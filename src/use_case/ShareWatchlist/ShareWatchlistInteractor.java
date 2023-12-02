@@ -39,7 +39,7 @@ public class ShareWatchlistInteractor implements ShareWatchlistInputBoundary{
             if (watchlist.isEmpty()) {
                 shareWatchlistOutputBoundary.prepareFailView("the watchlist is empty");
             } else {
-                dataAccessInterface.setWatchlist(ReceiverName, watchlist);
+                dataAccessInterface.setWatchlist(ReceiverName, SenderName, watchlist);
                 ShareWatchlistOutputData outputData = new ShareWatchlistOutputData(ReceiverName);
                 shareWatchlistOutputBoundary.prepareSuccessView(outputData);
             }

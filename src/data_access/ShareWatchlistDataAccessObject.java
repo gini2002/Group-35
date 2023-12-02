@@ -185,15 +185,16 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     }
 
     /**
-     * set watchlist to receiver user's shared watchlist.
-     * @param userName the name of user.
+     *
+     * @param receiverName receiver's userName.
+     * @param senderName sender's userName.
      * @param watchlist a watchlist.
      */
     @Override
-    public void setWatchlist(String userName, List<Movie> watchlist) {
-        User user = accounts.get(userName);
+    public void setWatchlist(String receiverName, String senderName, List<Movie> watchlist) {
+        User user = accounts.get(receiverName);
         Watchlist watchlists = new Watchlist(watchlist);
-        user.setSharedWatchlist(userName, watchlists);
+        user.setSharedWatchlist(senderName, watchlists);
         save();
     }
 

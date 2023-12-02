@@ -11,6 +11,7 @@ import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,11 +27,10 @@ public class AddToWatchlistInteractorTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        User user = new CommonUserFactory().create("name",
+        User user = new CommonUserFactory().create("user",
                 "password", LocalDateTime.of(1,1,1,1,1));
         userDataAccessObject.save(user);
 
-        AddToWatchlistViewModel viewModel = new AddToWatchlistViewModel();
         AddToWatchlistOutputBoundary successPresenter = new AddToWatchlistOutputBoundary() {
             @Override
             public void PrepareFailView(String error) {
@@ -39,13 +39,19 @@ public class AddToWatchlistInteractorTest {
 
             @Override
             public void PrepareSuccessView(AddToWatchlistOutputData outputData) {
-                assertEquals("name", outputData.getMovieName());
-                Movie movie = new Movie("name", 1);
-                assertTrue(DAO.getUser("user").getWatchlist().contains(movie));
+                assertEquals("Arial", outputData.getMovieName());
+                List<Movie> watchlist= DAO.getUser("user").getWatchlist();
+                int contain = 0;
+                for (Movie movies:watchlist) {
+                    if (movies.getName().equals("Arial")) {
+                        contain += 1;
+                    }
+                }
+                assertEquals(1, contain);
             }
         };
 
-        Movie movie = new Movie("name", 1);
+        Movie movie = new Movie("Arial", 2);
         AddToWatchlistInputData inputData = new AddToWatchlistInputData(movie, "user");
 
         AddToWatchlistInputBoundary interactor = new AddToWatchlistInteractor(successPresenter,DAO);
@@ -65,9 +71,9 @@ public class AddToWatchlistInteractorTest {
 
 
 
-        User user = new CommonUserFactory().create("name",
+        User user = new CommonUserFactory().create("user",
                 "password", LocalDateTime.of(1,1,1,1,1));
-        user.addMovieToWatchlist(new Movie("movie", 1));
+        user.addMovieToWatchlist(new Movie("Ariel", 2));
         userDataAccessObject.save(user);
 
 
@@ -76,7 +82,7 @@ public class AddToWatchlistInteractorTest {
         AddToWatchlistOutputBoundary failPresenter = new AddToWatchlistOutputBoundary() {
             @Override
             public void PrepareFailView(String error) {
-                assertEquals("name already exists", error);
+                assertEquals("Arial already exists", error);
             }
 
             @Override
@@ -85,8 +91,8 @@ public class AddToWatchlistInteractorTest {
             }
         };
 
-        Movie movie = new Movie("movie", 1);
-        AddToWatchlistInputData inputData = new AddToWatchlistInputData(movie, "name");
+        Movie movie = new Movie("Arial", 2);
+        AddToWatchlistInputData inputData = new AddToWatchlistInputData(movie, "user");
 
         AddToWatchlistInputBoundary interactor = new AddToWatchlistInteractor(failPresenter,DAO);
         interactor.execute(inputData);
