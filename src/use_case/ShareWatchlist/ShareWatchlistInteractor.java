@@ -1,6 +1,8 @@
 package use_case.ShareWatchlist;
 
 
+import data_access.ShareWatchlistDataAccessObject;
+import entity.CommonUserFactory;
 import entity.Movie;
 
 import java.util.List;
@@ -32,14 +34,16 @@ public class ShareWatchlistInteractor implements ShareWatchlistInputBoundary{
         String SenderName = inputData.getSenderName();
         String ReceiverName = inputData.getReceiverName();
 
-        if (! dataAccessInterface.userExist(ReceiverName)) {
+        ShareWatchlistDataAccessInterface DAO = new ShareWatchlistDataAccessObject(
+                dataAccessInterface.getPath(), new CommonUserFactory());
+        if (! DAO.userExist(ReceiverName)) {
             shareWatchlistOutputBoundary.prepareFailView("the user does not exist");
         } else {
-            List<Movie> watchlist = dataAccessInterface.getWatchlistByUsername(SenderName);
+            List<Movie> watchlist = DAO.getWatchlistByUsername(SenderName);
             if (watchlist.isEmpty()) {
                 shareWatchlistOutputBoundary.prepareFailView("the watchlist is empty");
             } else {
-                dataAccessInterface.setWatchlist(ReceiverName, SenderName, watchlist);
+                DAO.setWatchlist(ReceiverName, SenderName, watchlist);
                 ShareWatchlistOutputData outputData = new ShareWatchlistOutputData(ReceiverName);
                 shareWatchlistOutputBoundary.prepareSuccessView(outputData);
             }

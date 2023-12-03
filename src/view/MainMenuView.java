@@ -57,9 +57,9 @@ public class MainMenuView extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // give username to ShareWatchlist view model state
                 ShareWatchlistState shareWatchlistState = shareWatchlistViewModel.getState();
-                String loggedUserName = mainMenuViewModel.getLoggedInUser();
+                String loggedUserName = mainMenuViewModel.getState().getUserName();
+                System.out.println("main menu: current user " + loggedUserName);
                 shareWatchlistState.setLoggedUserName(loggedUserName);
-                shareWatchlistViewModel.setState(shareWatchlistState);
 
                 // change to ShareWatchlist View
                 viewManagerModel.setActiveView(shareWatchlistViewModel.getViewName());

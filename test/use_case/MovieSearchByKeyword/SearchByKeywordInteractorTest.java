@@ -3,6 +3,7 @@ package use_case.MovieSearchByKeyword;
 import entity.Movie;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import use_case.MovieSearchByKeyword.SearchByNameDataAccessInterface;
 import data_access.MovieDataAccessObject;
 
@@ -15,42 +16,64 @@ import static org.mockito.Mockito.when;
 
 class SearchByKeywordInteractorTest {
     @Test
-    void getRecommendedMovies_Success() {
-        // Mock the UserFactory
-        UserFactory userFactory = mock(UserFactory.class);
+    void executeWithValidKeywordShouldPrepareSuccessView() {
+        // Arrange
+        SearchByNameDataAccessInterface dataAccessObject = Mockito.mock(SearchByNameDataAccessInterface.class);
+        SearchByNameOutputBoundary presenter = Mockito.mock(SearchByNameOutputBoundary.class);
+        SearchByNameInteractor interactor = new SearchByNameInteractor(dataAccessObject, presenter);
 
-        // Mock the SearchByNameDataAccessInterface
-        SearchByNameDataAccessInterface dataAccessObject = mock(MovieDataAccessObject.class);
-        when(dataAccessObject.getRecommendedMovies("action")).thenReturn(List.of(new Movie("Inception"), new Movie("The Dark Knight")));
+        // Define input data
+        String validKeyword = "action";
+        RecommendInputData inputData = new RecommendInputData(validKeyword);
 
-        // Instantiate MovieDataAccessObject with the mocked dependencies
-        MovieDataAccessObject movieDataAccessObject = new MovieDataAccessObject("action", userFactory);
+        // Mock the behavior of the data access object to return some recommended movies
+        Mockito.when(dataAccessObject.getRecommendedMovies(validKeyword))
+                .thenReturn(List.of(new Movie("Movie1"), new Movie("Movie2")));
 
-        // Call the method under test
-        List<Movie> recommendedMovies = movieDataAccessObject.getRecommendedMovies("action");
+        // Act
+        interactor.execute(inputData);
 
-        // Verify the result
-        assertEquals(2, recommendedMovies.size());
-        assertEquals("Inception", recommendedMovies.get(0).getName());
-        assertEquals("The Dark Knight", recommendedMovies.get(1).getName());
+        // Assert
+        Mockito.verify(presenter).prepareSuccessView(Mockito.any());
     }
 
     @Test
-    void getRecommendedMovies_EmptyList() {
-        // Mock the UserFactory
-        UserFactory userFactory = mock(UserFactory.class);
+    void executeWithInvalidKeywordShouldPrepareFailView() {
+        // Arrange
+        SearchByNameDataAccessInterface dataAccessObject = Mockito.mock(SearchByNameDataAccessInterface.class);
+        SearchByNameOutputBoundary presenter = Mockito.mock(SearchByNameOutputBoundary.class);
+        SearchByNameInteractor interactor = new SearchByNameInteractor(dataAccessObject, presenter);
 
-        // Mock the SearchByNameDataAccessInterface
-        SearchByNameDataAccessInterface dataAccessObject = mock(MovieDataAccessObject.class);
-        when(dataAccessObject.getRecommendedMovies("unknown")).thenReturn(List.of());
+        // Define input data with an invalid keyword (empty)
+        String invalidKeyword = "";
+        RecommendInputData inputData = new RecommendInputData(invalidKeyword);
 
-        // Instantiate MovieDataAccessObject with the mocked dependencies
-        MovieDataAccessObject movieDataAccessObject = new MovieDataAccessObject("unknown", userFactory);
+        // Act
+        interactor.execute(inputData);
 
-        // Call the method under test
-        List<Movie> recommendedMovies = movieDataAccessObject.getRecommendedMovies("unknown");
+        // Assert
+        Mockito.verify(presenter).prepareFailView("Invalid keyword");
+    }
 
-        // Verify the result
-        assertEquals(0, recommendedMovies.size());
+    @Test
+    void executeWithNoResultsShouldPrepareFailView() {
+        // Arrange
+        SearchByNameDataAccessInterface dataAccessObject = Mockito.mock(SearchByNameDataAccessInterface.class);
+        SearchByNameOutputBoundary presenter = Mockito.mock(SearchByNameOutputBoundary.class);
+        SearchByNameInteractor interactor = new SearchByNameInteractor(dataAccessObject, presenter);
+
+        // Define input data with a valid keyword
+        String validKeyword = "nonexistent";
+        RecommendInputData inputData = new RecommendInputData(validKeyword);
+
+        // Mock the behavior of the data access object to return an empty list of recommended movies
+        Mockito.when(dataAccessObject.getRecommendedMovies(validKeyword))
+                .thenReturn(List.of());
+
+        // Act
+        interactor.execute(inputData);
+
+        // Assert
+        Mockito.verify(presenter).prepareFailView("No movies found for the keyword: " + validKeyword);
     }
 }

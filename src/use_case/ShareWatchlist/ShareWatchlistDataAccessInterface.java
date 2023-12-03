@@ -15,9 +15,10 @@ public interface ShareWatchlistDataAccessInterface {
     public List<Movie> getWatchlistByUsername(String userName);
 
     /**
-     * save watchlist to user's watchlist.
-     * @param userName the name of user.
-     * @param watchlist a watchlist.
+     *
+     * @param receiverName userName of receiver.
+     * @param senderName userName of sender.
+     * @param watchlist the watchlist want to be sent.
      */
     public void setWatchlist(String receiverName, String senderName, List<Movie> watchlist);
 
@@ -27,4 +28,6 @@ public interface ShareWatchlistDataAccessInterface {
      * @return the user that correspond to userName's user.
      */
     User getUser(String userName);
+
+    String getPath();
 }

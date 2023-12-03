@@ -1,6 +1,7 @@
 package usecase_adaptor.RecommendMovieWithoutFilter;
 
 import entity.Movie;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameState;
 import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
@@ -18,6 +19,8 @@ public class WithoutFilterViewModel extends ViewModel {
 
     private String usernameInput = "";
     private List<Movie> withoutFilterMovies;
+
+    private WithoutFilterState withoutFilterState = new WithoutFilterState();
 
 
     private String error = null;
@@ -66,6 +69,12 @@ public class WithoutFilterViewModel extends ViewModel {
 
     public String getError() {
         return error;
+    }
+
+    public WithoutFilterState getState() {return this.withoutFilterState;}
+
+    public void setState(WithoutFilterState withoutFilterState) {
+        this.withoutFilterState = withoutFilterState;
     }
 
 

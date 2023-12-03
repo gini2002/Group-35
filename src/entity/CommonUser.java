@@ -148,5 +148,8 @@ class CommonUser implements User {
     public void addMovieToWatchlist(Movie movie) {
         watchlist.addMovie(movie);
     }
+    public void deleteMovieToWatchlist(Movie movie) {
+        watchlist.deleteMovie(movie);
+    }
 }
 

@@ -41,14 +41,18 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
         if (movieIds.isEmpty()) {
             WithoutFilterPresenter.WithoutFilterFailView("No movies found in the watchlist");
         } else {
-//            List<Integer> movieIds = withoutFilterDAO.getWatchlistMovies(username);
-            List<String> keywords = getKeywordsForWatchlistMovies(movieIds); // 이전에 구현한 메서드로 장르 리스트를 가져옵니다.
-            List<String> genres = extractMatchingGenres(keywords);
-            String topGenre = findMostFrequentGenre(genres); // 가장 빈번한 장르를 찾습니다.
-            List<Movie> withoutFilterMovies = movieDAO.getRecommendedMovies(topGenre); // 해당 장르로 영화를 검색합니다.
-            // Prepare a success view with the list of recommended movies
-            WithoutFilterOutputData outputData = new WithoutFilterOutputData(withoutFilterMovies);
-            WithoutFilterPresenter.WithoutFilterSuccessView(outputData);
+            try {
+                List<String> keywords = getKeywordsForWatchlistMovies(movieIds); // 이전에 구현한 메서드로 장르 리스트를 가져옵니다.
+                List<String> genres = extractMatchingGenres(keywords);
+                String topGenre = findMostFrequentGenre(genres); // 가장 빈번한 장르를 찾습니다.
+                List<Movie> withoutFilterMovies = movieDAO.getRecommendedMovies(topGenre); // 해당 장르로 영화를 검색합니다.
+                // Prepare a success view with the list of recommended movies
+                WithoutFilterOutputData outputData = new WithoutFilterOutputData(withoutFilterMovies);
+                WithoutFilterPresenter.WithoutFilterSuccessView(outputData);
+            } catch (NoSuchElementException e) {
+                System.out.println("without filter: fail case");
+                WithoutFilterPresenter.WithoutFilterFailView("movies in watchlist do not have genre");
+            }
 
         }
     }

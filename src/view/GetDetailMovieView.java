@@ -5,6 +5,7 @@ import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistState;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
 import usecase_adaptor.DeleteWatchlist.DeleteWatchlistController;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistState;
 import usecase_adaptor.DeleteWatchlist.DeleteWatchlistViewModel;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
@@ -67,6 +68,8 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         this.deleteWatchlistViewModel = deleteWatchlistViewModel;
         this.addToWatchlistViewModel.addPropertyChangeListener(this);
         this.getDetailMovieViewModel.addPropertyChangeListener(this);
+
+        this.deleteWatchlistViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         setLayout(null);
@@ -242,6 +245,15 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         }
         else if (evt.getNewValue() instanceof AddToWatchlistState) {
             AddToWatchlistState state = (AddToWatchlistState) evt.getNewValue();
+            if (state.getMovieExistError() != null) {
+                JOptionPane.showMessageDialog(this, state.getMovieExistError());
+            } else {
+                JOptionPane.showMessageDialog(this, state.getMessage());
+            }
+        }
+
+        else if (evt.getNewValue() instanceof DeleteWatchlistState) {
+            DeleteWatchlistState state = (DeleteWatchlistState) evt.getNewValue();
             if (state.getMovieExistError() != null) {
                 JOptionPane.showMessageDialog(this, state.getMovieExistError());
             } else {

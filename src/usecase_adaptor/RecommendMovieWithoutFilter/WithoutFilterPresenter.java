@@ -21,6 +21,8 @@ public class WithoutFilterPresenter implements WithoutFilterOutputBoundary {
         withoutFilterViewModel.setWithoutFilterMovies(outputData.getWithoutFilterMovies());
         withoutFilterViewModel.firePropertyChanged();
         withoutFilterResultViewModel.setWithoutFilterMovies(outputData.getWithoutFilterMovies());
+        withoutFilterResultViewModel.getState().setError(null);
+        withoutFilterResultViewModel.getState().setWithoutFilterMovies(outputData.getWithoutFilterMovies());
         withoutFilterResultViewModel.firePropertyChanged();
         this.viewManagerModel.setActiveView(withoutFilterViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
@@ -29,6 +31,8 @@ public class WithoutFilterPresenter implements WithoutFilterOutputBoundary {
     @Override
     public void WithoutFilterFailView(String error) {
         withoutFilterViewModel.setError(error);
+        withoutFilterResultViewModel.getState().setError(error);
+        withoutFilterResultViewModel.firePropertyChanged();
         withoutFilterViewModel.firePropertyChanged();
 
     }
