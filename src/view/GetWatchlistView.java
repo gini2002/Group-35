@@ -118,6 +118,8 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                             int id = getWatchListViewModel.getIds().get(finalI);
                             String loggedinusername = getWatchListViewModel.getLogged_in_username();
                             getDetailMovieController.execute(id, loggedinusername);
+                            viewManagerModel.setActiveView(getDetailMovieViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
                             // JOptionPane.showMessageDialog(new JFrame(), getDetailMovieViewModel.getOverview());
                         }
                     }
