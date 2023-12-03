@@ -26,11 +26,11 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     private final AddToWatchlistController addToWatchlistController;
 
     private final DeleteWatchlistController deleteWatchlistController;
-    JLabel movie_title;
+    JLabel movie_title = new JLabel();
 
-    JLabel overview;
+    JLabel overview = new JLabel();
 
-    JLabel genre;
+    JLabel genre = new JLabel();
 
     final JButton backToMainMenu;
   
@@ -118,10 +118,13 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
         movie_title.setText(getDetailMovieViewModel.getTitle());
         overview.setText(getDetailMovieViewModel.getOverview());
-        List<String> genre_list = getDetailMovieViewModel.getGenre();
+        // List<String> genre_list = getDetailMovieViewModel.getGenre();
         String genre_text = "";
-        for (int i = 0; i< genre_list.size(); i++){
-            genre_text = genre_text + genre_list.get(i);
+        if (getDetailMovieViewModel.getGenre() != null) {
+            List<String> genre_list = getDetailMovieViewModel.getGenre();
+            for (int i = 0; i < genre_list.size(); i++){
+                genre_text = genre_text + "," + genre_list.get(i);
+            }
         }
         genre.setText(genre_text);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -146,15 +149,23 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof AddToWatchlistState) {
+        if (evt.getNewValue() instanceof GetDetailMovieState){
+            GetDetailMovieState getDetailMovieState = (GetDetailMovieState) evt.getNewValue();
+            if (getDetailMovieState.getError() != null){
+                JOptionPane.showMessageDialog(this, getDetailMovieState.getError());
+                System.out.println("111111");
+            } else {
+                JOptionPane.showMessageDialog(this, "get detail of" + getDetailMovieState.getTitle());
+                System.out.println("22222");
+            }
+        }
+        else if (evt.getNewValue() instanceof AddToWatchlistState) {
             AddToWatchlistState state = (AddToWatchlistState) evt.getNewValue();
             if (state.getMovieExistError() != null) {
                 JOptionPane.showMessageDialog(this, state.getMovieExistError());
             } else {
                 JOptionPane.showMessageDialog(this, state.getMessage());
             }
-        } else if (evt.getNewValue() instanceof GetDetailMovieState) {
-            GetDetailMovieState state = (GetDetailMovieState) evt.getNewValue();
-            movie_title.setText(state.getTitle());}
+        }
     }
 }

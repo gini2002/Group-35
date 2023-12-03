@@ -12,7 +12,12 @@ import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
 import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
 import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
+import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistController;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistViewModel;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
@@ -68,11 +73,10 @@ public class Main {
 
         // Create data access interface(object).
         MovieDataAccessObject movieDataAccessObject;
-        GetDetailMovieController getDetailMovieController = null;
 
         WithoutFilterDAO withoutFilterDAO;
 
-        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./username_to_watchlist.csv");
+        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./userInformation.csv");
 
         GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
 
@@ -145,6 +149,14 @@ public class Main {
         GetWatchlistView getWatchlistView = GetWatchlistUseCaseFactory.create(viewManagerModel, getWatchListDataAccessInterface,
                 getDetailMovieViewModel, getWatchListViewmodel, getDetailMovieDataAccessInterface, mainMenuViewModel);
         views.add(getWatchlistView, getWatchlistView.viewName);
+
+//        GetDetailMovieView getDetailMovieView = new GetDetailMovieView(getDetailMovieViewModel,
+//                addToWatchlistcontroller, addToWatchlistViewmodel, deleteWatchlistController,
+//                deleteWatchlistViewModel,viewManagerModel, mainMenuViewModel);
+        GetDetailMovieView getDetailMovieView = GetDetailOfMovieUseCaseFactory.create(getDetailMovieViewModel,
+                addToWatchlistDataAccessObject, new AddToWatchlistViewModel(), deleteWatchlistDataAccessObject,
+                new DeleteWatchlistViewModel(), viewManagerModel, mainMenuViewModel);
+        views.add(getDetailMovieView, getDetailMovieView.viewname);
 
 
 

@@ -9,11 +9,11 @@ public class GetWatchlistPresenter implements GetWatchListOutputBoundary {
 
     private ViewManagerModel viewManagerModel;
 
-    public GetWatchlistPresenter(GetWatchListViewmodel getWatchListViewmodel//,
-                                 //ViewManagerModel viewManagerModel
+    public GetWatchlistPresenter(GetWatchListViewmodel getWatchListViewmodel,
+                                 ViewManagerModel viewManagerModel
                                  ) {
         this.getWatchListViewmodel = getWatchListViewmodel;
-        //this.viewManagerModel = viewManagerModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class GetWatchlistPresenter implements GetWatchListOutputBoundary {
                 getWatchListOutputData.getPoster_urls(), getWatchListOutputData.getIds());
         getWatchListViewmodel.setLogged_in_username(getWatchListOutputData.getLogged_in_username());
         getWatchListViewmodel.setState(getWatchListState);
-        getWatchListViewmodel.firePropertyChanged();
+        // getWatchListViewmodel.firePropertyChanged();
 
         viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
         viewManagerModel.firePropertyChanged();

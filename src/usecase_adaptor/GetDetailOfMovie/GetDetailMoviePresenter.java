@@ -55,6 +55,7 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         getDetailMovieViewModel.setPoster_path(poster_path);
         getDetailMovieViewModel.firePropertyChanged();
 
+
         viewManagerModel.setActiveView(getDetailMovieViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

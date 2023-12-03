@@ -37,7 +37,8 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface
                     String[] watchlist = String.valueOf(col[5]).split("#");
                     List<Integer> watchlist2 = new ArrayList<>();
                     for (String i : watchlist) {
-                        watchlist2.add(Integer.valueOf(i));
+                        if (i == "") {}
+                        else {watchlist2.add(Integer.valueOf(i));}
                     }
                     usernameToWatchlist.put(username, watchlist2);
                 }

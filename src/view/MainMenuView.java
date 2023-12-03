@@ -76,8 +76,8 @@ public class MainMenuView extends JPanel{
                 GetWatchListState getWatchListState = getWatchListViewmodel.getState();
                 String loggedinuesername = mainMenuViewModel.getState().getUserName();
                 getWatchListState.setLoggedinusername(loggedinuesername);
+                getWatchlistController.execute(loggedinuesername);
                 getWatchListViewmodel.setState(getWatchListState);
-
                 viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
                 viewManagerModel.firePropertyChanged();
             }
