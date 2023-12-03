@@ -44,7 +44,7 @@ public class AddToWatchlistInteractorTest {
                 List<Movie> watchlist= DAO.getUser("user").getWatchlist();
                 int contain = 0;
                 for (Movie movies:watchlist) {
-                    if (movies.getName().equals("Arial")) {
+                    if (movies.getID() == 2) {
                         contain += 1;
                     }
                 }

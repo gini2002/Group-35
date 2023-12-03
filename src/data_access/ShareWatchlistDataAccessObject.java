@@ -27,6 +27,8 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
 
     private UserFactory userFactory;
 
+    private String path;
+
 
     /**
      * initiate the DAO.
@@ -34,6 +36,7 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
      * @param userFactory factory to produce user.
      */
     public ShareWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
+        this.path = csvPath;
         headers = new LinkedHashMap<>();
         try {
             this.userFactory = userFactory;
@@ -206,6 +209,11 @@ public class ShareWatchlistDataAccessObject implements ShareWatchlistDataAccessI
     @Override
     public User getUser(String userName) {
         return accounts.get(userName);
+    }
+
+    @Override
+    public String getPath() {
+        return path;
     }
 
 

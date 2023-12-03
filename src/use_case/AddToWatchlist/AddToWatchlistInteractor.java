@@ -1,5 +1,7 @@
 package use_case.AddToWatchlist;
 
+import data_access.AddToWatchlistDataAccessObject;
+import entity.CommonUserFactory;
 import entity.User;
 import entity.Movie;
 
@@ -34,7 +36,10 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary{
         //      2. add watchlist to user + save data
         //      3. presenter prepare successview
 
-        User user = dataAccessInterface.getUser(inputData.getUserName());
+        AddToWatchlistDataAccessInterface DAO = new AddToWatchlistDataAccessObject(
+                dataAccessInterface.getPath(), new CommonUserFactory());
+        User user = DAO.getUser(inputData.getUserName());
+        //User user = dataAccessInterface.getUser(inputData.getUserName());
         Movie movie = inputData.getMovie();
         List<Movie> watchList = user.getWatchlist();
         int count = 0;
@@ -44,7 +49,7 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary{
             }
         }
         if (count == 0) {
-            dataAccessInterface.saveMovie(inputData.getUserName(), movie);
+            DAO.saveMovie(inputData.getUserName(), movie);
             AddToWatchlistOutputData outputData = new AddToWatchlistOutputData(movie);
             addToWatchlistPresenter.PrepareSuccessView(outputData);
         } else {

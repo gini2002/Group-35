@@ -18,4 +18,10 @@ public interface AddToWatchlistDataAccessInterface {
      * @return the user obeject correspond to user name.
      */
     User getUser(String userName);
+
+    /**
+     *
+     * @return the path of csv file.
+     */
+    String getPath();
 }

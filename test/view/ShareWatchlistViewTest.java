@@ -99,14 +99,14 @@ class ShareWatchlistViewTest {
     }
 
     @Test
-    public void testShareButtonExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
+    public void testShareButtonExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
         Main.main(null);
         JButton button = getButton();
         assertEquals("share with user", button.getText());
     }
 
     @Test
-    public void testTextFieldExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
+    public void testTextFieldExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
         Main.main(null);
         JTextField textField = getTextField(3, 1, 1);
         assertEquals("", textField.getText());
