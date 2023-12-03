@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
 public class WatchlistTest {
     private ArrayList<Movie> movies = new ArrayList<>();
     private Watchlist watchlist;
@@ -47,5 +49,15 @@ public class WatchlistTest {
     @Test
     public void testGetWatchlist(){
         assert watchlist.getWatchlist() == movies;
+    }
+
+    @Test
+    public void testToSting() {
+        assertEquals("1#2#3#4#5", watchlist.toString());
+    }
+    @Test
+    public void testEmptyToSting() {
+        Watchlist watchlist2 = new Watchlist();
+        assertEquals("", watchlist2.toString());
     }
 }

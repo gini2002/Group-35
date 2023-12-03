@@ -1,4 +1,4 @@
 package usecase_adaptor.GetDetailOfMovie;
 
-public class GetDetailMovieViewModelTest {
+public class GetDetailMoviePrensenterTest {
 }
