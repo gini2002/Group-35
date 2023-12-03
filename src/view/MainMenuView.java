@@ -4,6 +4,7 @@ import usecase_adaptor.GetWatchlist.GetWatchListState;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.MovieSearchByKeyword.SearchByNameState;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistState;
 import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
@@ -75,8 +76,8 @@ public class MainMenuView extends JPanel{
                 GetWatchListState getWatchListState = getWatchListViewmodel.getState();
                 String loggedinuesername = mainMenuViewModel.getState().getUserName();
                 getWatchListState.setLoggedinusername(loggedinuesername);
+                getWatchlistController.execute(loggedinuesername);
                 getWatchListViewmodel.setState(getWatchListState);
-
                 viewManagerModel.setActiveView(getWatchListViewmodel.getViewName());
                 viewManagerModel.firePropertyChanged();
             }
@@ -87,9 +88,14 @@ public class MainMenuView extends JPanel{
 
         searchMovieButton = new JButton(mainMenuViewModel.SEARCH_MOVIE_BUTTON_LABEL);
         buttons.add(searchMovieButton);
+
         searchMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SearchByNameState searchByNameState = searchByNameViewModel.getState();
+                String loggedinusername = mainMenuViewModel.getState().getUserName();
+                searchByNameState.setUsername(loggedinusername);
+                searchByNameViewModel.setState(searchByNameState);
                 viewManagerModel.setActiveView(searchByNameViewModel.getViewName());
                 viewManagerModel.firePropertyChanged();
             }

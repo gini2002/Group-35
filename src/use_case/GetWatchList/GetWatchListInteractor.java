@@ -1,5 +1,7 @@
 package use_case.GetWatchList;
 
+import data_access.GetWatchListDAO;
+import data_access.WatchlistDAO;
 import entity.Movie;
 
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ public class GetWatchListInteractor implements GetWatchListInputBoundary {
     public void execute(GetWatchListInputData getWatchListIntputData) {
         String name = getWatchListIntputData.getName();
         // int id = getWatchListIntputData.getId();
-        List<Movie> watchlist = watchListDataObject.getWatchlistMovies(name);
+        GetWatchListDAO watchListDataObject2 = watchListDataObject.updatecsvpath(watchListDataObject.getpath());
+        List<Movie> watchlist = watchListDataObject2.getWatchlistMovies(name);
         List<String> names = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
         List<String> poster_url = new ArrayList<>();
@@ -28,7 +31,6 @@ public class GetWatchListInteractor implements GetWatchListInputBoundary {
             poster_url.add(movie.getPoster_path());
             ids.add(movie.getID());
         }
-        // TODO:need to decide get based on id or name
         GetWatchListOutputData getWatchListOutputData = new GetWatchListOutputData(names, poster_url, ids, name);
         getWatchListPresenter.getWatchlistSuccessView(getWatchListOutputData);
     }

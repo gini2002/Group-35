@@ -4,6 +4,7 @@ import entity.Movie;
 import entity.MovieFactory;
 import entity.User;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
+import usecase_adaptor.GetWatchlist.GetWatchListState;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,32 +20,30 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
 
     private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
 
-    public GetWatchListDAO(String csvPath) throws FileNotFoundException {
+    public GetWatchListDAO(String csvPath){
         csvFile = new File(csvPath);
 
-        headers.put("username", 0);
-        headers.put("watchlist", 1);
-
         if (csvFile.length() == 0) {
-            save();
         } else {
 
             try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
                 String header = reader.readLine();
+                assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
+
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
-                    String username = String.valueOf(col[headers.get("username")]);
-                    String[] watchlist = String.valueOf(col[headers.get("watchlist")]).split(",");
+                    String username = String.valueOf(col[1]);
+                    String[] watchlist = String.valueOf(col[5]).split("#");
                     List<Integer> watchlist2 = new ArrayList<>();
                     for (String i : watchlist) {
-                        watchlist2.add(Integer.valueOf(i));
+                        if (i == "") {}
+                        else {watchlist2.add(Integer.valueOf(i));}
                     }
                     usernameToWatchlist.put(username, watchlist2);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
-                // TODO: figure out why have to have catch
             }
         }
     }
@@ -58,22 +57,31 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
         }
         return result;
     }
-    // TODO; Get watchlist by input the name of the user
 
     @Override
-    public void add_to_watchlist(User user, int movie_id) {
-        Movie movie_added = movieDetailAccessAPI.getdetailMovie(movie_id);
-        List<Movie> watchlist = user.getWatchlist();
-        watchlist.add(movie_added);
-        ArrayList<Integer> watchlist2 = new ArrayList<>();
-        for (Movie movie: watchlist){
-            watchlist2.add(movie.getID());
-        }
-        usernameToWatchlist.replace(user.getName(),watchlist2);
-        // TODO: not sure if replace can update the value in the hashmap
-                //.put(user.getName(), watchlist2);
-        this.save();
+    public GetWatchListDAO updatecsvpath(String path) {
+        return new GetWatchListDAO(path);
     }
+
+    @Override
+    public String getpath() {
+        return csvFile.getPath();
+    }
+
+    // @Override
+    //public void add_to_watchlist(User user, int movie_id) {
+            //        Movie movie_added = movieDetailAccessAPI.getdetailMovie(movie_id);
+            //        List<Movie> watchlist = user.getWatchlist();
+            //        watchlist.add(movie_added);
+            //        ArrayList<Integer> watchlist2 = new ArrayList<>();
+            //        for (Movie movie: watchlist){
+            //            watchlist2.add(movie.getID());
+            //        }
+            //        usernameToWatchlist.replace(user.getName(),watchlist2);
+            //        // TODO: not sure if replace can update the value in the hashmap
+            //                //.put(user.getName(), watchlist2);
+            //        this.save();
+    //}
 
     private void save() {
         BufferedWriter writer;

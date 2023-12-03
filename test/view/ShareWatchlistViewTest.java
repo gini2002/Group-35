@@ -1,16 +1,27 @@
 package view;
 
 import app.Main;
+import app.ShareWatchlistUseCaseFactory;
 import data_access.FileUserDataAccessObject;
+import data_access.ShareWatchlistDataAccessObject;
+import data_access.WatchlistDAO;
+import data_access.WithoutFilterDAO;
 import entity.CommonUserFactory;
 import entity.Movie;
 import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
-import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterDAO;
+import use_case.ShareWatchlist.ShareWatchlistDataAccessInterface;
+import use_case.ShareWatchlist.ShareWatchlistInputBoundary;
+import use_case.signup.SignupInputBoundary;
+import usecase_adaptor.MainMenu.MainMenuViewModel;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistController;
+import usecase_adaptor.ShareWatchlist.ShareWatchlistViewModel;
+import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,10 +42,10 @@ class ShareWatchlistViewTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        User sender = userFactory.create("sender", "password1", LocalDateTime.now());
+        User sender = userFactory.create("se", "password1", LocalDateTime.now());
         Movie movie = new Movie("Arial", 2);
         sender.addMovieToWatchlist(movie);
-        User receiver = userFactory.create("receiver", "password2", LocalDateTime.now());
+        User receiver = userFactory.create("re", "password2", LocalDateTime.now());
 
         fileDAO.save(sender);
         System.out.println("1");
@@ -88,16 +99,64 @@ class ShareWatchlistViewTest {
     }
 
     @Test
-    public void testShareButtonExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
+    public void testShareButtonExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
         Main.main(null);
         JButton button = getButton();
         assertEquals("share with user", button.getText());
     }
 
     @Test
-    public void testTextFieldExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException {
+    public void testTextFieldExist() throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
         Main.main(null);
         JTextField textField = getTextField(3, 1, 1);
         assertEquals("", textField.getText());
+    }
+
+    @Test
+    public void testShareSignupView() {
+
+        addTwoUsers();
+
+        ShareWatchlistViewModel viewModel = new ShareWatchlistViewModel();
+        viewModel.getState().setLoggedUserName("se");
+        MainMenuViewModel mainMenuViewModel = new MainMenuViewModel();
+        ShareWatchlistDataAccessInterface shareWatchlistDataAccessObject;
+        shareWatchlistDataAccessObject = new ShareWatchlistDataAccessObject(
+                "./ShareViewTest.csv",
+                new CommonUserFactory());
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+        ShareWatchlistView shareView = ShareWatchlistUseCaseFactory.create(
+                viewManagerModel, viewModel, shareWatchlistDataAccessObject, mainMenuViewModel);
+
+        JFrame jf = new JFrame();
+        jf.setContentPane(shareView);
+        jf.pack();
+        jf.setVisible(true);
+
+        // get field
+        JPanel panelText = (JPanel) shareView.getComponent(1);
+        JTextField textField = (JTextField) panelText.getComponent(1);
+
+        // type name in field
+        KeyEvent event = new KeyEvent(textField, KeyEvent.KEY_TYPED, System.currentTimeMillis(),
+                0, KeyEvent.VK_UNDEFINED, 'e');
+
+        panelText.dispatchEvent(event);
+
+        KeyEvent event2 = new KeyEvent(textField, KeyEvent.KEY_TYPED, System.currentTimeMillis(),
+                0, KeyEvent.VK_UNDEFINED, 'r');
+
+        panelText.dispatchEvent(event2);
+
+
+        // get button
+        JPanel panelButton = (JPanel) shareView.getComponent(2);
+        JButton button = (JButton) panelButton.getComponent(0);
+
+        // click button
+        button.doClick();
+
+        assertEquals("re", viewModel.getState().getReseiverName());
     }
 }

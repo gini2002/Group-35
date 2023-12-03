@@ -28,7 +28,9 @@ public class GetDetailOfMovieUseCaseFactory {
                                             MainMenuViewModel mainMenuViewModel) {
         AddToWatchlistController addToWatchlistController = createAddToWatchlistController(addToWatchlistViewModel, addToWatchlistDAO);
         DeleteWatchlistController deleteWatchlistController = createDeleteWatchlistController(deleteWatchlistViewModel, deleteWatchlistDAO);
-        return new GetDetailMovieView(getDetailMovieViewModel, addToWatchlistController, addToWatchlistViewModel, deleteWatchlistController, deleteWatchlistViewModel, viewManagerModel, mainMenuViewModel);
+        return new GetDetailMovieView(getDetailMovieViewModel,
+                addToWatchlistController, addToWatchlistViewModel, deleteWatchlistController,
+                deleteWatchlistViewModel, viewManagerModel, mainMenuViewModel);
     }
 
 

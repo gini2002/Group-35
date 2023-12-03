@@ -35,6 +35,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
     JButton backToMainMenu;
 
+
     private final AddToWatchlistViewModel addToWatchlistViewModel;
 
     private final DeleteWatchlistViewModel deleteWatchlistViewModel;
@@ -56,6 +57,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         this.deleteWatchlistViewModel = deleteWatchlistViewModel;
         this.addToWatchlistViewModel.addPropertyChangeListener(this);
         this.getDetailMovieViewModel.addPropertyChangeListener(this);
+
         this.deleteWatchlistViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;

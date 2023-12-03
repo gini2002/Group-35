@@ -23,14 +23,15 @@ public class MainmenuUseCaseFactory {
                                       WithoutFilterViewModel withoutFilterViewModel,
                                       GetWatchListDataAccessInterface getWatchListDataAccessInterface){
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListDataAccessInterface,
-                getWatchListViewmodel);
+                getWatchListViewmodel, viewManagerModel);
         return new MainMenuView(viewManagerModel, mainMenuViewModel, shareWatchlistViewModel,searchByNameViewModel,withoutFilterViewModel,
                 getWatchListViewmodel, getWatchlistController);
     }
 
     public static GetWatchlistController createGetWatchlistController(GetWatchListDataAccessInterface watchListDataObject,
-                                                                      GetWatchListViewmodel getWatchListViewmodel){
-        GetWatchListOutputBoundary getWatchListPresenter = new GetWatchlistPresenter(getWatchListViewmodel);
+                                                                      GetWatchListViewmodel getWatchListViewmodel,
+                                                                      ViewManagerModel viewManagerModel){
+        GetWatchListOutputBoundary getWatchListPresenter = new GetWatchlistPresenter(getWatchListViewmodel, viewManagerModel);
         GetWatchListInputBoundary getWatchListInteractor = new GetWatchListInteractor(watchListDataObject,
                 getWatchListPresenter);
         return new GetWatchlistController(getWatchListInteractor);

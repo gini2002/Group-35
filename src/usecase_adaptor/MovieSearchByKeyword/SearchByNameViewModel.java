@@ -1,6 +1,7 @@
 package usecase_adaptor.MovieSearchByKeyword;
 
 import entity.Movie;
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieState;
 import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
@@ -35,6 +36,8 @@ public class SearchByNameViewModel extends ViewModel {
 
     /** The error message, if any. */
     private String error = null;
+    private String username;
+    private SearchByNameState searchByNameState = new SearchByNameState();
 
     /**
      * Constructs a SearchByNameViewModel with the specified view name.
@@ -101,6 +104,8 @@ public class SearchByNameViewModel extends ViewModel {
      *
      * @param error The error message.
      */
+
+
     public void setError(String error) {
         this.error = error;
     }
@@ -112,6 +117,12 @@ public class SearchByNameViewModel extends ViewModel {
      */
     public String getError() {
         return error;
+    }
+
+    public SearchByNameState getState() {return this.searchByNameState;}
+
+    public void setState(SearchByNameState searchByNameState) {
+        this.searchByNameState = searchByNameState;
     }
 
     /** The property change support for handling property change events. */

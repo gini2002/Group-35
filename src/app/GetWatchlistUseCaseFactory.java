@@ -22,23 +22,25 @@ public class GetWatchlistUseCaseFactory {
                                           GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface,
                                           MainMenuViewModel mainMenuViewModel) {
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListViewmodel,
-                getWatchListDataAccessInterface);
+                getWatchListDataAccessInterface, viewManagerModel);
         GetDetailMovieController getDetailMovieController = createGetDetailMovieController(
-                getDetailMovieViewModel, getDetailMovieDataAccessInterface);
+                getDetailMovieViewModel, getDetailMovieDataAccessInterface, viewManagerModel);
         return new GetWatchlistView(getWatchListViewmodel, getWatchlistController,
                 getDetailMovieController, getDetailMovieViewModel, viewManagerModel, mainMenuViewModel);
     }
 
     private static GetWatchlistController createGetWatchlistController(GetWatchListViewmodel getWatchListViewmodel,
-                                                                       GetWatchListDataAccessInterface DAO){
-        GetWatchListOutputBoundary presenter = new GetWatchlistPresenter(getWatchListViewmodel);
+                                                                       GetWatchListDataAccessInterface DAO,
+                                                                       ViewManagerModel viewManagerModel){
+        GetWatchListOutputBoundary presenter = new GetWatchlistPresenter(getWatchListViewmodel, viewManagerModel);
         GetWatchListInputBoundary interactor = new GetWatchListInteractor(DAO, presenter);
         return new GetWatchlistController(interactor);
         }
 
     private static GetDetailMovieController createGetDetailMovieController(GetDetailMovieViewModel getDetailMovieViewModel,
-                                                                       GetDetailMovieDataAccessInterface DAO){
-        GetDetailMovieOutputBoundary presenter = new GetDetailMoviePresenter(getDetailMovieViewModel);
+                                                                           GetDetailMovieDataAccessInterface DAO,
+                                                                           ViewManagerModel viewManagerModel){
+        GetDetailMovieOutputBoundary presenter = new GetDetailMoviePresenter(getDetailMovieViewModel, viewManagerModel);
         GetDetailMovieInputBoundary interactor = new GetDetailMovieInteractor(presenter, DAO);
         return new GetDetailMovieController(interactor);
     }
