@@ -17,6 +17,10 @@ import java.util.List;
             list.add(movie);
         }
 
+        public void deleteMovie(Movie movie) {
+            list.remove(movie);
+        }
+
         public List<Movie> getWatchlist() {
             return list;
         }
