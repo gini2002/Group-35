@@ -122,7 +122,6 @@ class CommonUser implements User {
         this.id = id;
     }
 
-
     /**
      *
      * @param userName  the name of user who share the watchlist with logged in user.
@@ -148,6 +147,13 @@ class CommonUser implements User {
     public void addMovieToWatchlist(Movie movie) {
         watchlist.addMovie(movie);
     }
+
+    /**
+     * Removes a movie from the user's watchlist.
+     * This method delegates the removal operation to the watchlist's deleteMovie method.
+     *
+     * @param movie The Movie object to be removed from the watchlist.
+     */
     public void deleteMovieToWatchlist(Movie movie) {
         watchlist.deleteMovie(movie);
     }
