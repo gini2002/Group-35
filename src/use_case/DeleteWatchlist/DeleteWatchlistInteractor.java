@@ -9,14 +9,35 @@ import use_case.AddToWatchlist.AddToWatchlistDataAccessInterface;
 
 import java.util.List;
 
+/**
+ * Interactor for the delete watchlist use case.
+ * This class handles the business logic of deleting a movie from a user's watchlist.
+ * It communicates between the data access layer and the presentation layer.
+ */
+
 public class DeleteWatchlistInteractor implements DeleteWatchlistInputBoundary {
     private final DeleteWatchlistOutputBoundary deleteWatchlistPresenter;
     private final DeleteWatchlistDataAccessInterface dataAccessInterface;
+
+    /**
+     * Constructs a DeleteWatchlistInteractor.
+     *
+     * @param deleteWatchlistPresenter The presenter interface for outputting results of the deletion process.
+     * @param dataAccessInterface The data access interface for interacting with the data layer.
+     */
 
     public DeleteWatchlistInteractor(DeleteWatchlistOutputBoundary deleteWatchlistPresenter, DeleteWatchlistDataAccessInterface dataAccessInterface) {
         this.deleteWatchlistPresenter = deleteWatchlistPresenter;
         this.dataAccessInterface = dataAccessInterface;
     }
+
+    /**
+     * Executes the operation of deleting a movie from a user's watchlist.
+     * Retrieves the user's watchlist, checks if the movie exists in the watchlist, and performs the deletion.
+     * Notifies the presenter of the success or failure of the deletion operation.
+     *
+     * @param inputData The input data containing the details of the movie to be deleted and the user's username.
+     */
 
     @Override
     public void execute(DeleteWatchlistInputData inputData) {
