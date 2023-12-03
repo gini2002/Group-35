@@ -206,10 +206,14 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                 descriptionArea.setWrapStyleWord(true);
                 descriptionArea.setFont(font20);
                 descriptionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-                JScrollPane scrollPane = new JScrollPane(descriptionArea);
-                ImageIcon imageIcon = new ImageIcon(getDetailMovieViewModel.getPoster_path());
-                JLabel poster = new JLabel(imageIcon);
-                this.add(scrollPane);
+                //JScrollPane scrollPane = new JScrollPane(descriptionArea);
+                ImageIcon imageIcon = new ImageIcon("https://image.tmdb.org/t/p/w1280" +
+                        getDetailMovieViewModel.getPoster_path());
+                System.out.println("https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path());
+                JLabel poster = new JLabel();
+                poster.setIcon(imageIcon);
+                poster.setVisible(true);
+                this.add(descriptionArea);
                 this.add(poster);
             });
 
@@ -227,6 +231,9 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             }
             genre.setText(genre_text);
             genre.setFont(font20);
+            movie_title.setAlignmentX(Component.LEFT_ALIGNMENT);
+            genre.setAlignmentX(Component.LEFT_ALIGNMENT);
+            title.setFont(font20);
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(title);
             this.add(buttons);
