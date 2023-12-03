@@ -2,6 +2,7 @@ package usecase_adaptor.GetDetailOfMovie;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -18,6 +19,8 @@ public class GetDetailMovieStateTest {
         state.setGenre(genres);
         state.setOverview("overview");
         state.setPoster_path("http://jpgsomething");
+        LocalDate localdate = LocalDate.of(2022, 2, 22);
+        state.setReleaseDate(localdate);
         state.setId(11);
         GetDetailMovieState state2 = new GetDetailMovieState(state);
         assertEquals("user1", state2.getLoggedinusername());
@@ -26,6 +29,7 @@ public class GetDetailMovieStateTest {
         assertEquals(genres, state2.getGenre());
         assertEquals("overview", state2.getOverview());
         assertEquals(11, state2.getId());
+        assertEquals(localdate, state2.getReleaseDate());
         assertEquals("http://jpgsomething", state2.getPoster_path());
     }
 }
