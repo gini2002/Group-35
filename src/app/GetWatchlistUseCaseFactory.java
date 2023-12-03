@@ -22,7 +22,7 @@ public class GetWatchlistUseCaseFactory {
                                           GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface,
                                           MainMenuViewModel mainMenuViewModel) {
         GetWatchlistController getWatchlistController = createGetWatchlistController(getWatchListViewmodel,
-                getWatchListDataAccessInterface);
+                getWatchListDataAccessInterface, viewManagerModel);
         GetDetailMovieController getDetailMovieController = createGetDetailMovieController(
                 getDetailMovieViewModel, getDetailMovieDataAccessInterface, viewManagerModel);
         return new GetWatchlistView(getWatchListViewmodel, getWatchlistController,
@@ -30,8 +30,9 @@ public class GetWatchlistUseCaseFactory {
     }
 
     private static GetWatchlistController createGetWatchlistController(GetWatchListViewmodel getWatchListViewmodel,
-                                                                       GetWatchListDataAccessInterface DAO){
-        GetWatchListOutputBoundary presenter = new GetWatchlistPresenter(getWatchListViewmodel);
+                                                                       GetWatchListDataAccessInterface DAO,
+                                                                       ViewManagerModel viewManagerModel){
+        GetWatchListOutputBoundary presenter = new GetWatchlistPresenter(getWatchListViewmodel, viewManagerModel);
         GetWatchListInputBoundary interactor = new GetWatchListInteractor(DAO, presenter);
         return new GetWatchlistController(interactor);
         }

@@ -28,7 +28,6 @@ public class GetWatchListInteractor implements GetWatchListInputBoundary {
             poster_url.add(movie.getPoster_path());
             ids.add(movie.getID());
         }
-        // TODO:need to decide get based on id or name
         GetWatchListOutputData getWatchListOutputData = new GetWatchListOutputData(names, poster_url, ids, name);
         getWatchListPresenter.getWatchlistSuccessView(getWatchListOutputData);
     }
