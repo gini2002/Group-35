@@ -83,24 +83,24 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface {
             //        this.save();
     //}
 
-    private void save() {
-        BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
-            writer.newLine();
-
-            for (String username : usernameToWatchlist.keySet()) {
-                String line = String.format("%s,%s", username,
-                        String.valueOf(usernameToWatchlist.get(username)));
-                writer.write(line);
-                writer.newLine();
-            }
-
-            writer.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    //private void save() {
+    //        BufferedWriter writer;
+    //        try {
+    //            writer = new BufferedWriter(new FileWriter(csvFile));
+    //            writer.write(String.join(",", headers.keySet()));
+    //            writer.newLine();
+    //
+    //            for (String username : usernameToWatchlist.keySet()) {
+    //                String line = String.format("%s,%s", username,
+    //                        String.valueOf(usernameToWatchlist.get(username)));
+    //                writer.write(line);
+    //                writer.newLine();
+    //            }
+    //
+    //            writer.close();
+    //
+    //        } catch (IOException e) {
+    //            throw new RuntimeException(e);
+    //        }
+    //    }
 }
