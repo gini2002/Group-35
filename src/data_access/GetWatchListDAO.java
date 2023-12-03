@@ -4,6 +4,7 @@ import entity.Movie;
 import entity.MovieFactory;
 import entity.User;
 import use_case.GetWatchList.GetWatchListDataAccessInterface;
+import usecase_adaptor.GetWatchlist.GetWatchListState;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetWatchListDAO implements GetWatchListDataAccessInterface
-        {
+public class GetWatchListDAO implements GetWatchListDataAccessInterface {
     private final File csvFile;
     private final MovieDetailAccessAPI movieDetailAccessAPI = new MovieDetailAccessAPI();
 
@@ -56,6 +56,16 @@ public class GetWatchListDAO implements GetWatchListDataAccessInterface
             result.add(movieDetailAccessAPI.getdetailMovie(i));
         }
         return result;
+    }
+
+    @Override
+    public GetWatchListDAO updatecsvpath(String path) {
+        return new GetWatchListDAO(path);
+    }
+
+    @Override
+    public String getpath() {
+        return csvFile.getPath();
     }
 
     // @Override

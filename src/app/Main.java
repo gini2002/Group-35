@@ -76,7 +76,6 @@ public class Main {
 
         WithoutFilterDAO withoutFilterDAO;
 
-        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./userInformation.csv");
 
         GetDetailMovieDataAccessInterface getDetailMovieDataAccessInterface = new MovieDetailAccessAPI();
 
@@ -104,6 +103,8 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        GetWatchListDataAccessInterface getWatchListDataAccessInterface = new GetWatchListDAO("./userInformation.csv");
 
 
 
