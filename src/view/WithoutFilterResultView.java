@@ -1,11 +1,14 @@
 package view;
 
+import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +24,7 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
     private final ViewManagerModel viewManagerModel;
 
     final JButton mainMenuBtn;
+    private final GetDetailMovieController controller;
 
     public DefaultListModel<String> listModel;
     public JList<String> movieList;
@@ -28,7 +32,8 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
     //    private JTextArea movieTextArea = new JTextArea();
     JLabel errorLabel;
 
-    public WithoutFilterResultView(WithoutFilterResultViewModel viewModel, WithoutFilterViewModel withoutFilterViewModel, ViewManagerModel viewManagerModel) {
+    public WithoutFilterResultView(WithoutFilterResultViewModel viewModel, WithoutFilterViewModel withoutFilterViewModel, ViewManagerModel viewManagerModel, GetDetailMovieController getDetailMovieController) {
+        this.controller = getDetailMovieController;
         this.withoutFilterViewModel = withoutFilterViewModel;
         setVisible(false);
         this.viewManagerModel = viewManagerModel;
@@ -72,6 +77,22 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
         // Update error label
         movieList.setModel(listModel);
 
+        movieList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = movieList.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        // Get the selected movie name
+                        String selectedMovie = listModel.getElementAt(selectedIndex);
+
+                        // Handle the click event, e.g., switch to another view
+                        handleMovieClick(selectedMovie);
+                    }
+                }
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(movieList);
         movieListPanel.add(scrollPane, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.NORTH);
@@ -86,34 +107,6 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
         setVisible(true);
     }
 
-    // Add ActionListener to each button
-//        movieList.addListSelectionListener(e -> {
-//            int selectedIndex = movieList.getSelectedIndex();
-//            if (selectedIndex != -1) {
-//                String selectedMovie = listModel.getElementAt(selectedIndex);
-//                showMovieDialog(selectedMovie);
-//            }
-//        };
-
-
-    // Create a custom cell renderer with a button
-//        movieList.setCellRenderer(new ButtonRenderer());
-//
-//
-//        JScrollPane scrollPane = new JScrollPane(movieList);
-//        this.add(title, BorderLayout.NORTH);
-//        this.add(scrollPane, BorderLayout.CENTER);
-//        String error = viewModel.getError();
-//
-//
-//        // Error label
-//        errorLabel = new JLabel(error);
-//        this.add(errorLabel, BorderLayout.SOUTH);
-//
-//        setVisible(true);
-//
-//
-//    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -144,7 +137,7 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
 //        }
 
         switch (evt.getPropertyName()) {
-            case "recommendedMovies":
+            case "withoutFilterMovies":
                 updateView();
                 break;
             case "error":
@@ -162,12 +155,12 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
             System.out.println("WithoutFilterViewModel: " + withoutFilterViewModel);
             System.out.println("viewModel: " + viewModel);
 
-            String[] recommendedMovies = withoutFilterViewModel.getRecommendedMovies();
-            System.out.println("Recommended movies: " + Arrays.toString(recommendedMovies));
+            String[] withoutFilterMovies = withoutFilterViewModel.getRecommendedMovies();
+            System.out.println("Recommended movies: " + Arrays.toString(withoutFilterMovies));
 
-            if (recommendedMovies != null) {
+            if (withoutFilterMovies != null) {
                 listModel.clear();
-                listModel.addAll(Arrays.asList(recommendedMovies));
+                listModel.addAll(Arrays.asList(withoutFilterMovies));
                 movieList.setModel(listModel);
 
                 // Print the contents of listModel for debugging
@@ -188,6 +181,15 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
 
             System.out.println("Update complete.");
         });
+    }
+
+    private void handleMovieClick(String selectedMovie) {
+        String username = withoutFilterViewModel.getState().getUsername();
+        int movie_id = withoutFilterViewModel.getID(selectedMovie);
+        controller.execute(movie_id, username);
+        viewManagerModel.setActiveView("detail_view");
+        viewManagerModel.firePropertyChanged();
+        System.out.println("Movie clicked");
     }
 }
 
