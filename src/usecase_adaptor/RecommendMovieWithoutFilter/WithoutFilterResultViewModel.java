@@ -17,6 +17,7 @@ public class WithoutFilterResultViewModel {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
+    private WithoutFilterResultState state = new WithoutFilterResultState();
 
     public String[] getRecommendedMovies() {
         List<String> movies = new ArrayList<>();
@@ -50,6 +51,12 @@ public class WithoutFilterResultViewModel {
 //        support.firePropertyChange(propertyName, null, propertyName);
 //    }
     public void firePropertyChanged() {
-        support.firePropertyChange("withoutFilterMovies", null, this.withoutFilterMovies);
+        support.firePropertyChange("withoutFilterMovies", null, this.state);
     }
+
+    public void setError(String error) {
+        this.state.setError(error);
+    }
+
+    public WithoutFilterResultState getState() {return this.state;}
 }

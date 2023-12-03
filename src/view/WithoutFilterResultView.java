@@ -2,6 +2,7 @@ package view;
 
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
+import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultState;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterResultViewModel;
 import usecase_adaptor.RecommendMovieWithoutFilter.WithoutFilterViewModel;
 import usecase_adaptor.ViewManagerModel;
@@ -138,8 +139,12 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
 
         switch (evt.getPropertyName()) {
             case "withoutFilterMovies":
-                updateView();
-                break;
+                WithoutFilterResultState state = viewModel.getState();
+                if (state.getError() != null) {
+                    JOptionPane.showMessageDialog(this, state.getError());
+                } else {
+                    updateView();
+                }
             case "error":
                 // Handle error property change if needed
                 break;
