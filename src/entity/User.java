@@ -32,6 +32,8 @@ public interface User {
 
     void addMovieToWatchlist(Movie movie);
 
+    void deleteMovieToWatchlist(Movie movie);
+
 
 
 
