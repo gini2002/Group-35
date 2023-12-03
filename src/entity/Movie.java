@@ -3,6 +3,7 @@ package entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Movie class represents a movie entity with various properties such as name, genre, release date, rating, etc.
@@ -126,6 +127,19 @@ public class Movie {
      *
      * @return A MovieBuilder instance.
      */
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Movie movie = (Movie) obj;
+        return id == movie.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
     public static MovieBuilder builder() {
         return new MovieBuilder();
     }
