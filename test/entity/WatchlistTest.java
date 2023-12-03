@@ -60,4 +60,10 @@ public class WatchlistTest {
         Watchlist watchlist2 = new Watchlist();
         assertEquals("", watchlist2.toString());
     }
+    @Test
+    public void testnullToSting() {
+        Watchlist watchlist3 = new Watchlist();
+        watchlist3.getWatchlist().clear();
+        assertEquals("", watchlist3.toString());
+    }
 }

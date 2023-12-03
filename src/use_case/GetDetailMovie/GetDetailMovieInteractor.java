@@ -3,6 +3,7 @@ package use_case.GetDetailMovie;
 import entity.Movie;
 import entity.MovieFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
@@ -31,9 +32,10 @@ public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
             String overview = movie.getOverview();
             ArrayList<String> genre = movie.getGenre();
             String poster_path = movie.getPoster_path();
+            LocalDate releaseDate = movie.getReleaseDate();
             String loggedinusername = getDetailMovieInputData.getLoggedinusername();
             GetDetailMovieOutputData getDetailMovieOutputData = new GetDetailMovieOutputData(title,
-                    overview, genre, poster_path, id, loggedinusername);
+                    overview, genre, poster_path, id, loggedinusername, releaseDate);
             getDetailMoviePresenter.getDetailMovieSuccessView(getDetailMovieOutputData);
         }
     }

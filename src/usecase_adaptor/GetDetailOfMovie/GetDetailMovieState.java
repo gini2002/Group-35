@@ -1,5 +1,6 @@
 package usecase_adaptor.GetDetailOfMovie;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetDetailMovieState {
@@ -9,6 +10,7 @@ public class GetDetailMovieState {
     private String poster_path;
     private String error;
     private String loggedinusername;
+    private LocalDate releaseDate;
 
     private int id;
 
@@ -19,6 +21,7 @@ public class GetDetailMovieState {
         overview = copy.overview;
         poster_path = copy.poster_path;
         id = copy.id;
+        releaseDate = copy.releaseDate;
         loggedinusername = copy.loggedinusername;
     }
     public GetDetailMovieState(){}
@@ -38,6 +41,14 @@ public class GetDetailMovieState {
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
 
     public void setId(int id) {this.id = id;}
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
 
     public void setLoggedinusername(String loggedinusername) {
         this.loggedinusername = loggedinusername;
