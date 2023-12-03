@@ -1,84 +1,93 @@
 package use_case.DeleteWatchlist;
 
-//import data_access.DeleteWatchlistDataAccessInterface;
+import data_access.WatchlistDAO;
+import data_access.FileUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.Movie;
 import entity.User;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistPresenter;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistViewModel;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.kotlin.VerificationKt.verify;
 
 public class DeleteWatchlistInteractorTest {
 
     @Test
     public void successTest() {
-        // Arrange
-        DeleteWatchlistDataAccessInterface dataAccessObject = mock(DeleteWatchlistDataAccessInterface.class);
-        DeleteWatchlistOutputBoundary successPresenter = mock(DeleteWatchlistOutputBoundary.class);
-        DeleteWatchlistInteractor interactor = new DeleteWatchlistInteractor(successPresenter, dataAccessObject);
+        FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("./DeleteTestFile1.csv", new CommonUserFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        User user = new CommonUserFactory().create("user",
-                "password", LocalDateTime.of(1,1,1,1,1));
-        Movie movie = new Movie("Movie1", 1);
-        user.addMovieToWatchlist(movie); // Assuming User has this method
-        when(dataAccessObject.getUser("user")).thenReturn(user);
+        User user = new CommonUserFactory().create("user", "password", LocalDateTime.of(1,1,1,1,1));
+        Movie movie = new Movie("Arial", 2);
+        user.addMovieToWatchlist(movie);
+        userDataAccessObject.save(user);
+
+        DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./DeleteTestFile1.csv", new CommonUserFactory());
+
+        DeleteWatchlistOutputBoundary successPresenter = new DeleteWatchlistOutputBoundary() {
+            @Override
+            public void PrepareFailView(String error) {
+                fail("not expected");
+            }
+
+            @Override
+            public void PrepareSuccessView(DeleteWatchlistOutputData outputData) {
+                assertEquals("Arial", outputData.getMovieName());
+                DeleteWatchlistDataAccessInterface DAO2 = new WatchlistDAO(
+                        DAO.getPath(), new CommonUserFactory());
+                List<Movie> watchlist = DAO2.getUser("user").getWatchlist();
+                boolean contains = watchlist.stream().anyMatch(m -> m.getID() == 2);
+                assertFalse(contains);
+            }
+        };
 
         DeleteWatchlistInputData inputData = new DeleteWatchlistInputData(movie, "user");
-
-        // Act
+        DeleteWatchlistInputBoundary interactor = new DeleteWatchlistInteractor(successPresenter, DAO);
         interactor.execute(inputData);
-
-        // Assert
-        verify(successPresenter).PrepareSuccessView(any(DeleteWatchlistOutputData.class));
-
-        ArgumentCaptor<DeleteWatchlistOutputData> argument = ArgumentCaptor.forClass(DeleteWatchlistOutputData.class);
-        verify(successPresenter).PrepareSuccessView(argument.capture());
-
-        // Additional Assertion to check the message
-        assertEquals("delete Movie1 successfully", argument.getValue().getMessage());
     }
 
     @Test
     public void failTestMovieNotInWatchlist() {
-        // Arrange
-        DeleteWatchlistDataAccessInterface dataAccessObject = mock(DeleteWatchlistDataAccessInterface.class);
-        DeleteWatchlistOutputBoundary failPresenter = mock(DeleteWatchlistOutputBoundary.class);
-        DeleteWatchlistInteractor interactor = new DeleteWatchlistInteractor(failPresenter, dataAccessObject);
+        FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("./DeleteTestFile2.csv", new CommonUserFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        User user = new CommonUserFactory().create("user",
-                "password", LocalDateTime.of(1,1,1,1,1));
-        Movie movie = new Movie("Movie1", 1);
-        when(dataAccessObject.getUser("user")).thenReturn(user);
+        User user = new CommonUserFactory().create("user", "password", LocalDateTime.of(1,1,1,1,1));
+        userDataAccessObject.save(user);
 
+        DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./DeleteTestFile2.csv", new CommonUserFactory());
+
+        DeleteWatchlistViewModel viewModel = new DeleteWatchlistViewModel();
+        DeleteWatchlistOutputBoundary failPresenter = new DeleteWatchlistOutputBoundary() {
+            @Override
+            public void PrepareFailView(String error) {
+                assertEquals("Arial doesn't exist", error);
+            }
+
+            @Override
+            public void PrepareSuccessView(DeleteWatchlistOutputData outputData) {
+                fail("not expected");
+            }
+        };
+
+        Movie movie = new Movie("Arial", 2);
         DeleteWatchlistInputData inputData = new DeleteWatchlistInputData(movie, "user");
-
-        // Act
+        DeleteWatchlistInputBoundary interactor = new DeleteWatchlistInteractor(failPresenter, DAO);
         interactor.execute(inputData);
-
-        // Assert
-        verify(failPresenter).PrepareFailView(movie.getName() + " doesn't exist");
     }
-
-//    @Test
-//    public void failTestUserNotFound() {
-//        // Arrange
-//        DeleteWatchlistDataAccessInterface dataAccessObject = mock(DeleteWatchlistDataAccessInterface.class);
-//        DeleteWatchlistOutputBoundary failPresenter = mock(DeleteWatchlistOutputBoundary.class);
-//        DeleteWatchlistInteractor interactor = new DeleteWatchlistInteractor(failPresenter, dataAccessObject);
-//
-//        Movie movie = new Movie("Movie1", 1);
-//        when(dataAccessObject.getUser("user")).thenReturn(null);
-//
-//        DeleteWatchlistInputData inputData = new DeleteWatchlistInputData(movie, "user");
-//
-//        // Act
-//        interactor.execute(inputData);
-//
-//        // Assert
-//        verify(failPresenter).PrepareFailView("User not found");
-//    }
 }
