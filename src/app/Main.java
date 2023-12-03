@@ -32,7 +32,7 @@ import view.*;
 
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException, WatchlistDAO.NoDataException {
+    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException{
         JFrame application = new JFrame("Movie Recommendations App");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
