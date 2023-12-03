@@ -52,7 +52,6 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
 
 
         JPanel buttons = new JPanel();
-        List<String> names = getWatchListViewModel.getNames();
         backToMainMenu = new JButton(GetWatchListViewmodel.MAIN_MENU_BUTTON_LABEL);
         buttons.add(backToMainMenu);
         backToMainMenu.addActionListener(new ActionListener() {
@@ -64,7 +63,8 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                 }
             }
         });
-
+        List<String> names = getWatchListViewModel.getNames();
+        getWatchListViewModel.firePropertyChanged();
         for (int i = 0; i < names.size(); i++) {
             JButton button = new JButton(GetWatchListViewmodel.DETAIL_MOVIE_LABEL + names.get(i));
             int finalI = i;

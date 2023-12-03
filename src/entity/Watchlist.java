@@ -72,7 +72,7 @@ import java.util.List;
         public String toString() {
             String result = "";
             if (list == null) {
-                            return "";
+                return "";
             } else if (list.isEmpty()) {
                 return "";
             } else {

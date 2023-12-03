@@ -45,6 +45,14 @@ public class WatchlistTest {
         watchlist.addMovie(movie);
         assert watchlist.getWatchlist().get(5) == movie;
     }
+    @Test
+    public void testDeleteMovie(){
+        Movie movie = new Movie(name, id, genres, date, rating, poster_path, overview);
+        movies.add(movie);
+        watchlist.addMovie(movie);
+        watchlist.deleteMovie(movie);
+        assert watchlist.getWatchlist() == movies;
+    }
 
     @Test
     public void testGetWatchlist(){
@@ -61,9 +69,10 @@ public class WatchlistTest {
         assertEquals("", watchlist2.toString());
     }
     @Test
-    public void testnullToSting() {
+    public void testNullToSting() {
         Watchlist watchlist3 = new Watchlist();
         watchlist3.getWatchlist().clear();
-        assertEquals("", watchlist3.toString());
+        String result = watchlist3.toString();
+        assertEquals("", result);
     }
 }

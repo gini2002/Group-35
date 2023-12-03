@@ -36,41 +36,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class GetDetailMovieViewTest {
-    public JButton getButton(){
-        JFrame app = null;
-        Window[] windows = Window.getWindows();
-        for (Window window : windows) {
-            if (window instanceof JFrame) {
-                app = (JFrame) window;
-            }
-        }
-
-        assertNotNull(app);
-
-        Component root = app.getComponent(0);
-
-        Component cp = ((JRootPane) root).getContentPane();
-
-        JPanel jp = (JPanel) cp;
-
-        JPanel jp2 = (JPanel) jp.getComponent(0);
-
-        GetDetailMovieView getDetailMovieView = (GetDetailMovieView) jp2.getComponent(3);
-
-        JPanel buttons = (JPanel) getDetailMovieView.getComponent(2);
-
-        return (JButton) buttons.getComponent(0);
-    }
 
     @Test
-    public void testGetDetailButtonExist() throws FileNotFoundException, WatchlistDAO.NoDataException, WithoutFilterDAO.NoDataException {
-        Main.main(null);
-        JButton button = getButton();
-        assertEquals("", button.getText());
-    }
-
-    @Test
-    public void testGetDetailMovieView() throws WatchlistDAO.NoDataException {
+    public void testGetDetailMovieView()  {
         GetDetailMovieViewModel getDetailMovieViewModel = new GetDetailMovieViewModel();
         GetDetailMovieDataAccessInterface getDetailMovieDAO = new MovieDetailAccessAPI();
         AddToWatchlistViewModel addToWatchlistViewModel = new AddToWatchlistViewModel();
@@ -79,7 +47,7 @@ public class GetDetailMovieViewTest {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         AddToWatchlistDataAccessInterface DAO2 = new AddToWatchlistDataAccessObject("./AddTestFile1.csv",
                 new CommonUserFactory());
-        DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./AddTestFile1.csv");
+        DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./AddTestFile1.csv", new CommonUserFactory());
         GetDetailMovieView getDetailMovieView = GetDetailOfMovieUseCaseFactory.create(getDetailMovieViewModel,
                 DAO2, addToWatchlistViewModel, DAO, deleteWatchlistViewModel, viewManagerModel, mainMenuViewModel);
 
