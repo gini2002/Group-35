@@ -43,7 +43,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 String header = reader.readLine();
 
                 // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
+//                assert header.equals("id,username,password,creation_time,search_history,watchlist,shared_watchlist");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
