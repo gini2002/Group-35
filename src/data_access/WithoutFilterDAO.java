@@ -17,6 +17,33 @@ public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
     private final Map<String, Integer> headers = new HashMap<>();
     private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
 
+    public WithoutFilterDAO(String csvPath) {
+        csvFile = new File(csvPath);
+
+        if (csvFile.length() != 0) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                reader.readLine(); // Skip header
+
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    String[] col = row.split(",");
+                    String username = col[1];
+                    String[] watchlistStr = col[5].split("#");
+                    List<Integer> watchlist = new ArrayList<>();
+
+                    for (String i : watchlistStr) {
+                        if (!i.isEmpty()) {
+                            watchlist.add(Integer.valueOf(i));
+                        }
+                    }
+                    usernameToWatchlist.put(username, watchlist);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public List<String> getKeywordsForMovie(int movieId) {
         List<String> keywords = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
@@ -51,36 +78,88 @@ public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
         return keywords;
     }
 
-    public WithoutFilterDAO(String csvPath) throws FileNotFoundException, NoDataException {
-        csvFile = new File(csvPath);
 
-        headers.put("username", 0);
-        headers.put("watchlist", 1);
+//    public static List<Integer> WithoutFilterDAO(String csvPath, String searchUsername) throws FileNotFoundException, NoDataException {
+//        File csvFile = new File(csvPath);
+//        Map<String, Integer> headers = new HashMap<>();
+//
+//        headers.put("username", 1);
+//        headers.put("watchlist", 5);
+//
+//        if (csvFile.length() == 0) {
+//            throw new NoDataException("No data to provide movie recommendation");
+//        } else {
+//            List<Integer> watchlist = new ArrayList<>();
+//            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+//                reader.readLine();
+//                String row;
+//                while ((row = reader.readLine()) != null) {
+//                    String[] col = row.split(",");
+//                    String username = col[headers.get("username")];
+//
+//                    if (username.equals(searchUsername)) {
+//                        String watchlistStr = col[headers.get("watchlist")];
+//                        String[] movieIds = watchlistStr.split("#");
+//
+//                        for (String idStr : movieIds) {
+//                            if (!idStr.isEmpty()) {
+//                                watchlist.add(Integer.parseInt(idStr));
+//                            }
+//                        }
+//
+//                        break; // exit the loop once the user is found
+////                    String username = String.valueOf(col[headers.get("username")]);
+////                    String[] watchlist = String.valueOf(col[headers.get("watchlist")]).split(",");
+////                    List<Integer> watchlist2 = new ArrayList<>();
+////                    for (String id : watchlist) {
+////                        watchlist2.add(Integer.valueOf(id));
+//                    }
+//
+////                    usernameToWatchlist.put(username, watchlist2);
+//                }
+//            }
+//            return watchlist;
+//        }
+//    }
 
-        if (csvFile.length() == 0) {
-            throw new NoDataException("No data to provide movie recommendation");
-        } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-                String header = reader.readLine();
-                String row;
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    String username = String.valueOf(col[headers.get("username")]);
-                    String[] watchlist = String.valueOf(col[headers.get("watchlist")]).split(",");
-                    List<Integer> watchlist2 = new ArrayList<>();
-                    for (String id : watchlist) {
-                        watchlist2.add(Integer.valueOf(id));
-                    }
-                    usernameToWatchlist.put(username, watchlist2);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("Error reading CSV file", e);
-            }
-        }
-    }
+//    public static List<Integer> WithoutFilterDAO(String csvPath, String searchUsername) throws IOException {
+//        File csvFile = new File(csvPath);
+//        Map<String, Integer> headers = new HashMap<>();
+//        headers.put("username", 1);
+//        headers.put("watchlist", 5);
+//        // ... other headers as needed
+//
+//        List<Integer> watchlist = new ArrayList<>();
+//
+//        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+//            reader.readLine(); // skip the header line
+//
+//            String row;
+//            while ((row = reader.readLine()) != null) {
+//                String[] col = row.split(",");
+//                String username = col[headers.get("username")];
+//
+//                if (username.equals(searchUsername)) {
+//                    String watchlistStr = col[headers.get("watchlist")];
+//                    String[] movieIds = watchlistStr.split("#");
+//
+//                    for (String idStr : movieIds) {
+//                        if (!idStr.isEmpty()) {
+//                            watchlist.add(Integer.parseInt(idStr));
+//                        }
+//                    }
+//
+//                    break; // exit the loop once the user is found
+//                }
+//            }
+//        }
+//        return watchlist;
+//    }
+//}
+
 
     public List<Integer> getWatchlistMovies(String username) {
-        return usernameToWatchlist.getOrDefault(username, Collections.emptyList());
+        return usernameToWatchlist.getOrDefault(username, new ArrayList<>());
     }
 
     // Custom exception class
