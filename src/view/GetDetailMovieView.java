@@ -19,27 +19,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class GetDetailMovieView extends JPanel implements ActionListener, PropertyChangeListener {
+    /** The view name*/
     public final String viewname = "Details";
+    /** The viewmodel tha provide information for the view. */
     private final GetDetailMovieViewModel getDetailMovieViewModel;
+    /** the controller of add movie to watchlist since the button is shown on get detail of movie view. */
     private final AddToWatchlistController addToWatchlistController;
-
+    /** the controller of delete movie from watchlist since the button is shown on get detail of movie view. */
     private final DeleteWatchlistController deleteWatchlistController;
+    /** The label shown the title of the movie being displayed on the screen */
     JLabel movie_title = new JLabel();
-
+    /** The label shown the date of releasing of the movie being displayed on the screen */
+    JLabel releasedate = new JLabel();
+    /** The label shown the overview of the movie being displayed on the screen */
     JLabel overview = new JLabel();
-
+    /** The label shown the genre of the movie being displayed on the screen */
     JLabel genre = new JLabel();
-
+    /** The button to go back to the main menu. */
+    JLabel posterLabel = new JLabel();
     JButton backToMainMenu;
-
-
+    /** The view model that is give information when add to watchlist button is clicked. */
     private final AddToWatchlistViewModel addToWatchlistViewModel;
-
+    /** The view model that is give information when delete movie from watchlist button is clicked. */
     private final DeleteWatchlistViewModel deleteWatchlistViewModel;
     private final ViewManagerModel viewManagerModel;
+    /** The view model that give information when go back to the main menu is clicked. */
     private final MainMenuViewModel mainMenuViewModel;
 
 
@@ -61,6 +72,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         this.deleteWatchlistViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
+        setLayout(null);
 
 
         JLabel title = new JLabel("Details");
@@ -103,52 +115,20 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                     String name = getDetailMovieViewModel.getTitle();
                     String loggedinusername = getDetailMovieViewModel.getLoggedinusername();
                     deleteWatchlistController.execute(new Movie(name, id), loggedinusername);
-                    // TODO: fulfill the remove from watchlist button
                 }
             }
         });
-
-
-        //SwingUtilities.invokeLater(() -> {
-        //            JFrame frame = new JFrame(getDetailMovieViewModel.getTitle());
-        //            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //            ImageIcon imageIcon = new ImageIcon(getDetailMovieViewModel.getPoster_path());
-        //            JLabel label = new JLabel(imageIcon);
-        //            frame.add(label);
-        //            frame.setSize(400, 300);
-        //            frame.setLocationRelativeTo(null);
-        //            frame.setVisible(true);
-        //            this.add(frame);
-        //        });
-
-
-        //movie_title.setText(getDetailMovieViewModel.getTitle());
-        //        overview.setText(getDetailMovieViewModel.getOverview());
-        //        // List<String> genre_list = getDetailMovieViewModel.getGenre();
-        //        String genre_text = "";
-        //        if (getDetailMovieViewModel.getGenre() != null) {
-        //            List<String> genre_list = getDetailMovieViewModel.getGenre();
-        //            for (int i = 0; i < genre_list.size(); i++){
-        //                genre_text = genre_text + "," + genre_list.get(i);
-        //            }
-        //        }
-        //        genre.setText(genre_text);
-        //        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //        this.add(title);
-        //        this.add(buttons);
-        //        this.add(movie_title);
-        //        this.add(overview);
-        //        this.add(genre);
     }
 
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
             if (overview != null) {this.removeAll();}
+            setLayout(null);
+            this.setAlignmentX(200);
             JLabel title = new JLabel("details");
-            title.setAlignmentX(Component.CENTER_ALIGNMENT);
+            // title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JPanel buttons = new JPanel();
-
             JButton addToWatchlist = new JButton(AddToWatchlistViewModel.ADD_WATCH_LIST_BUTTON_LABEL);
             JButton removeFromWatchlist = new JButton(DeleteWatchlistViewModel.DELETE_WATCHLIST_BUTTON_LABEL);
             buttons.add(addToWatchlist);
@@ -184,48 +164,25 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                         String name = getDetailMovieViewModel.getTitle();
                         String loggedinusername = getDetailMovieViewModel.getLoggedinusername();
                         deleteWatchlistController.execute(new Movie(name, id), loggedinusername);
-                        // TODO: fulfill the remove from watchlist button
                     }
                 }
             });
-            //SwingUtilities.invokeLater(() -> {
-            //                JTextArea frame = new JFrame(getDetailMovieViewModel.getTitle());
-            //                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            //                ImageIcon imageIcon = new ImageIcon(getDetailMovieViewModel.getPoster_path());
-            //                JLabel label = new JLabel(imageIcon);
-            //                frame.add(label);
-            //                frame.setSize(400, 300);
-            //                frame.setLocationRelativeTo(null);
-            //                frame.setVisible(true);
-            //                this.add(frame);
-            //            });
             Font font20 = new Font("Arial", Font.PLAIN, 20);
             SwingUtilities.invokeLater(() -> {
-                JFrame frame = new JFrame("Overview");
-
                 JTextArea descriptionArea = new JTextArea();
-                descriptionArea.setText(getDetailMovieViewModel.getOverview());
+                descriptionArea.setText("OVERVIEW:" + "\n" +getDetailMovieViewModel.getOverview());
                 descriptionArea.setEditable(false);
                 descriptionArea.setLineWrap(true);
                 descriptionArea.setWrapStyleWord(true);
                 descriptionArea.setFont(font20);
-                descriptionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-                //JScrollPane scrollPane = new JScrollPane(descriptionArea);
-                ImageIcon imageIcon = new ImageIcon("https://image.tmdb.org/t/p/w1280" +
-                        getDetailMovieViewModel.getPoster_path());
-                System.out.println("https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path());
-                JLabel poster = new JLabel();
-                poster.setIcon(imageIcon);
-                poster.setVisible(true);
+                descriptionArea.setAlignmentX(200);
+                descriptionArea.setMargin(new Insets(0, 200, 0, 200));
                 this.add(descriptionArea);
-                this.add(poster);
             });
 
             movie_title.setText(getDetailMovieViewModel.getTitle());
-            Font font70 = new Font("Arial", Font.PLAIN, 70);
-            movie_title.setFont(font70);
-            // overview.setText(getDetailMovieViewModel.getOverview());
-            // List<String> genre_list = getDetailMovieViewModel.getGenre();
+            Font font60 = new Font("Arial", Font.PLAIN, 60);
+            movie_title.setFont(font60);
             String genre_text = "Genres:  ";
             if (getDetailMovieViewModel.getGenre() != null) {
                 List<String> genre_list = getDetailMovieViewModel.getGenre();
@@ -235,26 +192,37 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             }
             genre.setText(genre_text);
             genre.setFont(font20);
-            movie_title.setAlignmentX(Component.LEFT_ALIGNMENT);
-            genre.setAlignmentX(Component.LEFT_ALIGNMENT);
-            title.setFont(font20);
+            this.setAlignmentX(200);
+            movie_title.setAlignmentX(200);
+            genre.setAlignmentX(200);
+            title.setFont(new Font("Arial", Font.PLAIN, 40));
+            title.setAlignmentX(200);
+            releasedate.setText("Released at  " +getDetailMovieViewModel.getReleaseDate().toString());
+            releasedate.setFont(font20);
+            releasedate.setAlignmentX(200);
+
+
+
+
+
+            String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
+            ImageIcon image = new ImageIcon(url);
+            System.out.println(url);
+
+            posterLabel.setIcon(image);
+            System.out.println("Image Dimensions: " + image.getIconWidth() + "x" + image.getIconHeight());
+            System.out.println(posterLabel);
+            // TODO: image can not load.
+
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            this.add(title);
             this.add(buttons);
+            this.add(title);
             this.add(movie_title);
-            // this.add(overview);
             this.add(genre);
+            this.add(releasedate);
+            this.add(posterLabel);
         });
     }
-
-    //@Override
-
-    //public void actionPerformed(ActionEvent e) {System.out.println("Click " + e.getActionCommand());}
-
-    //@Override
-    //public void propertyChange(PropertyChangeEvent evt) {
-    //    GetDetailMovieState state = (GetDetailMovieState) evt.getNewValue();
-    //    movie_title.setText(state.getTitle());
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click " + e.getActionCommand());
     }
@@ -294,3 +262,5 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         }
     }
 }
+
+

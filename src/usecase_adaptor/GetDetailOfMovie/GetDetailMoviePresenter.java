@@ -46,6 +46,7 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         getDetailMovieState.setTitle(title);
         getDetailMovieState.setPoster_path(poster_path);
         getDetailMovieState.setId(id);
+        getDetailMovieState.setReleaseDate(response.getRelease_data());
         getDetailMovieState.setLoggedinusername(response.getLoggedinusername());
         getDetailMovieViewModel.setLoggedinusername(response.getLoggedinusername());
         getDetailMovieViewModel.setOverview(overview);
@@ -54,6 +55,7 @@ public class GetDetailMoviePresenter implements GetDetailMovieOutputBoundary {
         getDetailMovieViewModel.setId(id);
         getDetailMovieViewModel.setPoster_path(poster_path);
         getDetailMovieViewModel.setGetDetailMovieState(getDetailMovieState);
+        getDetailMovieViewModel.setReleaseDate(response.getRelease_data());
         getDetailMovieViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(getDetailMovieViewModel.getViewName());

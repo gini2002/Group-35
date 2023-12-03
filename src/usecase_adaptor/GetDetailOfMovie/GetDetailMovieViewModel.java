@@ -4,6 +4,7 @@ import usecase_adaptor.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetDetailMovieViewModel extends ViewModel {
@@ -18,6 +19,8 @@ public class GetDetailMovieViewModel extends ViewModel {
     private String poster_path;
     /** The user that is logged in currently. */
     private String loggedinusername;
+    /** date of the movie being released. */
+    private LocalDate releaseDate;
     /** id of the movie. */
     private int id;
     /** The label for removing the movie from the watchlist. */
@@ -65,10 +68,15 @@ public class GetDetailMovieViewModel extends ViewModel {
     public void setLoggedinusername(String loggedinusername) {
         this.loggedinusername = loggedinusername;
     }
-
     /**
-     * Sets the poster url of the movie.
-     * @param poster_path The poster url of the movie.
+     * Sets the date of the movie being released.
+     * @param releaseDate The date of the movie being released.
+     */
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;}
+    /**
+     * Sets the path of the poster of the movie.
+     * @param poster_path The path of the poster of the movie.
      */
     public void setPoster_path(String poster_path) {this.poster_path = poster_path;}
 
@@ -148,4 +156,12 @@ public class GetDetailMovieViewModel extends ViewModel {
      * @return the name of user that is currently logged in.
      */
     public String getLoggedinusername() {return loggedinusername;}
+
+    /**
+     * Retrieves the date of the movie is released.
+     * @return the date of the movie is released.
+     */
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
 }

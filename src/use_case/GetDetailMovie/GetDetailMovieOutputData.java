@@ -1,5 +1,6 @@
 package use_case.GetDetailMovie;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetDetailMovieOutputData {
@@ -7,6 +8,8 @@ public class GetDetailMovieOutputData {
     private final String overview;
     private final List<String> genre;
     private final String poster_path;
+    private final LocalDate release_data;
+
     private final String loggedinusername;
 
     private final int id;
@@ -15,13 +18,15 @@ public class GetDetailMovieOutputData {
                                     List<String> genre,
                                     String poster_path,
                                     int id,
-                                    String loggedinusername){
+                                    String loggedinusername,
+                                    LocalDate release_data){
         this.genre = genre;
         this.overview = overview;
         this.poster_path = poster_path;
         this.title = title;
         this.id = id;
         this.loggedinusername = loggedinusername;
+        this.release_data = release_data;
     }
 
     public String getTitle(){
@@ -39,4 +44,6 @@ public class GetDetailMovieOutputData {
     public int getId() {return id;}
 
     public String getLoggedinusername() {return loggedinusername;}
+
+    public LocalDate getRelease_data() {return release_data;}
 }

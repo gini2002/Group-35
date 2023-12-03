@@ -55,10 +55,6 @@ public class GetWatchListState {
         return ids;
     }
 
-    public List<String> getWatchlistPosters() {
-        return watchlistPosters;
-    }
-
     public void setIds(List<Integer> ids) {
         this.ids = ids;
     }
