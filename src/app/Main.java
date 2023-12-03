@@ -37,7 +37,9 @@ import view.*;
 
 
 public class Main {
-    public static void main(String[] args) throws WatchlistDAO.NoDataException, FileNotFoundException, WithoutFilterDAO.NoDataException {
+
+    public static void main(String[] args) throws FileNotFoundException, WithoutFilterDAO.NoDataException{
+
         JFrame application = new JFrame("Movie Recommendations App");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,7 +93,7 @@ public class Main {
 
         DeleteWatchlistDataAccessInterface deleteWatchlistDataAccessObject;
         deleteWatchlistDataAccessObject = new WatchlistDAO(
-                "./userInformation.csv");
+                "./userInformation.csv", new CommonUserFactory());
 
         movieDataAccessObject = new MovieDataAccessObject(searchByNameViewModel.getKeywordInput(), new CommonUserFactory());
 
