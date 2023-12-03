@@ -9,10 +9,8 @@ import use_case.DeleteWatchlist.DeleteWatchlistDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     private final File csvFile;
@@ -23,9 +21,13 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     private UserFactory userFactory;
     private final Map<String, Watchlist> usernameToWatchlist = new HashMap<>();
 
+    private String path;
+
     public WatchlistDAO(String csvPath, UserFactory userFactory) {
+        this.path = csvPath;
         this.userFactory = userFactory;
-        try {csvFile = new File(csvPath);
+        try {
+            csvFile = new File(csvPath);
 
             headers.put("id", 0);
             headers.put("username", 1);
@@ -68,7 +70,7 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
                         usernameToWatchlist.put(username, watchList);
 
                         //crate shared watchlist from string
-                        Map<String, Watchlist> sharedWatchlist= trans_to_shared_watchlist(
+                        Map<String, Watchlist> sharedWatchlist = trans_to_shared_watchlist(
                                 shared_watchlist, "#", ":", "%");
 
                         //crate a new user object
@@ -89,7 +91,7 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
                                                              String EachUserSplitter, String MovieSplitter) {
         String[] info = col.split(UserSplitter);
         Map<String, Watchlist> user_watchlist_map = new HashMap<>();
-        for (String each_info: info) {
+        for (String each_info : info) {
             Map<String, List<Movie>> map = trans_to_each_user(each_info, EachUserSplitter, MovieSplitter);
             String userName = map.keySet().toString();
             Watchlist watchlist = new Watchlist(map.get(userName));
@@ -125,10 +127,11 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     private Movie get_movie_from_api(int movieID) {
 
         //call api get request
-        OkHttpClient client = new OkHttpClient();;
+        OkHttpClient client = new OkHttpClient();
+        ;
 
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/movie/"+String.valueOf(movieID)+"?language=en-US")
+                .url("https://api.themoviedb.org/3/movie/" + String.valueOf(movieID) + "?language=en-US")
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTM1NDRjZTMxNTEyYjhlZGMzOWFlYWQyMTdiZWFlZCIsInN1YiI6IjY1MTZlZjJmYzUwYWQyMDBjOTFhNjYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5F2KzF4gOHTdMcv3AZzazTgKTGv--FzILbQvLVG9EI")
@@ -143,7 +146,7 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
                 String name = String.valueOf(responseBody.getString("original_title"));
                 return new Movie(name, movieID);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -151,8 +154,9 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
 
     /**
      * save movie to the user.
+     *
      * @param userName of user who want to add movie.
-     * @param movie that is being added.
+     * @param movie    that is being added.
      */
     public void saveMovie(String userName, Movie movie) {
         User user = getUser(userName);
@@ -160,14 +164,18 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
         save();
     }
 
+
     /**
-     *
      * @param userName of user who want to add movie.
      * @return the user who has username.
      */
 
     public User getUser(String userName) {
         return accounts.get(userName);
+    }
+
+    public String getPath() {
+        return this.path;
     }
 
     private void save() {
@@ -199,118 +207,13 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
             return "";
         }
         String result = "";
-        for (Movie movie:movies) {
+        for (Movie movie : movies) {
             int id = movie.getID();
             result = result + id + "#";
         }
         return result.substring(0, result.length() - 1);
 
     }
-
-    public void removeMovieFromWatchlist(String username, int movieId) {
-        User user = accounts.get(username);
-        if (user != null) {
-            user.getWatchlist().removeIf(movie -> movie.getID() == movieId);
-            save();
-        }
-    }
 }
-
-//    public WatchlistDAO(String csvPath) throws NoDataException {
-//        csvFile = new File(csvPath);
-//
-//        if (csvFile.length() != 0) {
-//            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-//                reader.readLine(); // Skip header
-//
-//                String row;
-//                while ((row = reader.readLine()) != null) {
-//                    String[] col = row.split(",");
-//                    String username = col[1];
-//                    String[] watchlistStr = col[5].split("#");
-//                    List<Integer> watchlist = new ArrayList<>();
-//
-//                    for (String i : watchlistStr) {
-//                        if (!i.isEmpty()) {
-//                            watchlist.add(Integer.valueOf(i));
-//                        }
-//                    }
-//                    usernameToWatchlist.put(username, watchlist);
-//                }
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-
-//        headers.put("username", 0);
-//        headers.put("watchlist", 1);
-
-//        if (csvFile.length() == 0) {
-//            throw new NoDataException("No data in watchlist");
-//        } else {
-//            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-//                String header = reader.readLine();
-//                String row;
-//                while ((row = reader.readLine()) != null) {
-//                    String[] col = row.split(",");
-//                    String username = String.valueOf(col[headers.get("username")]);
-//                    String[] watchlist = String.valueOf(col[headers.get("watchlist")]).split(",");
-//                    List<Integer> watchlist2 = new ArrayList<>();
-//                    for (String id : watchlist) {
-//                        watchlist2.add(Integer.valueOf(id));
-//                    }
-//                    usernameToWatchlist.put(username, watchlist2);
-//                }
-//            } catch (IOException e) {
-//                throw new RuntimeException("Error reading CSV file", e);
-//            }
-//        }
-//    }
-//
-//
-////    public WatchlistDAO getWatchlistDAO() {
-////        // In this case, just return 'this', since WatchlistDAO itself is being used.
-////        return this;
-////    }
-//
-//    public List<Integer> getWatchlistMoviesID(String name) {
-//
-//        return usernameToWatchlist.get(name);
-//    }
-//
-//    public boolean removeMovieFromWatchlist(String username, int movieId) {
-//        List<Integer> watchlist = usernameToWatchlist.get(username);
-//        if (watchlist != null && watchlist.remove(Integer.valueOf(movieId))) {
-//            save();
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    private List<Integer> parseWatchlist(String watchlistStr) {
-//        // Assuming the watchlist is stored as a comma-separated string of movie IDs
-//        List<Integer> watchlist = new ArrayList<>();
-//        for (String idStr : watchlistStr.split("#")) {
-//            watchlist.add(Integer.parseInt(idStr.trim()));
-//        }
-//        return watchlist;
-//    }
-//
-//    private void save() {
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
-//            for (Map.Entry<String, List<Integer>> entry : usernameToWatchlist.entrySet()) {
-//                String line = entry.getKey() + "," + String.join("#", entry.getValue().toString());
-//                writer.write(line);
-//                writer.newLine();
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException("Error writing CSV file: " + e.getMessage(), e);
-//        }
-//    }
-
-//    public static class NoDataException extends Exception {
-//        public NoDataException(String message) {
-//            super(message);
-//        }
-//    }
-//}
 
 
