@@ -22,6 +22,7 @@ public class ShareWatchlistController {
      */
     public void execute(String userName1, String userName2) {
         ShareWatchlistInputData inputData = new ShareWatchlistInputData(userName1, userName2);
+        System.out.println("shared controller: " + inputData.getReceiverName() + inputData.getSenderName());
         shareWatchlistInputBoundary.execute(inputData);
     }
 }

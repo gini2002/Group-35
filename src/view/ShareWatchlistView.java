@@ -63,7 +63,9 @@ public class ShareWatchlistView extends JPanel implements ActionListener, Proper
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(sharedUsernameButton)) {
                     String currentUser = shareWatchlistViewModel.getState().getLoggedUserName();
+                    System.out.println("shared view: current user: " + currentUser);
                     String sharedUser = sharedUsernameInputField.getText();
+                    System.out.println("shared view: shared with: " + sharedUser);
                     shareWatchlistController.execute(currentUser, sharedUser);
                 }
             }

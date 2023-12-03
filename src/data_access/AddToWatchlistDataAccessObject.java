@@ -25,6 +25,8 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
     private UserFactory userFactory;
     private final Map<String, Watchlist> usernameToWatchlist = new HashMap<>();
 
+    private String path;
+
 
     /**
      * initiate the DAO.
@@ -32,6 +34,7 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
      * @param userFactory factory that produced user.
      */
     public AddToWatchlistDataAccessObject(String csvPath, UserFactory userFactory) {
+        this.path = csvPath;
         this.userFactory = userFactory;
         try {csvFile = new File(csvPath);
 
@@ -177,6 +180,15 @@ public class AddToWatchlistDataAccessObject implements AddToWatchlistDataAccessI
     @Override
     public User getUser(String userName) {
         return accounts.get(userName);
+    }
+
+    /**
+     *
+     * @return path of csv file.
+     */
+    @Override
+    public String getPath() {
+        return this.path;
     }
 
     private void save() {
