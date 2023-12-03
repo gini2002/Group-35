@@ -41,7 +41,9 @@ public class AddToWatchlistInteractorTest {
             @Override
             public void PrepareSuccessView(AddToWatchlistOutputData outputData) {
                 assertEquals("Arial", outputData.getMovieName());
-                List<Movie> watchlist= DAO.getUser("user").getWatchlist();
+                AddToWatchlistDataAccessInterface DAO2 = new AddToWatchlistDataAccessObject(
+                        DAO.getPath(), new CommonUserFactory());
+                List<Movie> watchlist= DAO2.getUser("user").getWatchlist();
                 int contain = 0;
                 for (Movie movies:watchlist) {
                     if (movies.getID() == 2) {
