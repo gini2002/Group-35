@@ -12,7 +12,20 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Data Access Object (DAO) for managing user watchlists.
+ * This class handles interactions with a CSV file to persist and retrieve watchlist data,
+ * including user accounts and their associated watchlists.
+ */
 public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
+
+    /**
+     * Constructor for WatchlistDAO.
+     * Initializes the DAO with the specified CSV file path and a user factory for creating users.
+     *
+     * @param csvPath The path to the CSV file used for storing user data.
+     * @param userFactory The factory for creating User entities.
+     */
     private final File csvFile;
     private final Map<String, Integer> headers = new HashMap<>();
 
@@ -87,6 +100,16 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
 
     }
 
+    /**
+     * Transforms a shared watchlist string into a map of usernames to Watchlist objects.
+     *
+     * @param col The string containing shared watchlist data.
+     * @param UserSplitter The delimiter used to split different users' data.
+     * @param EachUserSplitter The delimiter used to split each user's data.
+     * @param MovieSplitter The delimiter used to split movie data.
+     * @return A map where keys are usernames and values are their respective Watchlist objects.
+     */
+
     private Map<String, Watchlist> trans_to_shared_watchlist(String col, String UserSplitter,
                                                              String EachUserSplitter, String MovieSplitter) {
         String[] info = col.split(UserSplitter);
@@ -124,6 +147,13 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
         return movies;
     }
 
+    /**
+     * Fetches movie details from an external API using the movie's ID.
+     *
+     * @param movieID The ID of the movie for which details are to be fetched.
+     * @return A Movie object containing details fetched from the API.
+     */
+
     private Movie get_movie_from_api(int movieID) {
 
         //call api get request
@@ -153,30 +183,42 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
     }
 
     /**
-     * save movie to the user.
+     * Saves deletion of specified movie to a user's watchlist.
      *
-     * @param userName of user who want to add movie.
-     * @param movie    that is being added.
+     * @param userName The username of the user.
+     * @param movie The movie to be saved to the watchlist.
      */
+
     public void saveMovie(String userName, Movie movie) {
         User user = getUser(userName);
         user.deleteMovieToWatchlist(movie);
         save();
     }
 
-
     /**
-     * @param userName of user who want to add movie.
-     * @return the user who has username.
+     * Retrieves a User object based on the username.
+     *
+     * @param userName The username of the user.
+     * @return The User object corresponding to the given username.
      */
 
     public User getUser(String userName) {
         return accounts.get(userName);
     }
 
+    /**
+     * Gets the file path of the CSV file used for data storage.
+     *
+     * @return The file path as a String.
+     */
+
     public String getPath() {
         return this.path;
     }
+
+    /**
+     * Saves the current state of user accounts and watchlists to the CSV file.
+     */
 
     private void save() {
         BufferedWriter writer;
@@ -201,6 +243,13 @@ public class WatchlistDAO implements DeleteWatchlistDataAccessInterface {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Converts a list of Movie objects to a string representation.
+     *
+     * @param movies The list of Movie objects.
+     * @return A string representation of the list of movies.
+     */
 
     private String list_to_movie_string(List<Movie> movies) {
         if (movies.isEmpty()) {
