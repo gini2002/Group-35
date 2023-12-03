@@ -123,9 +123,12 @@ public class Movie {
     }
 
     /**
-     * Returns a MovieBuilder for creating a Movie instance with a builder pattern.
+     * Checks if this Movie object is equal to another object.
+     * Equality is based solely on the comparison of the movie's ID.
+     * The method first checks for reference equality, then class type, and finally compares the IDs.
      *
-     * @return A MovieBuilder instance.
+     * @param obj The object to be compared with this Movie object.
+     * @return true if the given object represents a Movie object with the same ID, otherwise false.
      */
 
     @Override
@@ -136,10 +139,24 @@ public class Movie {
         return id == movie.id;
     }
 
+    /**
+     * Generates a hash code for a Movie object.
+     * The hash code is generated primarily from the movie's ID.
+     *
+     * @return A hash code value for this Movie object.
+     */
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    /**
+     * Returns a MovieBuilder for creating a Movie instance with a builder pattern.
+     *
+     * @return A MovieBuilder instance.
+     */
+
     public static MovieBuilder builder() {
         return new MovieBuilder();
     }
