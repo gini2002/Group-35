@@ -11,11 +11,24 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
+/**
+ * Data Access Object (DAO) for the Without Filter use case.
+ * This class handles the retrieval and manipulation of movie data,
+ * particularly for operations that do not involve filtering criteria.
+ */
+
 public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new HashMap<>();
     private final Map<String, List<Integer>> usernameToWatchlist = new HashMap<>();
+
+    /**
+     * Constructor for WithoutFilterDAO.
+     * Initializes the DAO with a specified CSV file path for data storage.
+     *
+     * @param csvPath The path to the CSV file used for storing movie data.
+     */
 
     public WithoutFilterDAO(String csvPath) {
         csvFile = new File(csvPath);
@@ -43,6 +56,13 @@ public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
             }
         }
     }
+
+    /**
+     * Retrieves keywords associated with a specific movie from an external API.
+     *
+     * @param movieId The ID of the movie for which keywords are to be fetched.
+     * @return A list of keywords associated with the movie.
+     */
 
     public List<String> getKeywordsForMovie(int movieId) {
         List<String> keywords = new ArrayList<>();
@@ -78,14 +98,27 @@ public class WithoutFilterDAO implements WithoutFilterDataAccessInterface {
         return keywords;
     }
 
-
+    /**
+     * Gets the watchlist movies for a specific user.
+     *
+     * @param username The username of the user whose watchlist is to be retrieved.
+     * @return A list of movie IDs representing the user's watchlist.
+     */
 
     public List<Integer> getWatchlistMovies(String username) {
         return usernameToWatchlist.getOrDefault(username, new ArrayList<>());
     }
 
-    // Custom exception class
+    /**
+     * Custom exception class for handling cases when no data is available.
+     */
+
     public static class NoDataException extends Exception {
+        /**
+         * Constructor for NoDataException.
+         *
+         * @param message The error message associated with the exception.
+         */
         public NoDataException(String message) {
             super(message);
         }
