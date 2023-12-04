@@ -13,10 +13,12 @@ import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
 import usecase_adaptor.ViewManagerModel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -24,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
+import static java.lang.Math.min;
 
 public class GetDetailMovieView extends JPanel implements ActionListener, PropertyChangeListener {
     /** The view name*/
@@ -41,6 +45,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     /** The label shown the overview of the movie being displayed on the screen */
     JLabel overview = new JLabel();
     /** The label shown the genre of the movie being displayed on the screen */
+    JPanel overview_and_poster = new JPanel();
     JLabel genre = new JLabel();
     /** The button to go back to the main menu. */
     JLabel posterLabel = new JLabel();
@@ -168,7 +173,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                 }
             });
             Font font20 = new Font("Arial", Font.PLAIN, 20);
-            SwingUtilities.invokeLater(() -> {
+            //SwingUtilities.invokeLater(() -> {
                 JTextArea descriptionArea = new JTextArea();
                 descriptionArea.setText("OVERVIEW:" + "\n" +getDetailMovieViewModel.getOverview());
                 descriptionArea.setEditable(false);
@@ -176,9 +181,10 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
                 descriptionArea.setWrapStyleWord(true);
                 descriptionArea.setFont(font20);
                 descriptionArea.setAlignmentX(200);
-                descriptionArea.setMargin(new Insets(0, 200, 0, 200));
-                this.add(descriptionArea);
-            });
+                descriptionArea.setMargin(new Insets(100, 100, 0, 100));
+                // this.add(descriptionArea);
+
+            //});
 
             movie_title.setText(getDetailMovieViewModel.getTitle());
             Font font60 = new Font("Arial", Font.PLAIN, 60);
@@ -192,7 +198,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             }
             genre.setText(genre_text);
             genre.setFont(font20);
-            this.setAlignmentX(200);
+            // this.setAlignmentX(200);
             movie_title.setAlignmentX(200);
             genre.setAlignmentX(200);
             title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -203,21 +209,31 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
 
             String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
-            ImageIcon image = new ImageIcon(url);
+            //ImageIcon image = new ImageIcon(url);
             System.out.println(url);
+            try {
+                BufferedImage image2 = ImageIO.read(new URL(url));
+                Image image = image2.getScaledInstance(320, 480, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(image);
+                posterLabel.setSize(640, 960);
+                posterLabel.setIcon(icon);
+            } catch (IOException e) {
+                e.printStackTrace();}
+            posterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            overview_and_poster.setLayout(new BoxLayout(overview_and_poster, BoxLayout.X_AXIS));
+            overview_and_poster.add(posterLabel, BorderLayout.CENTER);
+            overview_and_poster.add(descriptionArea, BorderLayout.WEST);
 
-            posterLabel.setIcon(image);
-            System.out.println("Image Dimensions: " + image.getIconWidth() + "x" + image.getIconHeight());
-            System.out.println(posterLabel);
-            // TODO: image can not load.
+
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(buttons);
             this.add(title);
-            this.add(movie_title);
-            this.add(genre);
-            this.add(releasedate);
-            this.add(posterLabel);
+            this.add(movie_title, BorderLayout.WEST);
+            this.add(genre, BorderLayout.WEST);
+            this.add(releasedate, BorderLayout.WEST);
+            this.add(overview_and_poster);
+            // this.add(posterLabel);
         });
     }
     public void actionPerformed(ActionEvent e) {
