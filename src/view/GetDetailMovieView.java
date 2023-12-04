@@ -39,14 +39,14 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     /** the controller of delete movie from watchlist since the button is shown on get detail of movie view. */
     private final DeleteWatchlistController deleteWatchlistController;
     /** The label shown the title of the movie being displayed on the screen */
-    JLabel movie_title = new JLabel();
+    JTextArea movie_title = new JTextArea();
     /** The label shown the date of releasing of the movie being displayed on the screen */
-    JLabel releasedate = new JLabel();
+    JTextArea releasedate = new JTextArea();
     /** The label shown the overview of the movie being displayed on the screen */
     JLabel overview = new JLabel();
     /** The label shown the genre of the movie being displayed on the screen */
     JPanel overview_and_poster = new JPanel();
-    JLabel genre = new JLabel();
+    JTextArea genre = new JTextArea();
     /** The button to go back to the main menu. */
     JLabel posterLabel = new JLabel();
     JButton backToMainMenu;
@@ -198,13 +198,13 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             genre.setText(genre_text);
             genre.setFont(font20);
             // this.setAlignmentX(200);
-            movie_title.setAlignmentX(200);
-            genre.setAlignmentX(200);
+            //movie_title.setAlignmentX(200);
+            //genre.setAlignmentX(200);
             title.setFont(new Font("Arial", Font.PLAIN, 40));
             title.setAlignmentX(200);
             releasedate.setText("Released at  " + getDetailMovieViewModel.getReleaseDate().toString());
             releasedate.setFont(font20);
-            releasedate.setAlignmentX(200);
+            //releasedate.setAlignmentX(200);
 
             String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
             //ImageIcon image = new ImageIcon(url);
@@ -221,12 +221,14 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             overview_and_poster.setLayout(new BoxLayout(overview_and_poster, BoxLayout.X_AXIS));
             overview_and_poster.add(posterLabel, BorderLayout.CENTER);
             overview_and_poster.add(descriptionArea, BorderLayout.WEST);
+            movie_title.setLineWrap(true);
+            movie_title.setWrapStyleWord(true);
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(buttons);
             this.add(title);
-            this.add(movie_title, BorderLayout.WEST);
-            this.add(genre, BorderLayout.WEST);
-            this.add(releasedate, BorderLayout.WEST);
+            this.add(movie_title);
+            this.add(genre);
+            this.add(releasedate);
             this.add(overview_and_poster);
         });
     }
