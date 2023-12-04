@@ -114,7 +114,6 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(button)) {
-                            String name = button.getName();
                             int id = getWatchListViewModel.getIds().get(finalI);
                             String loggedinusername = getWatchListViewModel.getLogged_in_username();
                             getDetailMovieController.execute(id, loggedinusername);
