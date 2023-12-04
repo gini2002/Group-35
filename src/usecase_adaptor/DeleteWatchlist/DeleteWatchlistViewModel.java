@@ -5,6 +5,12 @@ import usecase_adaptor.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * The view model for the delete watchlist use case in the application.
+ * It encapsulates the state and the property change support mechanism.
+ * This class is responsible for maintaining the state of the UI related
+ * to the delete watchlist functionality and notifying observers about changes in this state.
+ */
 public class DeleteWatchlistViewModel extends ViewModel {
 
     private DeleteWatchlistState state = new DeleteWatchlistState();
@@ -14,20 +20,24 @@ public class DeleteWatchlistViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     /**
-     * initiate view model.
+     * Constructs a new DeleteWatchlistViewModel.
+     * Initializes the view model with the default state and sets the title for the view.
      */
     public DeleteWatchlistViewModel() {super("DeleteWatchlist");}
 
     /**
+     * Retrieves the current state of the delete watchlist process.
+     * This state includes any messages or errors related to the process.
      *
-     * @return the state stored in view model.
+     * @return The current state of the delete watchlist process.
      */
     public DeleteWatchlistState getState() {
         return state;
     }
 
     /**
-     * announce change in state to listeners.
+     * Notifies all registered listeners about a change in the state.
+     * This method is used to update the UI when the state of the delete watchlist process changes.
      */
     @Override
     public void firePropertyChanged() {
@@ -35,8 +45,10 @@ public class DeleteWatchlistViewModel extends ViewModel {
     }
 
     /**
-     * add listener.
-     * @param listener who listens to this view model.
+     * Adds a PropertyChangeListener to this view model.
+     * Listeners are notified of changes to the state of the delete watchlist process.
+     *
+     * @param listener The PropertyChangeListener to be added.
      */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {

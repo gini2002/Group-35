@@ -6,6 +6,12 @@ import data_access.WithoutFilterDAO;
 
 import java.util.*;
 
+/**
+ * The interactor class for the "Recommend Movie Without Filter" use case.
+ * This class handles the logic of recommending movies based on user's watchlist
+ * without applying additional filters. It communicates with data access objects
+ * to fetch movie data and presents the results through the output boundary.
+ */
 public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
 //    final WithoutFilterDataAccessInterface withoutFilterDAO;
     final WithoutFilterOutputBoundary WithoutFilterPresenter;
@@ -13,6 +19,14 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
     private WithoutFilterDAO withoutFilterDAO;
     private data_access.MovieDataAccessObject movieDAO;
 
+    /**
+     * Constructs a new WithoutFilterInteractor with specified dependencies.
+     * It initializes the presenter, data access objects for watchlist and movie recommendations.
+     *
+     * @param WithoutFilterPresenter The presenter to communicate with the user interface.
+     * @param withoutFilterDAO The data access object for accessing watchlist data.
+     * @param movieDAO The data access object for accessing movie data.
+     */
     public WithoutFilterInteractor(WithoutFilterOutputBoundary WithoutFilterPresenter, WithoutFilterDAO withoutFilterDAO, MovieDataAccessObject movieDAO) {
 //        this.MovieDataAccessObject = movieDataAccessObject;
         this.WithoutFilterPresenter = WithoutFilterPresenter;
@@ -21,20 +35,18 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
         this.movieDAO = movieDAO;
     }
 
+    /**
+     * Executes the process of recommending movies without filters based on the input data.
+     * This method retrieves movies from the user's watchlist and recommends movies
+     * based on the most frequent genre in the watchlist.
+     *
+     * @param withoutFilterInputData The input data containing user information for recommendations.
+     */
+
     @Override
     public void execute(WithoutFilterInputData withoutFilterInputData) {
         String username = withoutFilterInputData.getUsername();
-        // Check if the watchlistid is not null or empty
-//        if (watchlistID == null || watchlistID.isEmpty()) {
-//            WithoutFilterPresenter.WithoutFilterFailView("Invalid ID. Check watchlistID");
-//            return;
-//        }
 
-        // Retrieve recommended movies based on the keyword from the data access
-//        List<Movie> recommendedMovies = searchByNameDataAccessObject.getRecommendedMovies(keyword);
-        // Retrieve watchlist based on the userid and watchlistid
-        //TODO: ask how the get watchlist is implemented and use it to get the watchlist of the user
-        // (is it in a usecase or the entity?)
         List<Integer> movieIds = withoutFilterDAO.getWatchlistMovies(username);
 //        List<Movie> userwatchlist = user.getWatchlist(watchlistID);
 
@@ -57,14 +69,13 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
         }
     }
 
-//    public List<Integer> getMovieIdsFromWatchlist() {
-//        List<Movie> wlist = watchlist.getWatchlist(); // 이 function 어디에서 콜 해야할지 물어보기
-//        List<Integer> movieIds = new ArrayList<>();
-//        for (Movie movie : wlist) {
-//            movieIds.add(movie.getID()); // 이 function 도
-//        }
-//        return movieIds;
-//    }
+    /**
+     * Retrieves keywords for each movie in the watchlist.
+     * This method collects all keywords associated with movies in the user's watchlist.
+     *
+     * @param movieIds The list of movie IDs in the user's watchlist.
+     * @return A list of keywords associated with these movies.
+     */
 
     public List<String> getKeywordsForWatchlistMovies(List<Integer> movieIds) {
         List<String> allKeywords = new ArrayList<>(); // Use a List to include duplicate keywords
@@ -77,6 +88,13 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
         return allKeywords;
     }
 
+    /**
+     * Extracts matching genres from a list of keywords.
+     * This method identifies genres that match with the provided keywords.
+     *
+     * @param keywords The list of keywords to be matched against genres.
+     * @return A list of genres that match the keywords.
+     */
     public List<String> extractMatchingGenres(List<String> keywords) {
         List<String> genres = Arrays.asList("Horror", "Romance", "Action", "Comedy", "Drama", "Science Fiction", "Fantasy", "Thriller", "Mystery", "Documentary", "Animation", "Adventure");
         List<String> matchedGenres = new ArrayList<>();
@@ -91,6 +109,14 @@ public class WithoutFilterInteractor implements WithoutFilterInputBoundary {
 
         return matchedGenres;
     }
+
+    /**
+     * Finds the most frequent genre in a list of genres.
+     * This method determines the genre that occurs most frequently in the provided list.
+     *
+     * @param genres The list of genres to analyze.
+     * @return The most frequent genre in the list.
+     */
 
     public String findMostFrequentGenre(List<String> genres) {
         Map<String, Integer> genreCount = new HashMap<>();

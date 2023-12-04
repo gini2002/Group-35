@@ -2,14 +2,23 @@ package usecase_adaptor.DeleteWatchlist;
 
 import use_case.DeleteWatchlist.DeleteWatchlistOutputBoundary;
 import use_case.DeleteWatchlist.DeleteWatchlistOutputData;
+/**
+ * This class serves as the presenter for the delete watchlist use case.
+ * It is responsible for preparing the view model for the user interface,
+ * depending on the success or failure of the delete operation.
+ * It implements the DeleteWatchlistOutputBoundary interface.
+ */
 
 public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
 
     private final DeleteWatchlistViewModel viewModel;
 
     /**
-     * initiate a presenter.
-     * @param viewModel a view model object.
+     * Constructs a new DeleteWatchlistPresenter with a specified view model.
+     * This presenter uses the view model to communicate the results of
+     * the delete watchlist operation to the user interface.
+     *
+     * @param viewModel The view model that will be updated based on the operation's result.
      */
     public DeleteWatchlistPresenter(DeleteWatchlistViewModel viewModel) {
 
@@ -17,9 +26,11 @@ public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
     }
 
     /**
-     * prepare view if failed to delete.
+     * Prepares the view model for the failure view in case the delete operation fails.
+     * This method updates the view model with an error message that can be displayed
+     * to the user.
      *
-     * @param error string of error message when delete failed.
+     * @param error The error message to be displayed when the delete operation fails.
      */
     @Override
     public void PrepareFailView(String error) {
@@ -30,9 +41,11 @@ public class DeleteWatchlistPresenter implements DeleteWatchlistOutputBoundary {
     }
 
     /**
-     * prepare view if successfully deleted.
+     * Prepares the view model for the success view after a successful delete operation.
+     * This method updates the view model with the appropriate success message and
+     * clears any existing error messages.
      *
-     * @param outputData that involve the movie being deleted.
+     * @param outputData The data related to the delete operation, including a success message.
      */
     @Override
     public void PrepareSuccessView(DeleteWatchlistOutputData outputData) {
