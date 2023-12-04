@@ -3,6 +3,7 @@ import data_access.MovieDetailAccessAPI;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -21,6 +22,7 @@ public class GetDetailMovieInteractorTest {
             @Override
             public void getDetailMovieSuccessView(GetDetailMovieOutputData response) {
                 ArrayList<String> genres = new ArrayList<>();
+                LocalDate localDate = LocalDate.of(1977, 5, 25);
                 genres.add("Adventure"); genres.add("Action");genres.add("Science Fiction");
                 assertEquals(11, response.getId());
                 assertEquals("Star Wars", response.getTitle());
@@ -31,6 +33,7 @@ public class GetDetailMovieInteractorTest {
                         "robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace " +
                         "and justice in the Empire.", response.getOverview());
                 assertEquals("/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg", response.getPoster_path());
+                assertEquals(localDate, response.getRelease_data());
                 assertEquals(genres, response.getGenre());
             }
         };

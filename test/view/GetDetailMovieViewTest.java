@@ -15,6 +15,7 @@ import use_case.GetDetailMovie.GetDetailMovieDataAccessInterface;
 import use_case.GetDetailMovie.GetDetailMovieInputBoundary;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistController;
 import usecase_adaptor.AddToWatchlist.AddToWatchlistViewModel;
+import usecase_adaptor.DeleteWatchlist.DeleteWatchlistController;
 import usecase_adaptor.DeleteWatchlist.DeleteWatchlistViewModel;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieController;
 import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
@@ -34,28 +35,31 @@ import java.util.ArrayList;
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
 
 public class GetDetailMovieViewTest {
-
     @Test
     public void testGetDetailMovieView()  {
-        GetDetailMovieViewModel getDetailMovieViewModel = new GetDetailMovieViewModel();
-        GetDetailMovieDataAccessInterface getDetailMovieDAO = new MovieDetailAccessAPI();
-        AddToWatchlistViewModel addToWatchlistViewModel = new AddToWatchlistViewModel();
-        DeleteWatchlistViewModel deleteWatchlistViewModel = new DeleteWatchlistViewModel();
-        MainMenuViewModel mainMenuViewModel = new MainMenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        AddToWatchlistDataAccessInterface DAO2 = new AddToWatchlistDataAccessObject("./AddTestFile1.csv",
-                new CommonUserFactory());
-        DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./AddTestFile1.csv", new CommonUserFactory());
-        GetDetailMovieView getDetailMovieView = GetDetailOfMovieUseCaseFactory.create(getDetailMovieViewModel,
-                DAO2, addToWatchlistViewModel, DAO, deleteWatchlistViewModel, viewManagerModel, mainMenuViewModel);
+        GetDetailMovieViewModel getDetailMovieViewModel = mock(GetDetailMovieViewModel.class);
+        AddToWatchlistViewModel addToWatchlistViewModel = mock(AddToWatchlistViewModel.class);
+        DeleteWatchlistViewModel deleteWatchlistViewModel = mock(DeleteWatchlistViewModel.class);
+        MainMenuViewModel mainMenuViewModel = mock(MainMenuViewModel.class);
+        ViewManagerModel viewManagerModel = mock(ViewManagerModel.class);
+        AddToWatchlistController addToWatchlistController = mock(AddToWatchlistController.class);
+        DeleteWatchlistController deleteWatchlistController = mock(DeleteWatchlistController.class);
+        // AddToWatchlistDataAccessInterface DAO2 = new AddToWatchlistDataAccessObject("./AddTestFile1.csv",
+          //      new CommonUserFactory());
+        // DeleteWatchlistDataAccessInterface DAO = new WatchlistDAO("./AddTestFile1.csv", new CommonUserFactory());
+        GetDetailMovieView getDetailMovieView = new GetDetailMovieView(getDetailMovieViewModel,
+                addToWatchlistController, addToWatchlistViewModel,deleteWatchlistController, deleteWatchlistViewModel,
+                viewManagerModel, mainMenuViewModel);
 
-        JFrame jf = new JFrame();
-        jf.setContentPane(getDetailMovieView);
-        jf.pack();
-        jf.setVisible(true);
+        assertEquals("" ,getDetailMovieView.movie_title.getText());
+        assertEquals("", getDetailMovieView.overview.getText());
+        assertEquals("", getDetailMovieView.genre.getText());
 
+        getDetailMovieView.updateView();
+        verify(getDetailMovieViewModel, times(1)).getTitle();
 }}
 
 

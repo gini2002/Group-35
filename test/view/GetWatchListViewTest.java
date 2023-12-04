@@ -14,21 +14,12 @@ import usecase_adaptor.GetDetailOfMovie.GetDetailMovieViewModel;
 import usecase_adaptor.GetWatchlist.GetWatchListViewmodel;
 import usecase_adaptor.GetWatchlist.GetWatchlistController;
 import usecase_adaptor.MainMenu.MainMenuViewModel;
-import usecase_adaptor.MovieSearchByKeyword.MovieResultViewModel;
-import usecase_adaptor.MovieSearchByKeyword.SearchByNameController;
-import usecase_adaptor.MovieSearchByKeyword.SearchByNameViewModel;
 import usecase_adaptor.ViewManagerModel;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class GetWatchListViewTest {
@@ -46,30 +37,6 @@ public class GetWatchListViewTest {
                 getWatchListDataAccessInterface, getDetailMovieViewModel,getWatchListViewmodel,
                 getDetailMovieDataAccessInterface, mainMenuViewModel);
     }
-
-    // @Test
-    //    public void testUpdateView() {
-    //        // Arrange
-    //        SwingUtilities.invokeLater(() -> {
-    //            // Creating mock objects
-    //            GetWatchlistView getWatchlistView = Mockito.mock(GetWatchlistView.class);
-    //            GetWatchListViewmodel getWatchlistViewModel = Mockito.mock(GetWatchListViewmodel.class);
-    //            ViewManagerModel viewManagerModel = Mockito.mock(ViewManagerModel.class);
-    //            GetDetailMovieController getDetailMovieController = Mockito.mock(GetDetailMovieController.class);
-    //
-    //            // Mocking the behavior of movieResultViewModel
-    //            String[] recommendedMovies = {"Movie1", "Movie2", "Movie3"};
-    //            when(getWatchlistViewModel.getNames()).thenReturn(new ArrayList<>());
-    //
-    //            // Creating a mock PropertyChangeEvent
-    //            PropertyChangeEvent event = new PropertyChangeEvent(this, "state", null, recommendedMovies);
-    //
-    //            // Act
-    //            getWatchlistView.propertyChange(event);
-    //
-    //            // Assert
-    //        });
-    //    }
 
     @Test
     public void testUpdateView() {
