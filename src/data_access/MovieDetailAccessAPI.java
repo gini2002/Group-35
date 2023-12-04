@@ -20,10 +20,6 @@ import java.util.ArrayList;
 public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 
-    public static String getApiToken() {
-        return API_TOKEN;
-    }
-
 
     /**
      * Get the movie with a certain id (movie includes detailed information).
@@ -73,8 +69,7 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
             } else {
                 throw new RuntimeException(responseBody.getString("status_message"));
             }
-        } catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | JSONException e) {throw new RuntimeException(e);
         }
     }
     /**
@@ -99,8 +94,7 @@ public class MovieDetailAccessAPI implements GetDetailMovieDataAccessInterface {
             if (response.code() == 404) {
                 return false;
             } else {return true;}
-        } catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | JSONException e) {throw new RuntimeException(e);
         }
     }
     // if the status message is returned as "The resource you requested could not be found."

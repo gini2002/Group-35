@@ -122,7 +122,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
-            if (overview != null) {this.removeAll();}
+            if (movie_title != null) {this.removeAll();}
             setLayout(null);
             this.setAlignmentX(200);
             JLabel title = new JLabel("details");
@@ -197,7 +197,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             genre.setAlignmentX(200);
             title.setFont(new Font("Arial", Font.PLAIN, 40));
             title.setAlignmentX(200);
-            releasedate.setText("Released at  " +getDetailMovieViewModel.getReleaseDate().toString());
+            releasedate.setText("Released at  " + getDetailMovieViewModel.getReleaseDate().toString());
             releasedate.setFont(font20);
             releasedate.setAlignmentX(200);
 
