@@ -17,22 +17,51 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
+/**
+ * Represents the view for displaying the results of the "Recommend Movie Without Filter" feature.
+ * This class provides a user interface for presenting recommended movies based on user input,
+ * navigating back to the main menu, and handling interactions with individual movie items.
+ */
 public class WithoutFilterResultView extends JPanel implements PropertyChangeListener {
+    /** The identifier for this view, used in the view management system. */
     public final String viewName = "without_result";
+
+    /** The view model providing data and state for this view. */
     private final WithoutFilterResultViewModel viewModel;
+
+    /** The view model for the "Recommend Movie Without Filter" feature. */
     private final WithoutFilterViewModel withoutFilterViewModel;
+
+    /** The view model for the "Recommend Movie Without Filter" feature. */
 
     private final ViewManagerModel viewManagerModel;
 
+    /** The button for returning to the main menu. */
     final JButton mainMenuBtn;
+
+    /** The controller for detailed movie information retrieval. */
     private final GetDetailMovieController controller;
 
+    /** The model for the list of recommended movies. */
     public DefaultListModel<String> listModel;
+
+    /** The list component displaying the recommended movies. */
     public JList<String> movieList;
 
     //    private JTextArea movieTextArea = new JTextArea();
+
+    /** The label for displaying error messages. */
     JLabel errorLabel;
 
+    /**
+     * Constructs a new WithoutFilterResultView with the specified view models, view manager model, and controller.
+     * Initializes the UI components and sets up event listeners and data bindings.
+     *
+     * @param viewModel The view model for this view, managing the result state.
+     * @param withoutFilterViewModel The view model for handling movie recommendations without filter.
+     * @param viewManagerModel The model for managing navigation and active views in the application.
+     * @param getDetailMovieController The controller for handling detailed movie information retrieval.
+     */
     public WithoutFilterResultView(WithoutFilterResultViewModel viewModel, WithoutFilterViewModel withoutFilterViewModel, ViewManagerModel viewManagerModel, GetDetailMovieController getDetailMovieController) {
         this.controller = getDetailMovieController;
         this.withoutFilterViewModel = withoutFilterViewModel;
@@ -108,34 +137,13 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
         setVisible(true);
     }
 
-
+    /**
+     * Responds to property changes in the bound properties, updating the view accordingly.
+     *
+     * @param evt The property change event containing information about the change.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        List<String> recommendedMovies = viewModel.getRecommendedMovies();
-//        String error = viewModel.getError();
-//        StringBuilder movieText = new StringBuilder();
-//
-//        // Update movie text area
-//        if (recommendedMovies != null) {
-//            for (String name : recommendedMovies) {
-//                movieText.append(name).append("\n");
-//                System.out.println(name);
-//            }
-//            movieTextArea.setText(movieText.toString());
-//        }
-//
-//        // Update error label
-//        errorLabel.setText(error);
-//
-//        // Repaint the UI
-//        revalidate();
-//        repaint();
-//        setVisible(true);
-//
-//        updateView();
-//        if ("recommendedMovies".equals(evt.getPropertyName())) {
-//            updateView();
-//        }
 
         switch (evt.getPropertyName()) {
             case "withoutFilterMovies":
@@ -152,6 +160,10 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
         }
     }
 
+    /**
+     * Updates the view components with the latest data from the view models.
+     * This method is called to refresh the UI elements such as the movie list and error messages.
+     */
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
             System.out.println("Updating view...");
@@ -188,6 +200,12 @@ public class WithoutFilterResultView extends JPanel implements PropertyChangeLis
         });
     }
 
+    /**
+     * Handles the selection of a movie from the list.
+     * This method is invoked when a user clicks on a movie in the list, triggering further actions like displaying detailed information.
+     *
+     * @param selectedMovie The title of the selected movie.
+     */
     private void handleMovieClick(String selectedMovie) {
         String username = withoutFilterViewModel.getState().getUsername();
         int movie_id = withoutFilterViewModel.getID(selectedMovie);
