@@ -127,7 +127,9 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
 
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
-            if (movie_title != null) {this.removeAll();}
+            //if (movie_title != null) {this.removeAll();}
+            this.removeAll();
+            overview_and_poster.removeAll();
             setLayout(null);
             this.setAlignmentX(200);
             JLabel title = new JLabel("details");
@@ -174,17 +176,14 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             });
             Font font20 = new Font("Arial", Font.PLAIN, 20);
             //SwingUtilities.invokeLater(() -> {
-                JTextArea descriptionArea = new JTextArea();
-                descriptionArea.setText("OVERVIEW:" + "\n" +getDetailMovieViewModel.getOverview());
-                descriptionArea.setEditable(false);
-                descriptionArea.setLineWrap(true);
-                descriptionArea.setWrapStyleWord(true);
-                descriptionArea.setFont(font20);
-                descriptionArea.setAlignmentX(200);
-                descriptionArea.setMargin(new Insets(100, 100, 0, 100));
-                // this.add(descriptionArea);
-
-            //});
+            JTextArea descriptionArea = new JTextArea();
+            descriptionArea.setText("OVERVIEW:" + "\n" +getDetailMovieViewModel.getOverview());
+            descriptionArea.setEditable(false);
+            descriptionArea.setLineWrap(true);
+            descriptionArea.setWrapStyleWord(true);
+            descriptionArea.setFont(font20);
+            descriptionArea.setAlignmentX(200);
+            descriptionArea.setMargin(new Insets(100, 100, 0, 100));
 
             movie_title.setText(getDetailMovieViewModel.getTitle());
             Font font60 = new Font("Arial", Font.PLAIN, 60);
@@ -207,7 +206,6 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             releasedate.setFont(font20);
             releasedate.setAlignmentX(200);
 
-
             String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
             //ImageIcon image = new ImageIcon(url);
             System.out.println(url);
@@ -223,9 +221,6 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             overview_and_poster.setLayout(new BoxLayout(overview_and_poster, BoxLayout.X_AXIS));
             overview_and_poster.add(posterLabel, BorderLayout.CENTER);
             overview_and_poster.add(descriptionArea, BorderLayout.WEST);
-
-
-
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(buttons);
             this.add(title);
@@ -233,7 +228,6 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             this.add(genre, BorderLayout.WEST);
             this.add(releasedate, BorderLayout.WEST);
             this.add(overview_and_poster);
-            // this.add(posterLabel);
         });
     }
     public void actionPerformed(ActionEvent e) {

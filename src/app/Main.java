@@ -162,15 +162,14 @@ public class Main {
         views.add(getDetailMovieView, getDetailMovieView.viewname);
 
 
-
-
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
 
-        application.setSize(600, 400);
-        application.pack();
-        application.setVisible(true);
 
+
+        //application.pack();
+         application.setSize(960, 650);
+        application.setVisible(true);
 
     }
 }
