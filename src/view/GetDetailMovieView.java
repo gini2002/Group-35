@@ -202,9 +202,6 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             releasedate.setAlignmentX(200);
 
 
-
-
-
             String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
             ImageIcon image = new ImageIcon(url);
             System.out.println(url);

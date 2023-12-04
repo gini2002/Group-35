@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowStateListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyEditorSupport;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -58,8 +59,15 @@ public class GetDetailMovieViewTest {
         assertEquals("", getDetailMovieView.overview.getText());
         assertEquals("", getDetailMovieView.genre.getText());
 
+        getDetailMovieView.backToMainMenu.doClick();
+        verify(mainMenuViewModel, times(1)).getViewName();
+
         getDetailMovieView.updateView();
-        verify(getDetailMovieViewModel, times(1)).getTitle();
+        getDetailMovieView.backToMainMenu.doClick();
+        verify(viewManagerModel, times(1)).setActiveView(any());
+
+        getDetailMovieView.propertyChange(new PropertyChangeEvent(this, "state", null,
+                getDetailMovieViewModel.getGetDetailMovieState()));
 }}
 
 
