@@ -5,7 +5,7 @@ import use_case.DeleteWatchlist.DeleteWatchlistInputBoundary;
 import use_case.DeleteWatchlist.DeleteWatchlistInputData;
 
 /**
- * This controller handles the deletion of movies from a user's watchlist.
+ * This controller handles the deletion of movies from user's watchlist.
  * It serves as an intermediary between the user interface and the application logic
  * for deleting movies from the watchlist.
  */
