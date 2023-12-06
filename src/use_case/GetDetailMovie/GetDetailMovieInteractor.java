@@ -5,21 +5,33 @@ import entity.MovieFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+/**
+ * The GetDetailMovieInteractor class represents the interactor for get detail of movie use case.
+ * It implements the GetDetailMovieInputBoundary interface and is responsible for executing the use case logic.
+ */
 public class GetDetailMovieInteractor implements GetDetailMovieInputBoundary {
+    /** The presenter that show the result of the use case. */
     final GetDetailMovieOutputBoundary getDetailMoviePresenter;
-    //final MovieFactory movieFactory;
+    /** The data access object get information we need. */
     final GetDetailMovieDataAccessInterface getDetailMovieDataAccessObject;
 
+    /**
+     * Constructs a GetDetailMovieInteractor with the provided data access object and presenter.
+     *
+     * @param getDetailMovieOutputBoundary The presenter that show the result of the use case.
+     * @param getDetailMovieDataAccessObject The data access object get information we need.
+     */
     public GetDetailMovieInteractor(GetDetailMovieOutputBoundary getDetailMovieOutputBoundary,
-                                    //MovieFactory movieFactory,
                                     GetDetailMovieDataAccessInterface getDetailMovieDataAccessObject) {
         this.getDetailMoviePresenter = getDetailMovieOutputBoundary;
         this.getDetailMovieDataAccessObject = getDetailMovieDataAccessObject;
-        //this.movieFactory = movieFactory;
     }
 
-
+    /**
+     * Executes get detail of movie use case based on the provided input data.
+     *
+     * @param getDetailMovieInputData The input data for the get detail of movie use case.
+     */
     @Override
     public void execute(GetDetailMovieInputData getDetailMovieInputData) {
         int id = getDetailMovieInputData.getId();
