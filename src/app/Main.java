@@ -169,7 +169,7 @@ public class Main {
 
         //application.pack();
          application.setSize(960, 650);
-        application.setVisible(true);
+         application.setVisible(true);
 
     }
 }
