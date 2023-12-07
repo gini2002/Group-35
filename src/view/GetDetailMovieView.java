@@ -32,7 +32,7 @@ import static java.lang.Math.min;
 public class GetDetailMovieView extends JPanel implements ActionListener, PropertyChangeListener {
     /** The view name*/
     public final String viewname = "Details";
-    /** The viewmodel tha provide information for the view. */
+    /** The viewmodel that provide information for the get detail of movie view. */
     private final GetDetailMovieViewModel getDetailMovieViewModel;
     /** the controller of add movie to watchlist since the button is shown on get detail of movie view. */
     private final AddToWatchlistController addToWatchlistController;
@@ -46,6 +46,7 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     JLabel overview = new JLabel();
     /** The label shown the genre of the movie being displayed on the screen */
     JPanel overview_and_poster = new JPanel();
+    /** The text that shows the genre of the movie. */
     JTextArea genre = new JTextArea();
     /** The button to go back to the main menu. */
     JLabel posterLabel = new JLabel();
@@ -54,10 +55,22 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
     private final AddToWatchlistViewModel addToWatchlistViewModel;
     /** The view model that is give information when delete movie from watchlist button is clicked. */
     private final DeleteWatchlistViewModel deleteWatchlistViewModel;
+    /** The view model that manage the active view. */
     private final ViewManagerModel viewManagerModel;
     /** The view model that give information when go back to the main menu is clicked. */
     private final MainMenuViewModel mainMenuViewModel;
 
+    /** The constructor of Get Detail Movie View with getDetailMovieViewmodel, addToWatchlistcontroller, addToWatchlistViewmodel
+     * deleteWatchlistController, deleteWatchlistViewModel, mainMenuViewModel, viewManagerModel.
+     *
+     * @param getDetailMovieViewmodel The view model associated with the movie result screen.
+     * @param addToWatchlistcontroller The controller of add movie to watchlist since the button is shown on get detail of movie view.
+     * @param addToWatchlistViewmodel The view model that is give information when add movie to watchlist button is clicked.
+     * @param deleteWatchlistController The controller of delete movie from watchlist since the button is shown on get detail of movie view.
+     * @param deleteWatchlistViewModel The view model that is give information when delete movie from watchlist button is clicked.
+     * @param mainMenuViewModel The view model that give information when go back to the main menu is clicked.
+     * @param viewManagerModel The view model that manage the active view.
+     * */
 
     public GetDetailMovieView(GetDetailMovieViewModel getDetailMovieViewmodel,
                               AddToWatchlistController addToWatchlistcontroller,
@@ -78,7 +91,6 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         this.viewManagerModel = viewManagerModel;
         this.mainMenuViewModel = mainMenuViewModel;
         setLayout(null);
-
 
         JLabel title = new JLabel("Details");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -125,15 +137,16 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
         });
     }
 
+    /**
+     * Updates the view with detail of new clicked movie and error messages.
+     **/
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
-            //if (movie_title != null) {this.removeAll();}
             this.removeAll();
             overview_and_poster.removeAll();
             setLayout(null);
             this.setAlignmentX(200);
             JLabel title = new JLabel("details");
-            // title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JPanel buttons = new JPanel();
             JButton addToWatchlist = new JButton(AddToWatchlistViewModel.ADD_WATCH_LIST_BUTTON_LABEL);
@@ -197,14 +210,10 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             }
             genre.setText(genre_text);
             genre.setFont(font20);
-            // this.setAlignmentX(200);
-            //movie_title.setAlignmentX(200);
-            //genre.setAlignmentX(200);
             title.setFont(new Font("Arial", Font.PLAIN, 40));
             title.setAlignmentX(200);
             releasedate.setText("Released at  " + getDetailMovieViewModel.getReleaseDate().toString());
             releasedate.setFont(font20);
-            //releasedate.setAlignmentX(200);
 
             String url = "https://image.tmdb.org/t/p/w1280" + getDetailMovieViewModel.getPoster_path();
             //ImageIcon image = new ImageIcon(url);
@@ -232,10 +241,19 @@ public class GetDetailMovieView extends JPanel implements ActionListener, Proper
             this.add(overview_and_poster);
         });
     }
+
+    /**
+     * Handles the actionPerformed event.
+     * @param e The ActionEvent that occurred.
+     * */
     public void actionPerformed(ActionEvent e) {
         System.out.println("Click " + e.getActionCommand());
     }
 
+    /**
+     * Handles property change events.
+     * @param evt The PropertyChangeEvent that occurred.
+     **/
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof GetDetailMovieState){

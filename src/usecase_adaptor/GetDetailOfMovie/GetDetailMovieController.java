@@ -12,9 +12,9 @@ public class GetDetailMovieController {
     final GetDetailMovieInputBoundary getDetailMovieInteractor;
 
     /**
-     * Constructs a SearchByNameController with the provided interactor.
+     * Constructs a GetDetailMovieController with the provided interactor.
      *
-     * @param getDetailMovieInteractor The interactor for executing the movie search by keyword use case.
+     * @param getDetailMovieInteractor The interactor for executing get detail of a certain movie use case.
      */
     public GetDetailMovieController(GetDetailMovieInputBoundary getDetailMovieInteractor){
         this.getDetailMovieInteractor = getDetailMovieInteractor;

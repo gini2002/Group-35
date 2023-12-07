@@ -17,28 +17,38 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GetWatchlistView extends JPanel implements ActionListener, PropertyChangeListener{
+    /** The view name*/
     public final String viewName = "Watchlist";
+    /** The viewmodel that provide information for the get watchlist view. */
     private final GetWatchListViewmodel getWatchListViewModel;
-
+    /** The viewmodel that provide information for the get detail of movie view. */
     private final GetDetailMovieViewModel getDetailMovieViewModel;
 
-    private final GetWatchlistController getWatchlistController;
-
+    //private final GetWatchlistController getWatchlistController;
+    /** The controller of get detail of movie since get detail is called in the view. */
     private final GetDetailMovieController getDetailMovieController;
-
+    /** The view model that manage the active view. */
     private final ViewManagerModel viewManagerModel;
-    private final MainMenuViewModel mainMenuViewModel;
+    /** The view model that give information when go back to the main menu is clicked. */
 
+    private final MainMenuViewModel mainMenuViewModel;
+    /** The button that change to the main menu. */
     JButton backToMainMenu;
 
-
+    /** The constructor of Get Watchlist View with getdetailMovieController, getdetailMovieViewModel,
+     * getwatchListViewmodel, mainMenuViewModel, viewManagerModel.
+     *
+     * @param getdetailMovieController The controller of get detail of movie since get detail is called in the view.
+     * @param getdetailMovieViewModel The viewmodel that provide information for the get detail of movie view.
+     * @param getwatchListViewmodel The viewmodel that provide information for the get watchlist view.
+     * @param mainMenuViewModel The view model that give information when go back to the main menu is clicked.
+     * @param viewManagerModel The view model that manage the active view.
+     * */
     public GetWatchlistView(GetWatchListViewmodel getwatchListViewmodel,
-                            GetWatchlistController getwatchlistController,
                             GetDetailMovieController getdetailMovieController,
                             GetDetailMovieViewModel getdetailMovieViewModel,
                             ViewManagerModel viewManagerModel,
                             MainMenuViewModel mainMenuViewModel) {
-        this.getWatchlistController = getwatchlistController;
         this.getDetailMovieController = getdetailMovieController;
         this.getDetailMovieViewModel = getdetailMovieViewModel;
         this.getWatchListViewModel = getwatchListViewmodel;
@@ -86,7 +96,9 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
         this.add(title);
         this.add(buttons);
     }
-
+    /**
+     * Updates the view with the movie that user newly added or remove the deleted ones and error messages.
+     **/
     public void updateView() {
         SwingUtilities.invokeLater(() -> {
             JPanel buttons = new JPanel();
@@ -131,10 +143,17 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
         });
     }
 
-
+    /**
+     * Handles the actionPerformed event.
+     * @param e The ActionEvent that occurred.
+     * */
     @Override
     public void actionPerformed(ActionEvent e) {System.out.println("Click " + e.getActionCommand());}
 
+    /**
+     * Handles property change events.
+     * @param evt The PropertyChangeEvent that occurred.
+     **/
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -144,14 +163,5 @@ public class GetWatchlistView extends JPanel implements ActionListener, Property
             case "error":
                 break;
         }
-        //if (evt.getNewValue() instanceof GetWatchListState){
-        //            GetWatchListState getWatchListState = (GetWatchListState) evt.getNewValue();
-        //            System.out.println("22222");
-        //            if (getWatchListState.getGetWatchListError() != null){
-        //                JOptionPane.showMessageDialog(this, getWatchListState.getGetWatchListError());
-        //            } else {
-        //                viewManagerModel.setActiveView(getWatchListViewModel.getViewName());
-        //            }
-        //        }
     }
 }
