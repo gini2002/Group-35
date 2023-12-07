@@ -105,7 +105,7 @@ public class GetDetailMovieViewModel extends ViewModel {
 
     /**
      * Sets the getDetailmoviestate.
-     * @param getDetailMovieState The state of the user case.
+     * @param getDetailMovieState The state of the use case.
      */
     public void setGetDetailMovieState(GetDetailMovieState getDetailMovieState) {
         this.getDetailMovieState = getDetailMovieState;
